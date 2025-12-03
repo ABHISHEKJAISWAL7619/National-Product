@@ -103,7 +103,7 @@ export default function Pagination({
             key={index}
             onClick={() => typeof page === "number" && handlePageChange(page)}
             disabled={page === "..."}
-            className={`aspect-square rounded-lg px-3 text-[14px] font-medium transition-all duration-100 ${
+            className={`aspect-square text-black rounded-lg px-3 text-[14px] font-medium transition-all duration-100 ${
               typeof page === "number" ? "hover:bg-gray-50" : ""
             } ${page === currentPage ? "border-[1.5px]" : "border-gray-50"} ${
               page === "..." ? "cursor-default" : ""
@@ -116,7 +116,7 @@ export default function Pagination({
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="relative rounded-lg p-2 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+          className="relative rounded-lg text-black p-2 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
           aria-label="Next page"
         >
           <span className="sr-only">Next page</span>

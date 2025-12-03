@@ -34,12 +34,16 @@ const Input = ({
               : "border border-gray-200 focus:ring-2 focus:ring-gray-200"
           } ${className}`}
         >
-          <option value="">
+          <option className="text-black" value="">
             {rest.placeholderOption || `Select ${label || "Option"}`}
           </option>
 
           {options.map((opt, idx) => (
-            <option key={idx} value={opt[valueKey] || opt.value || opt}>
+            <option
+              className="text-black"
+              key={idx}
+              value={opt[valueKey] || opt.value || opt}
+            >
               {labelRender
                 ? labelRender(opt)
                 : opt[labelKey] || opt.label || opt}

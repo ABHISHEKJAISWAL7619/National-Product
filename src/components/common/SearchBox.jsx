@@ -64,9 +64,9 @@ const SearchBarComp = ({
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
-        className={`w-full text-sm outline-none ${iconLeft ? "pl-6" : ""} ${
-          iconRight ? "pr-6" : ""
-        } ${className}`}
+        className={`w-full text-sm text-black outline-none ${
+          iconLeft ? "pl-6" : ""
+        } ${iconRight ? "pr-6" : ""} ${className}`}
       />
 
       {/* Right Icon → toggle between clear & search */}
