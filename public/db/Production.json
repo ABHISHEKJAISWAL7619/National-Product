@@ -1,0 +1,114 @@
+{
+  "arr": [
+    {
+      "date": "2024-01-15",
+      "batchNo": "151",
+      "category": "Soldering Wire",
+      "subCategory": "Sub Cat. - 01",
+      "composition": "50/50",
+      "quantityKg": 100,
+      "semiFinishedKg": 500,
+      "semiFinishedPieces": 40,
+      "reject": 20
+    },
+    {
+      "date": "2024-01-16",
+      "batchNo": "150",
+      "category": "Soldering Stick",
+      "subCategory": "Sub Cat. - 02",
+      "composition": "60/40",
+      "quantityKg": 847,
+      "semiFinishedKg": 250,
+      "semiFinishedPieces": 12,
+      "reject": 10
+    },
+    {
+      "date": "2024-01-17",
+      "batchNo": "149",
+      "category": "Soldering Wire",
+      "subCategory": "Sub Cat. - 03",
+      "composition": "63/37",
+      "quantityKg": 120,
+      "semiFinishedKg": 400,
+      "semiFinishedPieces": 21,
+      "reject": 10
+    },
+    {
+      "date": "2024-01-18",
+      "batchNo": "148",
+      "category": "Soldering Stick",
+      "subCategory": "Sub Cat. - 04",
+      "composition": "20/78/1/1",
+      "quantityKg": 90,
+      "semiFinishedKg": 320,
+      "semiFinishedPieces": 32,
+      "reject": 60
+    },
+    {
+      "date": "2024-01-19",
+      "batchNo": "147",
+      "category": "Soldering Wire",
+      "subCategory": "Sub Cat. - 05",
+      "composition": "99/0.3/0.7",
+      "quantityKg": 110,
+      "semiFinishedKg": 525,
+      "semiFinishedPieces": 42,
+      "reject": 80
+    },
+    {
+      "date": "2024-01-20",
+      "batchNo": "146",
+      "category": "Soldering Stick",
+      "subCategory": "Sub Cat. - 06",
+      "composition": "99.3/0.7",
+      "quantityKg": 85,
+      "semiFinishedKg": 800,
+      "semiFinishedPieces": 64,
+      "reject": 10
+    },
+    {
+      "date": "2024-01-21",
+      "batchNo": "145",
+      "category": "Soldering Wire",
+      "subCategory": "Sub Cat. - 07",
+      "composition": "99.7/0.3",
+      "quantityKg": 105,
+      "semiFinishedKg": 750,
+      "semiFinishedPieces": 80,
+      "reject": 20
+    },
+    {
+      "date": "2024-01-22",
+      "batchNo": "144",
+      "category": "Soldering Stick",
+      "subCategory": "Sub Cat. - 08",
+      "composition": "98.5/1/0.5",
+      "quantityKg": 95,
+      "semiFinishedKg": 840,
+      "semiFinishedPieces": 75,
+      "reject": 10
+    },
+    {
+      "date": "2024-01-23",
+      "batchNo": "143",
+      "category": "Soldering Wire",
+      "subCategory": "Sub Cat. - 09",
+      "composition": "97/3",
+      "quantityKg": 115,
+      "semiFinishedKg": 820,
+      "semiFinishedPieces": 68,
+      "reject": 10
+    },
+    {
+      "date": "2024-01-24",
+      "batchNo": "142",
+      "category": "Soldering Stick",
+      "subCategory": "Sub Cat. - 10",
+      "composition": "96.5/3/0.5",
+      "quantityKg": 80,
+      "semiFinishedKg": 700,
+      "semiFinishedPieces": 50,
+      "reject": 10
+    }
+  ]
+}

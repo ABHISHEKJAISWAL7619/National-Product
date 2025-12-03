@@ -1,0 +1,54 @@
+{
+   "arr": [
+  {
+    "date": "12/10/2024",
+    "productCategory": "Wire",
+    "productId": "58122",
+    "productName": "Soldering Wire 1.3",
+    "state": "Enabled"
+  },
+  {
+    "date": "12/10/2024",
+    "productCategory": "Wire",
+    "productId": "153762",
+    "productName": "Soldering Wire 1.3",
+    "state": "Enabled"
+  },
+  {
+    "date": "12/10/2024",
+    "productCategory": "Wire",
+    "productId": "5472365",
+    "productName": "Soldering Wire 1.4",
+    "state": "Enabled"
+  },
+  {
+    "date": "12/10/2024",
+    "productCategory": "Paste",
+    "productId": "42613",
+    "productName": "Soldering Stick 2.1",
+    "state": "Enabled"
+  },
+  {
+    "date": "12/10/2024",
+    "productCategory": "Paste",
+    "productId": "423651",
+    "productName": "Soldering Stick 2.2",
+    "state": "Enabled"
+  },
+  {
+    "date": "12/10/2024",
+    "productCategory": "Paste",
+    "productId": "421563",
+    "productName": "Soldering Stick 2.3",
+    "state": "Enabled"
+  },
+  {
+    "date": "12/10/2024",
+    "productCategory": "Paste",
+    "productId": "621478",
+    "productName": "Soldering Stick 2.4",
+    "state": "Enabled"
+  }
+]
+
+}

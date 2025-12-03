@@ -1,0 +1,11 @@
+{
+  "inventoryData": [
+    { "ProductName": "Tin", "ItemCategory": "Raw Material", "ProductCode": "12345", "Quantity": "1200", "UnitPrice": "240", "TotalValue": "2,88,000" },
+    { "ProductName": "Copper", "ItemCategory": "Raw Material", "ProductCode": "67322", "Quantity": "800", "UnitPrice": "300", "TotalValue": "2,40,000" },
+    { "ProductName": "Zinc", "ItemCategory": "Raw Material", "ProductCode": "62478", "Quantity": "750", "UnitPrice": "400", "TotalValue": "3,00,000" },
+    { "ProductName": "Aluminium", "ItemCategory": "Raw Material", "ProductCode": "42613", "Quantity": "600", "UnitPrice": "320", "TotalValue": "1,92,000" },
+    { "ProductName": "50/50", "ItemCategory": "F.G", "ProductCode": "42365", "Quantity": "820", "UnitPrice": "280", "TotalValue": "2,29,600" },
+    { "ProductName": "20/78/1/1", "ItemCategory": "F.G", "ProductCode": "42156", "Quantity": "900", "UnitPrice": "420", "TotalValue": "3,78,000" },
+    { "ProductName": "97/3", "ItemCategory": "F.G", "ProductCode": "62147", "Quantity": "1000", "UnitPrice": "510", "TotalValue": "5,10,000" }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "arr": [
+    {
+      "siNo": "01",
+      "productId": "56122",
+      "category": "Raw Material",
+      "subCategory": "Sub Cat - 01",
+      "name": "Child Cat - 01",
+      "item04Status": "Enabled"
+    },
+    {
+      "siNo": "02",
+      "productId": "56123",
+      "category": "Semi Finished",
+      "subCategory": "Sub Cat - 02",
+      "name": "Child Cat - 02",
+      "item04Status": "Enabled"
+    },
+    {
+      "siNo": "03",
+      "productId": "56124",
+      "category": "Work in Progress",
+      "subCategory": "Sub Cat - 03",
+      "name": "Child Cat - 03",
+      "item04Status": "Enabled"
+    },
+    {
+      "siNo": "04",
+      "productId": "56125",
+      "category": "Reusable Waste",
+      "subCategory": "Sub Cat - 04",
+      "name": "Child Cat - 04",
+      "item04Status": "Enabled"
+    },
+    {
+      "siNo": "05",
+      "productId": "56126",
+      "category": "Finished Goods",
+      "subCategory": "Sub Cat - 05",
+      "name": "Child Cat - 05",
+      "item04Status": "Enabled"
+    }
+  ]
+}

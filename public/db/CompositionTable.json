@@ -1,0 +1,44 @@
+{
+   "arr": [
+        {
+            "siNo": "01",
+            "productId": "56122",
+            "category": "Raw",
+            "subCategory": "Tin",
+            "percentage": 12,
+            "item04Status": "Enabled"
+        },
+        {
+            "siNo": "02",
+            "productId": "56123",
+            "category": "Raw",
+            "subCategory": "Lead",
+            "percentage": 14,
+            "item04Status": "Enabled"
+        },
+        {
+            "siNo": "03",
+            "productId": "56124",
+            "category": "Raw",
+            "subCategory": "Zinc",
+            "percentage": 16,
+            "item04Status": "Enabled"
+        },
+        {
+            "siNo": "04",
+            "productId": "56125",
+            "category": "Semi Finished",
+            "subCategory": "Item No 02",
+            "percentage": 18,
+            "item04Status": "Enabled"
+        },
+        {
+            "siNo": "05",
+            "productId": "56126",
+            "category": "F.G",
+            "subCategory": "Item No 03",
+            "percentage": 19,
+            "item04Status": "Enabled"
+        }
+    ]
+}

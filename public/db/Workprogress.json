@@ -1,0 +1,84 @@
+{
+  "inventoryData": [
+    {
+      "ProductName": "Name - 01",
+      "ItemCategory": "WIP",
+      "ProductCode": "151",
+      "Quantity": "0.00",
+      "UnitPrice": "1200",
+      "TotalValue": "0.00"
+    },
+    {
+      "ProductName": "Name - 02",
+      "ItemCategory": "WIP",
+      "ProductCode": "150",
+      "Quantity": "0.00",
+      "UnitPrice": "1400",
+      "TotalValue": "0.00"
+    },
+    {
+      "ProductName": "Name - 03",
+      "ItemCategory": "WIP",
+      "ProductCode": "149",
+      "Quantity": "0.00",
+      "UnitPrice": "980",
+      "TotalValue": "0.00"
+    },
+    {
+      "ProductName": "Name - 04",
+      "ItemCategory": "WIP",
+      "ProductCode": "148",
+      "Quantity": "0.00",
+      "UnitPrice": "650",
+      "TotalValue": "0.00"
+    },
+    {
+      "ProductName": "Name - 05",
+      "ItemCategory": "WIP",
+      "ProductCode": "147",
+      "Quantity": "0.00",
+      "UnitPrice": "950",
+      "TotalValue": "0.00"
+    },
+    {
+      "ProductName": "Name - 06",
+      "ItemCategory": "WIP",
+      "ProductCode": "146",
+      "Quantity": "0.00",
+      "UnitPrice": "1400",
+      "TotalValue": "0.00"
+    },
+    {
+      "ProductName": "Name - 07",
+      "ItemCategory": "WIP",
+      "ProductCode": "145",
+      "Quantity": "0.00",
+      "UnitPrice": "1200",
+      "TotalValue": "0.00"
+    },
+    {
+      "ProductName": "Name - 08",
+      "ItemCategory": "WIP",
+      "ProductCode": "144",
+      "Quantity": "0.00",
+      "UnitPrice": "1400",
+      "TotalValue": "0.00"
+    },
+    {
+      "ProductName": "Name - 09",
+      "ItemCategory": "WIP",
+      "ProductCode": "143",
+      "Quantity": "0.00",
+      "UnitPrice": "1200",
+      "TotalValue": "0.00"
+    },
+    {
+      "ProductName": "Name - 10",
+      "ItemCategory": "WIP",
+      "ProductCode": "142",
+      "Quantity": "0.00",
+      "UnitPrice": "980",
+      "TotalValue": "0.00"
+    }
+  ]
+}

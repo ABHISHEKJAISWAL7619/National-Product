@@ -1,0 +1,74 @@
+{
+     "ledgerData" : [
+  {
+    "time_stamp": "06/08/2025 (3:15pm)",
+    "transaction_type": "Incoming",
+    "batch": "----",
+    "item": "----",
+    "percent_used": "----",
+    "qty_in": 1000,
+    "qty_out": "0.00",
+    "balance": 1000
+  },
+  {
+    "time_stamp": "06/08/2025 (3:15pm)",
+    "transaction_type": "Production",
+    "batch": "320",
+    "item": "50/60",
+    "percent_used": "12",
+    "qty_in": 300,
+    "qty_out": 300,
+    "balance": "0.00"
+  },
+  {
+    "time_stamp": "06/08/2025 (3:15pm)",
+    "transaction_type": "Incoming",
+    "batch": "----",
+    "item": "----",
+    "percent_used": "----",
+    "qty_in": 1200,
+    "qty_out": "0.00",
+    "balance": 1200
+  },
+  {
+    "time_stamp": "06/08/2025 (3:15pm)",
+    "transaction_type": "Production",
+    "batch": "100",
+    "item": "50/60",
+    "percent_used": "12",
+    "qty_in": 320,
+    "qty_out": 320,
+    "balance": "0.00"
+  },
+  {
+    "time_stamp": "06/08/2025 (3:15pm)",
+    "transaction_type": "Production",
+    "batch": "258",
+    "item": "50/60",
+    "percent_used": "12",
+    "qty_in": 280,
+    "qty_out": 280,
+    "balance": "0.00"
+  },
+  {
+    "time_stamp": "06/08/2025 (3:15pm)",
+    "transaction_type": "Incoming",
+    "batch": "----",
+    "item": "----",
+    "percent_used": "----",
+    "qty_in": 1500,
+    "qty_out": "0.00",
+    "balance": 1500
+  },
+  {
+    "time_stamp": "06/08/2025 (3:15pm)",
+    "transaction_type": "Production",
+    "batch": "125",
+    "item": "50/60",
+    "percent_used": "12",
+    "qty_in": 510,
+    "qty_out": 510,
+    "balance": "0.00"
+  }
+]
+}

@@ -1,0 +1,208 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { FilePlus2, Edit3, Trash2 } from "lucide-react";
+import { fetchincomings, deleteincoming } from "@/redux/slice/incoming-slice";
+import { successToast, errorToast } from "@/utils/toastMessage";
+import OverlayModal from "@/components/common/OverlayModal";
+import { AlertModal } from "@/components/common/AlertModel";
+import Pagination from "@/components/common/Pagination";
+import SearchBox from "@/components/common/SearchBox";
+import Cookies from "js-cookie";
+
+const StockIn = ({ searchQuery, currPage }) => {
+  const dispatch = useDispatch();
+  const token = Cookies.get("token");
+  const {
+    incomingList = [],
+    documentCount,
+    loading,
+    dataLoading,
+  } = useSelector((state) => state.incoming);
+  console.log(incomingList);
+
+  const [search, setSearch] = useState("");
+  const [deleteTarget, setDeleteTarget] = useState(null);
+
+  // ===== Fetch Data =====
+  useEffect(() => {
+    dispatch(
+      fetchincomings({
+        filters: { page: currPage, limit: 10, search: searchQuery },
+      })
+    );
+  }, [dispatch, currPage, searchQuery]);
+
+  // ===== Delete Handler =====
+  const handleDelete = async (incomingId) => {
+    try {
+      await dispatch(deleteincoming({ token, incomingId })).unwrap();
+      successToast("Stock entry deleted successfully");
+      setDeleteTarget(null);
+    } catch (err) {
+      errorToast(err.message || "Failed to delete stock entry");
+    }
+  };
+
+  return (
+    <div className="space-y-5">
+      <h1 className="font-archivo font-bold text-[25px] leading-[28px] ">
+        Stock In
+      </h1>
+
+      <div className="flex items-center justify-between">
+        <SearchBox
+          name="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          iconLeft="search-line"
+          placeholder="Search here..."
+        />
+        <Link href="/incoming/create-stock">
+          <button className="flex cursor-pointer items-center gap-2 bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800 transition">
+            <FilePlus2 size={16} /> Add Incoming
+          </button>
+        </Link>
+      </div>
+
+      <div className="overflow-x-auto rounded-md bg-white shadow">
+        <table className="min-w-full text-sm">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="px-4 py-3 text-left">Date</th>
+              <th className="px-4 py-3 text-left">Invoice No</th>
+              <th className="px-4 py-3 text-left">Product</th>
+              <th className="px-4 py-3 text-right">Price</th>
+              <th className="px-4 py-3 text-right">Quantity (Kg/Pcs)</th>
+              {/* <th className="px-4 py-3 text-right">Pieces</th> */}
+              <th className="px-4 py-3 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dataLoading ? (
+              <tr>
+                <td colSpan={8} className="py-6 text-center text-gray-500">
+                  Loading...
+                </td>
+              </tr>
+            ) : incomingList.length > 0 ? (
+              incomingList.map((incoming) => (
+                <Row
+                  key={incoming._id}
+                  data={incoming}
+                  onDeleteClick={(info) => setDeleteTarget(info)}
+                />
+              ))
+            ) : (
+              <tr>
+                <td colSpan={8} className="py-6 text-center text-gray-500">
+                  No stock entries found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+
+        <div className="flex justify-end py-3">
+          <Pagination pageSize={10} total={documentCount} />
+        </div>
+      </div>
+
+      {/* ===== Delete Confirmation Modal ===== */}
+      {deleteTarget && (
+        <OverlayModal
+          onClose={() => setDeleteTarget(null)}
+          isOpen={!!deleteTarget}
+          showCloseIcon={false}
+        >
+          <AlertModal
+            icon={<i className="ri-error-warning-line"></i>}
+            iconColor="text-red-600 bg-grey-600 text-4xl"
+            title="Delete Confirmation"
+            message={
+              <span>
+                Are you sure you want to delete stock entry{" "}
+                <span className="font-semibold text-blue-600">
+                  "{deleteTarget.invoiceNo}"
+                </span>
+                ?
+              </span>
+            }
+            buttons={[
+              {
+                text: "Cancel",
+                onClick: () => setDeleteTarget(null),
+                colorClass: "bg-gray-200 text-gray-800 hover:bg-gray-300",
+              },
+              {
+                text: "Delete",
+                onClick: async () => {
+                  await handleDelete(deleteTarget.id);
+                },
+                colorClass: "bg-red-600 text-white hover:bg-red-700",
+              },
+            ]}
+          />
+        </OverlayModal>
+      )}
+    </div>
+  );
+};
+
+export default StockIn;
+
+const Row = ({ data, onDeleteClick }) => {
+  const { _id, invoiceNo, date, price, products } = data || {};
+  const firstProduct = products?.[0];
+  const item = firstProduct?.item;
+
+  const qty = firstProduct?.quantity ?? 0;
+  const pcs = firstProduct?.pieces ?? 0;
+
+  let quantityDisplay = "-";
+
+  if (qty > 0 && pcs === 0) {
+    quantityDisplay = `${qty} Kg`;
+  } else if (pcs > 0 && qty === 0) {
+    quantityDisplay = `${pcs} pcs`;
+  } else if (qty > 0 && pcs > 0) {
+    quantityDisplay = `${qty} Kg / ${pcs} pcs`;
+  }
+
+  return (
+    <tr className="border-t border-gray-200 hover:bg-gray-50 transition">
+      <td className="px-4 py-3">
+        {new Date(date).toLocaleDateString("en-IN")}
+      </td>
+
+      <td className="px-4 py-3 font-medium text-blue-900">
+        {invoiceNo || "-"}
+      </td>
+
+      <td className="px-4 py-3">{item?.productName || "-"}</td>
+
+      <td className="px-4 py-3 text-right">₹{price?.toFixed(2) || "0.00"}</td>
+
+      <td className="px-4 py-3 text-right">{quantityDisplay}</td>
+
+      <td className="px-4 py-3 text-center">
+        <div className="flex justify-center gap-3">
+          <Link href={`/incoming/${_id}`}>
+            <button className="text-blue-600 hover:text-blue-800 transition">
+              <Edit3 size={18} />
+            </button>
+          </Link>
+
+          <button
+            className="text-red-500 hover:text-red-700 transition"
+            onClick={() => onDeleteClick({ id: _id, invoiceNo })}
+          >
+            <Trash2 size={18} />
+          </button>
+        </div>
+      </td>
+    </tr>
+  );
+};

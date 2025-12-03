@@ -1,0 +1,94 @@
+{
+  "arr": [
+    {
+      "date": "2024-01-15",
+      "batchNo": "151",
+      "category": "Soldering Wire",
+      "subCategory": "Sub Cat. - 01",
+      "composition": "50/50",
+      "quantityKg": 1000,
+      "quantityPieces": 50
+    },
+    {
+      "date": "2024-01-16",
+      "batchNo": "150",
+      "category": "Soldering Stick",
+      "subCategory": "Sub Cat. - 02",
+      "composition": "60/40",
+      "quantityKg": 1200,
+      "quantityPieces": 25
+    },
+    {
+      "date": "2024-01-17",
+      "batchNo": "149",
+      "category": "Soldering Wire",
+      "subCategory": "Sub Cat. - 03",
+      "composition": "63/37",
+      "quantityKg": 800,
+      "quantityPieces": 60
+    },
+    {
+      "date": "2024-01-18",
+      "batchNo": "148",
+      "category": "Soldering Stick",
+      "subCategory": "Sub Cat. - 04",
+      "composition": "20/78/1/1",
+      "quantityKg": 950,
+      "quantityPieces": 40
+    },
+    {
+      "date": "2024-01-19",
+      "batchNo": "147",
+      "category": "Soldering Wire",
+      "subCategory": "Sub Cat. - 05",
+      "composition": "99/0.3/0.7",
+      "quantityKg": 1100,
+      "quantityPieces": 55
+    },
+    {
+      "date": "2024-01-20",
+      "batchNo": "146",
+      "category": "Soldering Stick",
+      "subCategory": "Sub Cat. - 06",
+      "composition": "99.3/0.7",
+      "quantityKg": 1080,
+      "quantityPieces": 35
+    },
+    {
+      "date": "2024-01-21",
+      "batchNo": "145",
+      "category": "Soldering Wire",
+      "subCategory": "Sub Cat. - 07",
+      "composition": "99.7/0.3",
+      "quantityKg": 980,
+      "quantityPieces": 52
+    },
+    {
+      "date": "2024-01-22",
+      "batchNo": "144",
+      "category": "Soldering Stick",
+      "subCategory": "Sub Cat. - 08",
+      "composition": "98.5/1/0.5",
+      "quantityKg": 950,
+      "quantityPieces": 45
+    },
+    {
+      "date": "2024-01-23",
+      "batchNo": "143",
+      "category": "Soldering Wire",
+      "subCategory": "Sub Cat. - 09",
+      "composition": "97/3",
+      "quantityKg": 1150,
+      "quantityPieces": 58
+    },
+    {
+      "date": "2024-01-24",
+      "batchNo": "142",
+      "category": "Soldering Stick",
+      "subCategory": "Sub Cat. - 10",
+      "composition": "96.5/3/0.5",
+      "quantityKg": 800,
+      "quantityPieces": 30
+    }
+  ]
+}

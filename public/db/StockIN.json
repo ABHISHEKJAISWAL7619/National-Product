@@ -1,0 +1,114 @@
+{
+  "arr": [
+    {
+      "date": "2024-01-15",
+      "id": "12345",
+      "name": "Tin",
+      "symbol": "Sn",
+      "price": 20,
+      "availableQty": 100,
+      "incomingQty": 50,
+      "balance": 150,
+      "totalPieces": 10
+    },
+    {
+      "date": "2024-01-16",
+      "id": "67890",
+      "name": "Lead",
+      "symbol": "Pb",
+      "price": 15,
+      "availableQty": 200,
+      "incomingQty": 100,
+      "balance": 300,
+      "totalPieces": 0
+    },
+    {
+      "date": "2024-01-17",
+      "id": "11213",
+      "name": "Silver",
+      "symbol": "Ag",
+      "price": 25,
+      "availableQty": 150,
+      "incomingQty": 75,
+      "balance": 225,
+      "totalPieces": 0
+    },
+    {
+      "date": "2024-01-18",
+      "id": "41516",
+      "name": "Zinc",
+      "symbol": "Zn",
+      "price": 10,
+      "availableQty": 300,
+      "incomingQty": 150,
+      "balance": 450,
+      "totalPieces": 0
+    },
+    {
+      "date": "2024-01-19",
+      "id": "71819",
+      "name": "Copper",
+      "symbol": "Cu",
+      "price": 30,
+      "availableQty": 250,
+      "incomingQty": 125,
+      "balance": 375,
+      "totalPieces": 0
+    },
+    {
+      "date": "2024-01-20",
+      "id": "20212",
+      "name": "Tin",
+      "symbol": "Sn",
+      "price": 20,
+      "availableQty": 150,
+      "incomingQty": 75,
+      "balance": 225,
+      "totalPieces": 15
+    },
+    {
+      "date": "2024-01-21",
+      "id": "32324",
+      "name": "Lead",
+      "symbol": "Pb",
+      "price": 15,
+      "availableQty": 300,
+      "incomingQty": 150,
+      "balance": 450,
+      "totalPieces": 0
+    },
+    {
+      "date": "2024-01-22",
+      "id": "52627",
+      "name": "Silver",
+      "symbol": "Ag",
+      "price": 25,
+      "availableQty": 225,
+      "incomingQty": 112,
+      "balance": 337,
+      "totalPieces": 0
+    },
+    {
+      "date": "2024-01-23",
+      "id": "82930",
+      "name": "Zinc",
+      "symbol": "Zn",
+      "price": 10,
+      "availableQty": 450,
+      "incomingQty": 225,
+      "balance": 675,
+      "totalPieces": 0
+    },
+    {
+      "date": "2024-01-24",
+      "id": "13233",
+      "name": "Copper",
+      "symbol": "Cu",
+      "price": 30,
+      "availableQty": 375,
+      "incomingQty": 187,
+      "balance": 562,
+      "totalPieces": 0
+    }
+  ]
+}

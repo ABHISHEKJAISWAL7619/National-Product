@@ -1,0 +1,90 @@
+{
+    "mockBatchData": [
+        {
+            "date": "2024-01-15",
+            "batchNo": "151",
+            "subCategory": "Sub Cat. - 01",
+            "production": 100,
+            "gauge": 12,
+            "fluxPercent": "1.2%",
+            "fluxQty": 1.778,
+            "gulfaUsedKg": 250,
+            "semiFinishedUsed": 1
+        },
+        {
+            "date": "2024-01-16",
+            "batchNo": "151",
+            "subCategory": "Sub Cat. - 02",
+            "production": 590,
+            "gauge": 10,
+            "fluxPercent": "1.5%",
+            "fluxQty": 1.82,
+            "gulfaUsedKg": 100,
+            "semiFinishedUsed": 2
+        },
+        {
+            "date": "2024-01-17",
+            "batchNo": "151",
+            "subCategory": "Sub Cat. - 03",
+            "production": 120,
+            "gauge": 8,
+            "fluxPercent": "1.4%",
+            "fluxQty": 1.79,
+            "gulfaUsedKg": 150,
+            "semiFinishedUsed": 3
+        },
+        {
+            "date": "2024-01-18",
+            "batchNo": "151",
+            "subCategory": "Sub Cat. - 04",
+            "production": 90,
+            "gauge": 9,
+            "fluxPercent": "1.0%",
+            "fluxQty": 1.233,
+            "gulfaUsedKg": 50,
+            "semiFinishedUsed": 4
+        },
+        {
+            "date": "2024-01-19",
+            "batchNo": "151",
+            "subCategory": "Sub Cat. - 05",
+            "production": 110,
+            "gauge": 11,
+            "fluxPercent": "2.24%",
+            "fluxQty": 2.54,
+            "gulfaUsedKg": 100,
+            "semiFinishedUsed": 5
+        },
+        {
+            "date": "2024-01-20",
+            "batchNo": "151",
+            "subCategory": "Sub Cat. - 06",
+            "production": 85,
+            "gauge": 6,
+            "fluxPercent": "1.5%",
+            "fluxQty": 1.82,
+            "gulfaUsedKg": 200,
+            "semiFinishedUsed": 6
+        },
+        {
+            "date": "2024-01-21",
+            "batchNo": "151",
+            "subCategory": "Sub Cat. - 07",
+            "production": 105,
+            "gauge": 5,
+            "fluxPercent": "1.2%",
+            "fluxQty": 1.778,
+            "gulfaUsedKg": 150,
+            "semiFinishedUsed": 3
+        }
+    ],
+    "summary": {
+        "totalAvailableKg": 1200,
+        "totalProduction": 1200,
+        "totalBatchNo": 7,
+        "totalFluxPercent": "8.100%",
+        "totalFluxQty": 8.522,
+        "totalGulfaUsedKg": 1000,
+        "totalSemiFinishedUsed": 24
+    }
+}
