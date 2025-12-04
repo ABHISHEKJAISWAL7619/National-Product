@@ -29,7 +29,9 @@ const BreakdownDisplay = ({ data }) => {
 
   return (
     <div className="max-w-4xl mx-auto mt-8 p-6 bg-white shadow-xl rounded-xl">
-      <h2 className="text-2xl font-bold text-center mb-6">Summary</h2>
+      <h2 className="text-2xl font-bold text-black text-center mb-6">
+        Summary
+      </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <div className="p-4 bg-gray-100 rounded-lg">
@@ -62,11 +64,11 @@ const BreakdownDisplay = ({ data }) => {
         </p>
       </div> */}
 
-      <h3 className="text-xl font-semibold mb-4">Raw Materials</h3>
+      <h3 className="text-xl font-semibold text-black mb-4">Raw Materials</h3>
 
-      <table className="w-full border-collapse">
+      <table className="w-full border-collapse text-gray-900 dark:text-gray-100">
         <thead>
-          <tr className="bg-gray-200">
+          <tr className="bg-gray-200 dark:bg-gray-800">
             <th className="px-3 py-2 text-left">Item Name</th>
             <th className="px-3 py-2 text-left">Required Qty</th>
             <th className="px-3 py-2 text-left">Unit Price</th>
@@ -76,11 +78,17 @@ const BreakdownDisplay = ({ data }) => {
 
         <tbody>
           {materialArray.map((item, i) => (
-            <tr key={i} className="border-b hover:bg-gray-100">
+            <tr
+              key={i}
+              className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
               <td className="px-3 py-2">{item.productName}</td>
               <td className="px-3 py-2">{item.qty}</td>
               <td className="px-3 py-2">₹{item.unitPrice}</td>
-              <td className="px-3 py-2 text-green-700">₹{item.cost}</td>
+
+              <td className="px-3 py-2 text-green-700 dark:text-green-400">
+                ₹{item.cost}
+              </td>
             </tr>
           ))}
         </tbody>
