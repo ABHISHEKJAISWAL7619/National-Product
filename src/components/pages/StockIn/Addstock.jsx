@@ -110,7 +110,7 @@ const CreateStock = ({ incomingId }) => {
 
   return (
     <div className="bg-white  border  p-6 rounded-lg shadow">
-      <h1 className="font-bold text-lg mb-4 text-gray-900 dark:text-gray-100">
+      <h1 className="font-bold text-lg mb-4 text-black  ">
         {incomingId ? "Update Incoming Stock" : "Add Incoming Stock"}
       </h1>
 
@@ -165,7 +165,7 @@ const CreateStock = ({ incomingId }) => {
               error={errors.products?.[i]?.quantity}
             />
 
-            <label className="flex gap-2 text-gray-900 dark:text-gray-200">
+            <label className="flex gap-2 text-black">
               <input
                 type="checkbox"
                 checked={product.isPieces}

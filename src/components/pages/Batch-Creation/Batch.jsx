@@ -50,7 +50,7 @@ const Batch = ({ searchQuery, currPage, batchId, type }) => {
   };
 
   return (
-    <div className="space-y-5 text-gray-900 dark:text-gray-100">
+    <div className="space-y-5 text-gray-900">
       <h1 className="font-archivo font-bold text-[25px] leading-[28px]">
         Batchs
       </h1>
@@ -75,7 +75,7 @@ const Batch = ({ searchQuery, currPage, batchId, type }) => {
           placeholder="Search here..."
         />
         <Link href="/batch/create-batch">
-          <button className="flex cursor-pointer items-center gap-2 bg-black text-white dark:bg-white dark:text-black px-4 py-2 rounded-md text-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition">
+          <button className="flex cursor-pointer items-center gap-2 dark:text-black px-4 py-2 rounded-md text-sm hover:bg-gray-800 dark:hover:bg-gray-200 transition">
             <FilePlus2 size={16} /> Create Batch
           </button>
         </Link>
