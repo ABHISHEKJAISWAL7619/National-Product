@@ -14,7 +14,6 @@ const ItemDetaiTable = ({ searchQuery, currPage }) => {
   const { compositionList, documentCount } = useSelector(
     (state) => state.composition
   );
-  console.log(compositionList);
 
   useEffect(() => {
     dispatch(
@@ -26,9 +25,10 @@ const ItemDetaiTable = ({ searchQuery, currPage }) => {
 
   return (
     <div className="w-full bg-white border-l border-r border-gray-100 font-inter">
-      <h1 className="font-archivo font-bold text-[25px] leading-[28px]  text-black">
+      <h1 className="font-archivo font-bold text-[25px] leading-[28px] text-black">
         Composition
       </h1>
+
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mx-5 pt-10">
         <div className="flex-1">
           <SearchBox
@@ -59,6 +59,9 @@ const ItemDetaiTable = ({ searchQuery, currPage }) => {
                 "Category",
                 "Sub Category",
                 "Composed Of",
+                "Waste",
+                "Reusable",
+                "Final",
               ].map((header, index) => (
                 <th
                   key={index}
@@ -87,15 +90,29 @@ const ItemDetaiTable = ({ searchQuery, currPage }) => {
 
                 <td className="px-6 py-4 text-blue-950 whitespace-normal break-words">
                   {item.compositions
-                    ?.map((c) => `${c.item?.productName} (${c.percentage}%)`)
+                    ?.map((c) => ` ${c.percentage}%`)
                     .join(", ")}
+                </td>
+
+                {/* NEW COLUMNS */}
+                <td className="px-6 py-4 text-blue-950">
+                  {item.quantityUsed?.waste ?? 0}
+                </td>
+
+                <td className="px-6 py-4 text-blue-950">
+                  {item.quantityUsed?.reuseable ?? 0}
+                </td>
+
+                <td className="px-6 py-4 text-blue-950">
+                  {item.quantityUsed?.final ?? 0}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <div className="flex justify-end ">
+
+      <div className="flex justify-end">
         <Pagination pageSize={10} total={documentCount} />
       </div>
     </div>

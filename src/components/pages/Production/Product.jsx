@@ -21,6 +21,7 @@ import Pagination from "@/components/common/Pagination";
 import SearchBox from "@/components/common/SearchBox";
 import { useToggleQueryParam } from "@/utils/toggleQueryParam";
 import Input from "@/components/common/Input";
+import { Button } from "@/components/common/Button";
 
 const Product = ({ searchQuery, currPage, dateTo, dateFrom, type, status }) => {
   const dispatch = useDispatch();
@@ -97,10 +98,10 @@ const Product = ({ searchQuery, currPage, dateTo, dateFrom, type, status }) => {
           </h2>
 
           <Link href="/production/add-production">
-            <button className=" cursor-pointer text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-blue-800 transition flex items-center gap-1 h-10 justify-center sm:justify-start">
+            <Button className=" cursor-pointer  text-sm font-medium py-2 px-4 rounded-md transition flex items-center gap-1 h-10 justify-center sm:justify-start">
               <FilePlus2 size={16} />
               <span>Add Production</span>
-            </button>
+            </Button>
           </Link>
         </div>
 
