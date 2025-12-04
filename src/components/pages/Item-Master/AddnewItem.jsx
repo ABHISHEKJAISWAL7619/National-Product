@@ -138,7 +138,7 @@ const AddnewItem = ({ ItemId }) => {
           />
         )} */}
 
-        {/* <div className="flex flex-wrap gap-5">
+        <div className="flex flex-wrap gap-5">
           <Input
             label="Price (per Unit)"
             type="number"
@@ -147,7 +147,7 @@ const AddnewItem = ({ ItemId }) => {
             onChange={(e) => handleChange("unitPrice", e.target.value)}
             error={errors.unitPrice}
           />
-        </div> */}
+        </div>
 
         <div className="flex justify-end gap-4 sm:gap-5 mt-6">
           <Button
