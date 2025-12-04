@@ -18,7 +18,11 @@ export default function MainLayout({ children }) {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <Sidebar isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
+        <Sidebar
+          user={user}
+          isOpen={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+        />
 
         {/* Main Content */}
         <main className="flex-1 overflow-auto p-4">{children}</main>

@@ -79,7 +79,7 @@ export default function UsersPage({ searchQuery, currPage }) {
             >
               <Button
                 type="button"
-                className="w-full md:w-auto bg-dark text-light"
+                className="w-full cursor-pointer md:w-auto bg-dark text-light"
                 icon="ri-add-fill"
               >
                 Add New

@@ -30,7 +30,7 @@ const SettingsProfile = () => {
         <div className="flex flex-col gap-3 md:flex-row md:gap-4 mt-2 md:mt-0">
           <Button
             onClick={handleAddUser}
-            className="w-full md:w-auto bg-[#CCF0EB] text-[#017345] hover:bg-[#b2e8dc] transition-colors duration-200"
+            className="w-full md:w-auto cursor-pointer bg-[#CCF0EB] text-[#017345] hover:bg-[#b2e8dc] transition-colors duration-200"
             icon="ri-user-add-line"
           >
             Add Member
@@ -38,7 +38,7 @@ const SettingsProfile = () => {
 
           <Button
             onClick={handleCreateRole}
-            className="w-full md:w-auto bg-[#A5D4FE] text-[#014C8C] hover:bg-[#7dbef7] transition-colors duration-200"
+            className="w-full md:w-auto cursor-pointer bg-[#A5D4FE] text-[#014C8C] hover:bg-[#7dbef7] transition-colors duration-200"
             icon="ri-user-add-line"
           >
             Create Role
