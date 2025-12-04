@@ -39,7 +39,7 @@ const AddProduction = ({ productionId }) => {
         waste: "",
         shortAccess: "",
         quantity: "",
-        status: batchType == "solderingWire" ? "pending" : "completed",
+        status: "pending",
       },
       schema: isUpdate ? updateProductionSchema : createProductionSchema,
     });
@@ -63,7 +63,7 @@ const AddProduction = ({ productionId }) => {
         reusableWaste: singleProduction.reusableWaste ?? "",
         waste: singleProduction.waste ?? "",
         shortAccess: singleProduction.shortAccess ?? "",
-        status: "completed",
+        status: singleProduction.status ?? "",
       });
     }
   }, [isUpdate, singleProduction, setFormData]);
@@ -187,7 +187,7 @@ const AddProduction = ({ productionId }) => {
               error={errors.shortAccess}
             />
 
-            {/* <Input
+            <Input
               label="Status"
               type="select"
               value={formData.status}
@@ -197,7 +197,7 @@ const AddProduction = ({ productionId }) => {
                 { label: "Completed", value: "completed" },
               ]}
               error={errors.status}
-            /> */}
+            />
           </>
         )}
         {isUpdate && (
