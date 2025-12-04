@@ -50,7 +50,7 @@ const Batch = ({ searchQuery, currPage, batchId, type }) => {
 
   return (
     <div className="space-y-5">
-      <h1 className="font-archivo font-bold text-[25px] leading-[28px] ">
+      <h1 className="font-archivo text-black font-bold text-[25px] leading-[28px] ">
         Batchs
       </h1>
       <Input
@@ -80,7 +80,7 @@ const Batch = ({ searchQuery, currPage, batchId, type }) => {
 
       <div className="overflow-x-auto rounded-md bg-white shadow">
         <table className="min-w-full text-sm">
-          <thead className="bg-gray-100">
+          <thead className="bg-gray-200 text-white">
             <tr>
               <th className="px-4 py-3 text-left">Date</th>
               <th className="px-4 py-3 text-left">Batch No</th>
@@ -185,7 +185,7 @@ const Row = ({ data, onDeleteClick }) => {
   }
 
   return (
-    <tr className="border-t border-gray-200 hover:bg-gray-50 transition">
+    <tr className="border-t border-gray-200 text-black hover:bg-gray-50 transition">
       <td className="px-4 py-3">
         {new Date(createdAt).toLocaleDateString("en-IN")}
       </td>
