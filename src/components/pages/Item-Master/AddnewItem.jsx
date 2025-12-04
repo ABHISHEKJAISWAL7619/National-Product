@@ -24,7 +24,7 @@ const AddnewItem = ({ ItemId }) => {
       defaultValues: {
         productName: "",
         // quantity: "",
-        pieces: "",
+        // pieces: "",
         unitPrice: "",
         symbol: "",
       },
@@ -36,7 +36,7 @@ const AddnewItem = ({ ItemId }) => {
       const payload = {
         productName: data.productName || "",
         // quantity: data.quantity || "",
-        pieces: enablePieces ? data.pieces : 0, // <-- Important
+        // pieces: enablePieces ? data.pieces : 0, // <-- Important
         unitPrice: data.unitPrice || "",
         symbol: data.symbol,
       };
@@ -61,7 +61,7 @@ const AddnewItem = ({ ItemId }) => {
       setFormData({
         productName: singleItem.productName || "",
         // quantity: singleItem.quantity || "",
-        pieces: singleItem.pieces || "",
+        // pieces: singleItem.pieces || "",
         unitPrice: singleItem.unitPrice || "",
         symbol: singleItem.symbol || "",
       });
@@ -117,17 +117,17 @@ const AddnewItem = ({ ItemId }) => {
         </div>
 
         {/* Checkbox Toggle */}
-        <div className="flex items-center mt-3 gap-2">
+        {/* <div className="flex items-center mt-3 gap-2">
           <input
             type="checkbox"
             checked={enablePieces}
             onChange={() => setEnablePieces(!enablePieces)}
           />
           <label className="text-sm font-semibold">Need Pieces Quantity?</label>
-        </div>
+        </div> */}
 
         {/* Conditional Input */}
-        {enablePieces && (
+        {/* {enablePieces && (
           <Input
             label="Pieces (Qty)"
             type="number"
@@ -136,9 +136,9 @@ const AddnewItem = ({ ItemId }) => {
             onChange={(e) => handleChange("pieces", e.target.value)}
             error={errors.pieces}
           />
-        )}
+        )} */}
 
-        <div className="flex flex-wrap gap-5">
+        {/* <div className="flex flex-wrap gap-5">
           <Input
             label="Price (per Unit)"
             type="number"
@@ -147,7 +147,7 @@ const AddnewItem = ({ ItemId }) => {
             onChange={(e) => handleChange("unitPrice", e.target.value)}
             error={errors.unitPrice}
           />
-        </div>
+        </div> */}
 
         <div className="flex justify-end gap-4 sm:gap-5 mt-6">
           <Button
