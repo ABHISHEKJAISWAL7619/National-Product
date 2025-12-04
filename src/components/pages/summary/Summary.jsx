@@ -62,42 +62,50 @@ const Summary = ({ dateFrom, dateTo, currPage, searchQuery }) => {
   }, [dispatchList]);
 
   return (
-    <div className="">
-      <h2 className="font-archivo font-bold text-[25px] leading-[28px]  text-black tracking-normal">
+    <div className="px-2 md:px-6 py-4">
+      <h2 className="font-archivo font-bold text-[25px] leading-[28px] text-black tracking-normal mb-4">
         Summary
       </h2>
-      <div className="flex flex-wrap items-center p-5">
-        <div className="flex-1 mt-6 ">
+
+      {/* Filters */}
+      <div className="flex flex-wrap items-center gap-4 p-2 md:p-5">
+        {/* Search Box */}
+        <div className="flex-1 min-w-[200px]">
           <SearchBox
             name="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             iconLeft="search-line"
-            placeholder="Search by Invoiceno....."
-          />
-        </div>
-        <div className="flex flex-col mr-5">
-          <Input
-            label={"From"}
-            type="date"
-            value={dateFrom}
-            onChange={(e) => toggleQueryParam("dateFrom", e.target.value)}
-            className="min-w-[170px]"
+            placeholder="Search by Invoice No..."
           />
         </div>
 
-        <div className="flex flex-col">
+        {/* From Date */}
+        <div className="w-36 md:w-48">
           <Input
-            label={"To"}
+            label="From"
+            type="date"
+            value={dateFrom}
+            onChange={(e) => toggleQueryParam("dateFrom", e.target.value)}
+            className="w-full"
+          />
+        </div>
+
+        {/* To Date */}
+        <div className="w-36 md:w-48">
+          <Input
+            label="To"
             type="date"
             value={dateTo}
             onChange={(e) => toggleQueryParam("dateTo", e.target.value)}
-            className="min-w-[170px]"
+            className="w-full"
           />
         </div>
       </div>
-      <div className=" rounded-xl shadow bg-white">
-        <table className="min-w-full border-collapse">
+
+      {/* Table */}
+      <div className="overflow-x-auto rounded-xl shadow bg-white mt-4">
+        <table className="min-w-[900px] md:min-w-full border-collapse">
           <thead className="bg-gray-100 border-b">
             <tr className="text-gray-700 text-sm">
               <th className="p-3">Order No</th>
@@ -123,26 +131,16 @@ const Summary = ({ dateFrom, dateTo, currPage, searchQuery }) => {
               return (
                 <tr key={index} className="hover:bg-gray-50 text-gray-800">
                   <td className="p-3">#{row._id.slice(0, 5)}</td>
-
                   <td className="p-3">{row.invoiceNo}</td>
-
                   <td className="p-3">
                     {new Date(row.createdAt).toLocaleDateString()}
                   </td>
-
                   <td className="p-3">
                     {row.items
                       ?.map((i) => i.production2?.productName || "-")
                       .join(", ")}
                   </td>
-
-                  <td
-                    className="p-3 text-center
-                  "
-                  >
-                    {qtyKg}
-                  </td>
-
+                  <td className="p-3 text-center">{qtyKg}</td>
                   <td className="p-3">
                     {row.customer
                       ? row.customer.firstName +
@@ -150,7 +148,6 @@ const Summary = ({ dateFrom, dateTo, currPage, searchQuery }) => {
                         (row.customer.lastName || "")
                       : "-"}
                   </td>
-
                   <td className="p-3">{round2(row.cgst)}</td>
                   <td className="p-3">{round2(row.sgst)}</td>
                   <td className="p-3">{round2(row.subTotal)}</td>
@@ -161,52 +158,31 @@ const Summary = ({ dateFrom, dateTo, currPage, searchQuery }) => {
           </tbody>
         </table>
       </div>
-      <div className="mt-6 bg-gray-50  rounded-md p-4">
-        <div className="flex flex-wrap gap-4">
-          {/* Total Qty */}
-          <div className="flex items-center justify-between bg-white border border-gray-200 rounded-md px-4 py-2 min-w-[200px]">
-            <span className="text-gray-700 font-medium">Total Quantity</span>
-            <span className="text-blue-900 font-semibold">
-              {totals.totalQty}
-            </span>
-          </div>
 
-          {/* CGST */}
-          <div className="flex items-center justify-between bg-white border border-gray-200 rounded-md px-4 py-2 min-w-[200px]">
-            <span className="text-gray-700 font-medium">CGST</span>
-            <span className="text-blue-900 font-semibold">
-              {totals.totalCgst}
-            </span>
-          </div>
-
-          {/* SGST */}
-          <div className="flex items-center justify-between bg-white border border-gray-200 rounded-md px-4 py-2 min-w-[200px]">
-            <span className="text-gray-700 font-medium">SGST</span>
-            <span className="text-blue-900 font-semibold">
-              {totals.totalSgst}
-            </span>
-          </div>
-
-          {/* Subtotal */}
-          <div className="flex items-center justify-between bg-white border border-gray-200 rounded-md px-4 py-2 min-w-[200px]">
-            <span className="text-gray-700 font-medium">Sub Total</span>
-            <span className="text-blue-900 font-semibold">
-              {totals.totalSub}
-            </span>
-          </div>
-
-          {/* Amount */}
-          <div className="flex items-center justify-between bg-white border border-gray-200 rounded-md px-4 py-2 min-w-[200px]">
-            <span className="text-gray-700 font-medium">Amount</span>
-            <span className="text-blue-900 font-semibold">
-              {totals.totalAmount}
-            </span>
-          </div>
+      {/* Totals */}
+      <div className="mt-6 bg-gray-50 rounded-md p-4 overflow-x-auto">
+        <div className="flex flex-wrap gap-4 min-w-[600px] md:min-w-full">
+          {[
+            { label: "Total Quantity", value: totals.totalQty },
+            { label: "CGST", value: totals.totalCgst },
+            { label: "SGST", value: totals.totalSgst },
+            { label: "Sub Total", value: totals.totalSub },
+            { label: "Amount", value: totals.totalAmount },
+          ].map((total, idx) => (
+            <div
+              key={idx}
+              className="flex-1 min-w-[180px] flex items-center justify-between bg-white border border-gray-200 rounded-md px-4 py-2"
+            >
+              <span className="text-gray-700 font-medium">{total.label}</span>
+              <span className="text-blue-900 font-semibold">{total.value}</span>
+            </div>
+          ))}
         </div>
       </div>
-      <div className="flex justify-end">
+
+      <div className="flex justify-end mt-4">
         <Pagination total={documentCount} pageSize={10} />
-      </div>{" "}
+      </div>
     </div>
   );
 };

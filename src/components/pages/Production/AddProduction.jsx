@@ -109,6 +109,7 @@ const AddProduction = ({ productionId }) => {
           </p>
         )} */}
       </div>
+      <div className="overflow-hidden"></div>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
         {/* Always show Batch field */}
         <Input
@@ -239,6 +240,7 @@ const AddProduction = ({ productionId }) => {
           </Button>
         </div>
       </form>
+      <div />
     </div>
   );
 };

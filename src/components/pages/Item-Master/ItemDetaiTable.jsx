@@ -28,19 +28,24 @@ const ItemDetaiTable = ({ searchQuery, currPage }) => {
       <h1 className="font-archivo font-bold text-[25px] leading-[28px]  text-black">
         Composition
       </h1>
-      <div className="flex mx-5 pt-10 justify-between">
-        <SearchBox
-          name="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          iconLeft="search-line"
-          placeholder="Search here..."
-        />
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mx-5 pt-10">
+        <div className="flex-1">
+          <SearchBox
+            name="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            iconLeft="search-line"
+            placeholder="Search here..."
+          />
+        </div>
 
-        <Link href={"/item-master/composition/add-new"}>
-          <div className="bg-blue-950 px-3 py-2 flex gap-2 rounded-md text-white cursor-pointer">
+        <Link
+          href={"/item-master/composition/add-new"}
+          className="w-full sm:w-auto"
+        >
+          <div className="bg-blue-950 px-3 py-2 flex justify-center sm:justify-start items-center gap-2 rounded-md text-white cursor-pointer">
             <Plus className="mt-1" />
-            <button>Create Composition</button>
+            <span className="text-center sm:text-left">Create Composition</span>
           </div>
         </Link>
       </div>

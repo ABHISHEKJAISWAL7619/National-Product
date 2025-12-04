@@ -25,7 +25,6 @@ const AddNewCustomer = ({ CustomerId }) => {
       schema: customerSchema,
     });
 
-  // Submit handler
   const onSubmit = async (data) => {
     try {
       await dispatch(savecustomer({ id: CustomerId, formData: data })).unwrap();
@@ -40,11 +39,8 @@ const AddNewCustomer = ({ CustomerId }) => {
     }
   };
 
-  // Load single customer for edit
   useEffect(() => {
-    if (CustomerId) {
-      dispatch(fetchcustomer({ id: CustomerId }));
-    }
+    if (CustomerId) dispatch(fetchcustomer({ id: CustomerId }));
   }, [CustomerId, dispatch]);
 
   useEffect(() => {
@@ -65,14 +61,14 @@ const AddNewCustomer = ({ CustomerId }) => {
   }, [singlecustomer, CustomerId]);
 
   return (
-    <div className="p-6 bg-white border px-20 border-gray-200">
+    <div className="p-4 md:p-6 lg:px-20 lg:py-8 bg-white border border-gray-200 rounded-lg shadow">
       <h1 className="font-bold text-black text-2xl mb-5">
         {CustomerId ? "Update Customer" : "Add New Customer"}
       </h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Personal Info */}
-        <div className="grid  gap-5 grid-cols-2 ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
           <Input
             label="First Name"
             type="text"
@@ -105,7 +101,7 @@ const AddNewCustomer = ({ CustomerId }) => {
 
         {/* Address */}
         <h2 className="font-semibold mt-6 text-black mb-2">Address</h2>
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
           <Input
             label="Country"
             type="text"
@@ -137,16 +133,16 @@ const AddNewCustomer = ({ CustomerId }) => {
         </div>
 
         {/* Buttons */}
-        <div className="flex gap-4 mt-6">
+        <div className="flex flex-col sm:flex-row gap-3 mt-6">
           <Button
-            className="cursor-pointer"
+            className="w-full sm:w-auto cursor-pointer"
             onClick={() => reset()}
             type="cancel"
           >
             Cancel
           </Button>
           <Button
-            className="cursor-pointer"
+            className="w-full sm:w-auto cursor-pointer"
             type="submit"
             disabled={loading}
             loading={loading}

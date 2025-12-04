@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Eye, Pencil, Trash2, Calendar, Users } from "lucide-react";
+import { Eye, Pencil, Trash2, Users } from "lucide-react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -23,13 +23,10 @@ import { successToast } from "@/utils/toastMessage";
 export default function UsersPage({ searchQuery, currPage }) {
   const dispatch = useDispatch();
   const { memberList, documentCount } = useSelector((state) => state.member);
-  console.log(memberList, documentCount);
   const [isDelete, setIsDelete] = useState(false);
   const [selectedUser, setSelectedUser] = useState({});
   const [search, setSearch] = useState("");
   const { user } = useSelector((state) => state.auth.user);
-  // console.log(user);
-  const currentUser = user;
 
   const handleDeleteClick = (data) => {
     setIsDelete(true);
@@ -46,7 +43,7 @@ export default function UsersPage({ searchQuery, currPage }) {
       );
       setIsDelete(false);
     } catch (err) {
-      errorToast(err.message);
+      console.error(err.message);
     }
   };
 
@@ -61,24 +58,28 @@ export default function UsersPage({ searchQuery, currPage }) {
         },
       })
     );
-    return () => {};
   }, [searchQuery, currPage]);
 
   return (
     <>
-      <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white px-4 pt-6">
-        <div className="mb-3 flex flex-col items-center justify-between gap-4 md:flex-row md:items-center">
-          <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900">
+      <div className="p-4 md:p-6 lg:p-8 bg-white rounded-lg shadow overflow-x-auto">
+        {/* Header */}
+        <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <h2 className="flex items-center gap-2 text-lg md:text-xl font-semibold text-gray-900">
             <Users size={20} /> Members
             <span className="rounded-full bg-[#FCE7E0] px-2 py-0.5 text-sm text-[#FA8B5C]">
               {documentCount}
             </span>
           </h2>
-          <div className="flex w-full flex-col gap-4 md:flex-row md:gap-2 lg:w-fit">
-            <Link href="/role-management/member/add-new" className="w-fit">
+
+          <div className="flex w-full flex-col gap-2 md:flex-row md:gap-2 lg:w-fit">
+            <Link
+              href="/role-management/member/add-new"
+              className="w-full md:w-auto"
+            >
               <Button
                 type="button"
-                className="bg-dark  cursor-pointer text-light w-fit"
+                className="w-full md:w-auto bg-dark text-light"
                 icon="ri-add-fill"
               >
                 Add New
@@ -86,101 +87,71 @@ export default function UsersPage({ searchQuery, currPage }) {
             </Link>
           </div>
         </div>
-        <div className="pb-6">
-          <h1 className="text-lg font-semibold text-gray-900">Members List</h1>
-          <p className="text-sm text-gray-500">
-            View and manage all the members
-          </p>
-        </div>
 
-        <div className="mb-4 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
+        {/* Search */}
+        <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <SearchBox
             name="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             iconLeft="search-line"
-            placeholder="Search products..."
+            placeholder="Search members..."
+            className="w-full md:w-64"
           />
-          {/* <Button
-            variant="outline"
-            className="flex w-fit items-center justify-center gap-2 rounded-md border-none bg-black px-3 py-2 text-sm text-white"
-          >
-            Export
-            <span>
-              <i className="ri-download-2-line"></i>
-            </span>
-          </Button> */}
         </div>
 
+        {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="min-w-full text-sm border-collapse">
             <thead className="bg-gray-50">
               <tr className="border-b border-gray-200 text-left font-bold text-black">
-                <th className="px-3 py-3">User Info</th>
-                <th className="px-3 py-3">Email</th>
-                <th className="px-3 py-3">Phone</th>
-                <th className="px-3 py-3">Date</th>
-                <th className="px-3 py-3">Active</th>
-                <th className="px-3 py-3">Actions</th>
+                <th className="px-3 py-2">User</th>
+                <th className="px-3 py-2 hidden sm:table-cell">Email</th>
+                <th className="px-3 py-2 hidden md:table-cell">Phone</th>
+                <th className="px-3 py-2 hidden lg:table-cell">Date</th>
+                <th className="px-3 py-2 text-center">Active</th>
+                <th className="px-3 py-2 text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {Array.isArray(memberList) && memberList.length > 0 ? (
-                <>
-                  {/* Logged-in user row on top */}
-                  {memberList
-                    .filter((u) => u._id === user?._id)
-                    .map((u, idx) => (
-                      <Row
-                        key={u._id}
-                        data={u}
-                        users={[u]}
-                        index={0}
-                        onDelete={() => {}}
-                        currentUser={user}
-                      />
-                    ))}
-
-                  {/* All other users */}
-                  {memberList
-                    .filter((u) => u._id !== user?._id)
-                    .map((u, idx) => (
-                      <Row
-                        key={u._id}
-                        data={u}
-                        users={memberList.filter((u) => u._id !== user?._id)}
-                        index={idx}
-                        onDelete={handleDeleteClick}
-                        currentUser={user}
-                      />
-                    ))}
-                </>
+              {memberList?.length > 0 ? (
+                memberList.map((u, idx) => (
+                  <Row
+                    key={u._id}
+                    data={u}
+                    index={idx}
+                    onDelete={handleDeleteClick}
+                    currentUser={user}
+                  />
+                ))
               ) : (
                 <tr>
                   <td colSpan={6} className="py-4 text-center text-gray-500">
-                    No member found.
+                    No members found.
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
-          <div className="flex justify-end">
+
+          <div className="mt-4 flex justify-end">
             <Pagination total={documentCount} pageSize={100} />
           </div>
         </div>
       </div>
 
+      {/* Delete Modal */}
       <OverlayModal
         onClose={() => setIsDelete(false)}
         isOpen={isDelete}
         showCloseIcon={false}
       >
         <AlertModal
-          icon={<i class="ri-delete-bin-5-line font-[300]"></i>}
+          icon={<i className="ri-delete-bin-5-line font-[300]"></i>}
           iconColor="text-red-600 bg-grey-600 text-4xl"
           title="Delete Confirmation"
           message={
-            <span>Are you sure you want to delete {selectedUser?.name} ?</span>
+            <span>Are you sure you want to delete {selectedUser?.name}?</span>
           }
           buttons={[
             {
@@ -200,13 +171,13 @@ export default function UsersPage({ searchQuery, currPage }) {
   );
 }
 
-const Row = ({ data, users, index, onDelete, currentUser }) => {
+const Row = ({ data, index, onDelete, currentUser }) => {
   const { _id, name, email, avatar, createdAt, mobile, isVerified } = data;
   const dispatch = useDispatch();
-  const [veryfied, setVeryfied] = useState(false);
+  const [verified, setVerified] = useState(isVerified);
 
   const handleToggle = async (id, value) => {
-    setVeryfied(!value);
+    setVerified(!value);
     try {
       await dispatch(
         createOrUpdatemember({
@@ -216,49 +187,41 @@ const Row = ({ data, users, index, onDelete, currentUser }) => {
       ).unwrap();
       dispatch(fetchmembers({ filters: {} }));
     } catch (err) {
-      errorToast(err.message);
+      console.error(err.message);
     }
   };
-
-  useEffect(() => {
-    setVeryfied(isVerified);
-  }, [isVerified]);
 
   const isCurrentUser = currentUser?._id === _id;
 
   return (
-    <tr
-      key={_id}
-      className={`${
-        index !== users.length - 1 ? "border-b" : ""
-      } border-gray-200 hover:bg-gray-50`}
-    >
-      <td className="flex items-center gap-2 px-3 py-3.5">
-        <CircleAvatar w="w-[40px]" text="text-sm" name={name} image={avatar} />
-        <span className="font-medium text-gray-700">
-          {name || `User ${index + 1}`}
-        </span>
-        {isCurrentUser && (
-          <span className="ml-2 rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-800">
-            You
-          </span>
-        )}
+    <tr className={`border-b border-gray-200 hover:bg-gray-50`}>
+      <td className="px-3 py-3 flex items-center gap-2 min-w-[150px]">
+        <CircleAvatar w="w-10" text="text-sm" name={name} image={avatar} />
+        <div className="flex flex-col">
+          <span className="font-medium text-gray-700">{name}</span>
+          {isCurrentUser && (
+            <span className="text-xs text-green-600 font-semibold">You</span>
+          )}
+        </div>
       </td>
-      <td className="px-3 py-3.5 text-gray-500">{email}</td>
-      <td className="px-3 py-3.5 text-gray-500">{mobile}</td>
-      <td className="px-3 py-3.5 text-gray-500">
+      <td className="px-3 py-3 hidden sm:table-cell text-gray-500 min-w-[150px]">
+        {email}
+      </td>
+      <td className="px-3 py-3 hidden md:table-cell text-gray-500 min-w-[120px]">
+        {mobile}
+      </td>
+      <td className="px-3 py-3 hidden lg:table-cell text-gray-500 min-w-[120px]">
         {moment(createdAt).format("DD MMM YYYY")}
       </td>
-      <td className="px-3 py-3.5 pr-24">
+      <td className="px-3 py-3 text-center">
         <ToggleSwitch
-          checked={veryfied}
+          checked={verified}
           onChange={() => handleToggle(_id, isVerified)}
           size="md"
         />
       </td>
-      <td className="px-3 py-3.5 text-gray-400">
-        {/* {!isCurrentUser && ( */}
-        <div className="flex items-center gap-6">
+      <td className="px-3 py-3 text-center">
+        <div className="flex justify-center items-center gap-4">
           <Link href={`/role-management/member/${_id}`}>
             <Eye
               size={16}
@@ -271,13 +234,14 @@ const Row = ({ data, users, index, onDelete, currentUser }) => {
               className="cursor-pointer text-blue-600 hover:text-blue-700"
             />
           </Link>
-          <Trash2
-            onClick={() => onDelete(data)}
-            size={16}
-            className="cursor-pointer text-red-600 hover:text-red-700"
-          />
+          {!isCurrentUser && (
+            <Trash2
+              onClick={() => onDelete(data)}
+              size={16}
+              className="cursor-pointer text-red-600 hover:text-red-700"
+            />
+          )}
         </div>
-        {/* )} */}
       </td>
     </tr>
   );

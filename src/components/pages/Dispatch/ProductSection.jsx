@@ -22,12 +22,15 @@ export default function ProductSection({
     (state) => state.dispatch
   );
   const toggleQueryParam = useToggleQueryParam();
+
   const [popupOpen, setPopupOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
   const typeOptions = [
     { label: "Production (Level 1)", value: "production" },
     { label: "Production2 (Level 2)", value: "production2" },
   ];
+
   useEffect(() => {
     dispatch(
       fetchdispatchitems({
@@ -39,7 +42,7 @@ export default function ProductSection({
         },
       })
     );
-  }, [dispatch, searchQuery, type]);
+  }, [dispatch, searchQuery, type, currPage]);
 
   const handleAddClick = (product) => {
     setSelectedProduct(product);
@@ -47,7 +50,7 @@ export default function ProductSection({
   };
 
   return (
-    <div className="bg-white border border-gray-100 rounded-xl overflow-hidden">
+    <div className="bg-white  -gray-200 rounded-lg shadow-sm">
       <Additem
         open={popupOpen}
         onClose={() => setPopupOpen(false)}
@@ -55,12 +58,11 @@ export default function ProductSection({
         onAdd={(item) => setBillingItems((prev) => [...prev, item])}
       />
 
-      <div className="p-5 border-b border-gray-200 bg-gray-50/60">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">
-          Product Section
-        </h2>
+      {/* Header + Filters */}
+      <div className="p-5 -b bg-gray-50 flex flex-col md:flex-row gap-4 justify-between">
+        <h2 className="text-2xl font-bold text-gray-800">Product Section</h2>
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col md:flex-row gap-4">
           <SearchBox
             name="search"
             value={search}
@@ -82,81 +84,85 @@ export default function ProductSection({
         </div>
       </div>
 
-      <div className="grid grid-cols-7 text-[13px] font-semibold text-gray-600 uppercase tracking-wide bg-gray-100 p-3 border-b border-gray-200">
-        <div>S.No</div>
-        <div className="col-span-3">Product Name</div>
-        <div className="text-center">Type</div>
-        <div className="text-center">Quantity</div>
-        <div className="text-center">Action</div>
+      {/* ===== TABLE (FULLY RESPONSIVE LIKE BATCH) ===== */}
+      <div className="overflow-x-auto w-full">
+        <table className="min-w-[850px] w-full text-sm -collapse">
+          <thead className="bg-gray-100 text-gray-600 text-xs uppercase">
+            <tr>
+              <th className="px-4 py-3  text-left">S.No</th>
+              <th className="px-4 py-3  text-left w-[40%]">Product Name</th>
+              <th className="px-4 py-3  text-center">Type</th>
+              <th className="px-4 py-3  text-center">Quantity</th>
+              <th className="px-4 py-3  text-center">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {dispatchList.length > 0 ? (
+              dispatchList.map((p, index) => (
+                <Row
+                  key={index}
+                  sno={index + 1}
+                  type={p.type}
+                  product={p}
+                  quantity={p.quantity}
+                  name={p.productName}
+                  onAdd={() => handleAddClick(p)}
+                />
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={5}
+                  className="py-10 text-center text-gray-500 text-sm"
+                >
+                  No products found for dispatch.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
 
-      <div className="max-h-[65vh] overflow-y-auto custom-scrollbar">
-        {dispatchList.length > 0 ? (
-          dispatchList.map((p, index) => (
-            <ProductRow
-              key={index}
-              sno={index + 1}
-              type={p.type}
-              name={p.productName}
-              quantity={p.quantity}
-              onAddClick={() => handleAddClick(p)}
-            />
-          ))
-        ) : (
-          <div className="py-10 text-center text-gray-500 text-sm">
-            No products found for dispatch.
-          </div>
-        )}
-        <div className="flex justify-end">
-          <Pagination total={documentCount} pageSize={10} />
-        </div>{" "}
+      <div className="flex justify-end py-4 px-4">
+        <Pagination total={documentCount} pageSize={10} />
       </div>
-
-      <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 7px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: #d1d5db;
-          border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background-color: #f3f4f6;
-        }
-      `}</style>
     </div>
   );
 }
 
-const ProductRow = ({ sno, type, name, quantity, onAddClick }) => {
-  const badgeClasses =
+const Row = ({ sno, type, name, quantity, onAdd }) => {
+  const badge =
     type === "item"
-      ? "bg-emerald-100 text-emerald-700 border border-emerald-300"
-      : "bg-indigo-100 text-indigo-700 border border-indigo-300";
+      ? "bg-emerald-100 text-emerald-700  -emerald-300"
+      : "bg-indigo-100 text-indigo-700  -indigo-300";
 
   return (
-    <div className="grid grid-cols-7 items-center py-4 px-4 text-sm border-b border-gray-100 hover:bg-gray-50 transition cursor-pointer">
-      <div className="text-gray-600 font-medium">{sno}</div>
-      <div className="col-span-3 font-semibold text-gray-800 truncate pr-3">
-        {name}
-      </div>
-      <div className="flex justify-center">
+    <tr className="hover:bg-gray-50 transition -b">
+      <td className="px-4 py-3 ">{sno}</td>
+
+      <td className="px-4 py-3  font-medium text-gray-800 truncate">{name}</td>
+
+      <td className="px-4 py-3  text-center">
         <span
-          className={`px-3 py-1 text-xs font-semibold rounded-full uppercase tracking-wide ${badgeClasses}`}
+          className={`px-3 py-1 text-xs rounded-full font-semibold ${badge}`}
         >
           {type}
         </span>
-      </div>
-      <div className="text-gray-900 font-bold text-center">{quantity}</div>
-      <div className="flex justify-center">
+      </td>
+
+      <td className="px-4 py-3  text-center font-semibold text-gray-900">
+        {quantity}
+      </td>
+
+      <td className="px-4 py-3  text-center">
         <button
-          onClick={onAddClick}
-          className="p-2 rounded-full cursor-pointer hover:bg-red-100 text-red-500 transition"
-          title="Add to billing"
+          onClick={onAdd}
+          className="p-2 rounded-full hover:bg-red-100 text-red-500"
         >
           <MdOutlinePlaylistAdd className="w-5 h-5" />
         </button>
-      </div>
-    </div>
+      </td>
+    </tr>
   );
 };

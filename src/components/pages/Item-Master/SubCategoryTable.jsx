@@ -57,30 +57,33 @@ const SubCategoryTable = ({ searchQuery, currPage }) => {
 
   return (
     <>
-      <div className="flex justify-end my-5 mx-2">
-        <SearchBox
-          name="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          iconLeft="search-line"
-          placeholder="Search here..."
-        />
-      </div>
-      <div className="w-full bg-white border border-gray-200 rounded-lg font-inter shadow-sm">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
+      <div className="flex flex-col gap-4 mx-2 my-5">
+        {/* Search box */}
+        <div className="w-full">
+          <SearchBox
+            name="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            iconLeft="search-line"
+            placeholder="Search here..."
+          />
+        </div>
+
+        {/* Table container with responsive scroll */}
+        <div className="w-full overflow-x-auto bg-white border border-gray-200 rounded-lg shadow-sm">
+          <table className="min-w-[600px] md:min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">
+                <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
                   S.No
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">
+                <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">
+                <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
                   Category
                 </th>
-                <th className="px-6 py-3 text-center text-sm font-medium text-gray-700">
+                <th className="px-4 py-3 text-center text-sm font-medium text-gray-700">
                   Action
                 </th>
               </tr>
@@ -89,32 +92,32 @@ const SubCategoryTable = ({ searchQuery, currPage }) => {
             <tbody className="bg-white divide-y divide-gray-100">
               {isLoading ? (
                 <tr>
-                  <td colSpan={3} className="text-center py-4 text-gray-500">
+                  <td colSpan={4} className="text-center py-4 text-gray-500">
                     Loading...
                   </td>
                 </tr>
               ) : safeSubcategoryList.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="text-center py-4 text-gray-500">
+                  <td colSpan={4} className="text-center py-4 text-gray-500">
                     No categories found.
                   </td>
                 </tr>
               ) : (
                 safeSubcategoryList.map((cat, index) => (
                   <tr key={cat._id || index} className="hover:bg-gray-50">
-                    <td className="px-6 py-3 text-sm text-gray-900">
+                    <td className="px-4 py-3 text-sm text-gray-900">
                       {index + 1}
                     </td>
-                    <td className="px-6 py-3 text-sm font-medium text-blue-950">
+                    <td className="px-4 py-3 text-sm font-medium text-blue-950">
                       {cat?.name || "-"}
                     </td>
-                    <td className="px-6 py-3 text-sm font-medium text-blue-950">
+                    <td className="px-4 py-3 text-sm font-medium text-blue-950">
                       {cat?.category?.category || "-"}
                     </td>
-                    <td className="px-4 py-3 text-center">
+                    <td className="px-4 py-3 text-center flex justify-center gap-2">
                       <Link
                         href={`/item-master/create-subcategory/${cat._id}`}
-                        className="mr-4 text-blue-500"
+                        className="text-blue-500"
                       >
                         <i className="ri-edit-box-line cursor-pointer text-lg font-light"></i>
                       </Link>
@@ -133,44 +136,12 @@ const SubCategoryTable = ({ searchQuery, currPage }) => {
               )}
             </tbody>
           </table>
-          <div className="flex justify-end">
+
+          {/* Pagination */}
+          <div className="flex justify-end mt-4">
             <Pagination total={documentCount} pageSize={10} />
           </div>
         </div>
-
-        {/* ✅ Delete Confirmation Modal */}
-        <OverlayModal
-          onClose={() => setIsDelete(false)}
-          isOpen={isDelete}
-          showCloseIcon={false}
-        >
-          <AlertModal
-            icon={<i className="ri-error-warning-line"></i>}
-            iconColor="text-red-600 bg-grey-600 text-4xl"
-            title="Delete Confirmation"
-            message={
-              <span>
-                Are you sure you want to delete the category{" "}
-                <span className="font-semibold text-blue-600">
-                  "{selectedCategory?.name || "-"}"
-                </span>
-                ?
-              </span>
-            }
-            buttons={[
-              {
-                text: "Cancel",
-                onClick: () => setIsDelete(false),
-                colorClass: "bg-gray-200 text-gray-800 hover:bg-gray-300",
-              },
-              {
-                text: "Delete",
-                onClick: handleDeleteConfirm,
-                colorClass: "bg-red-600 text-white hover:bg-red-700",
-              },
-            ]}
-          />
-        </OverlayModal>
       </div>
     </>
   );

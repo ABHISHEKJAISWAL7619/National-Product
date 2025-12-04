@@ -89,61 +89,67 @@ const Product = ({ searchQuery, currPage, dateTo, dateFrom, type, status }) => {
   return (
     <div className="w-full bg-white border border-gray-100 font-inter min-h-screen">
       {/* Header Section */}
-      <div className="flex justify-between items-center gap-6 p-6 ">
-        <h2 className="font-archivo text-black font-bold text-[25px] leading-[28px]">
-          Production
-        </h2>
+      <div className="p-4 sm:p-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6 mb-4">
+          <h2 className="font-archivo text-black font-bold text-[25px] leading-[28px]">
+            Production
+          </h2>
 
-        <Link href="/production/add-production">
-          <button className="bg-blue-950 cursor-pointer text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-blue-800 transition flex items-center gap-1 h-10">
-            <FilePlus2 size={16} />
-            <span>Add Production</span>
-          </button>
-        </Link>
+          <Link href="/production/add-production">
+            <button className="bg-blue-950 cursor-pointer text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-blue-800 transition flex items-center gap-1 h-10 justify-center sm:justify-start">
+              <FilePlus2 size={16} />
+              <span>Add Production</span>
+            </button>
+          </Link>
+        </div>
+
+        {/* Filters */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5 mb-5">
+          <Input
+            placeholder="Select date"
+            label="From"
+            type="date"
+            value={dateFrom}
+            onChange={(e) => toggleQueryParam("dateFrom", e.target.value)}
+            className="w-full"
+          />
+
+          <Input
+            placeholder="Select date"
+            label="To"
+            type="date"
+            value={dateTo}
+            onChange={(e) => toggleQueryParam("dateTo", e.target.value)}
+            className="w-full"
+          />
+
+          <Input
+            type="select"
+            name="type"
+            value={type}
+            onChange={(e) => toggleQueryParam("type", e.target.value)}
+            options={typeOptions}
+            valueKey="value"
+            labelKey="label"
+            label="Type"
+            className="w-full"
+          />
+
+          <Input
+            type="select"
+            name="status"
+            value={status}
+            onChange={(e) => toggleQueryParam("status", e.target.value)}
+            options={statusOptions}
+            valueKey="value"
+            labelKey="label"
+            label="Status"
+            className="w-full"
+          />
+        </div>
       </div>
-      <div className="grid grid-cols-4 gap-5 my-5 mx-3 ">
-        <Input
-          placeholder="Select date"
-          label="From"
-          type="date"
-          value={dateFrom}
-          onChange={(e) => toggleQueryParam("dateFrom", e.target.value)}
-          className="min-w-[160px]"
-        />
 
-        <Input
-          placeholder="Select date"
-          label="To"
-          type="date"
-          value={dateTo}
-          onChange={(e) => toggleQueryParam("dateTo", e.target.value)}
-          className="min-w-[160px]"
-        />
-
-        <Input
-          type="select"
-          name="type"
-          value={type}
-          onChange={(e) => toggleQueryParam("type", e.target.value)}
-          options={typeOptions}
-          valueKey="value"
-          labelKey="label"
-          label="Type"
-          className="min-w-[150px]"
-        />
-
-        <Input
-          type="select"
-          name="status"
-          value={status}
-          onChange={(e) => toggleQueryParam("status", e.target.value)}
-          options={statusOptions}
-          valueKey="value"
-          labelKey="label"
-          label="Status"
-          className="min-w-[150px]"
-        />
-      </div>
       {/* Table Section */}
       <div className="overflow-x-auto mt-0">
         <table className="min-w-full divide-y divide-gray-200">

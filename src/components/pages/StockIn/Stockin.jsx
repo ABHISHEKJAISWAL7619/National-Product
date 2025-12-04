@@ -50,21 +50,25 @@ const StockIn = ({ searchQuery, currPage }) => {
         Stock In
       </h1>
 
-      <div className="flex items-center justify-between">
-        <SearchBox
-          name="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          iconLeft="search-line"
-          placeholder="Search here..."
-          className="text-black placeholder-black"
-        />
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
+        <div className="flex-1">
+          <SearchBox
+            name="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            iconLeft="search-line"
+            placeholder="Search here..."
+            className="w-full text-black placeholder-black"
+          />
+        </div>
 
-        <Link href="/incoming/create-stock">
-          <button className="flex cursor-pointer items-center gap-2 bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800 transition">
-            <FilePlus2 size={16} /> Add Incoming
-          </button>
-        </Link>
+        <div className="flex mt-2 sm:mt-0 sm:ml-4">
+          <Link href="/incoming/create-stock" className="w-full sm:w-auto">
+            <button className="flex w-full sm:w-auto cursor-pointer items-center justify-center gap-2 bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800 transition">
+              <FilePlus2 size={16} /> Add Incoming
+            </button>
+          </Link>
+        </div>
       </div>
 
       <div className="overflow-x-auto rounded-md bg-white shadow text-black">

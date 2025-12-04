@@ -55,9 +55,9 @@ const Select = ({
         </select>
 
         {/* Icon */}
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-black">
+        {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-black">
           <ChevronDown size={18} />
-        </div>
+        </div> */}
       </div>
 
       {error && <p className="text-xs text-red-500">{error}</p>}

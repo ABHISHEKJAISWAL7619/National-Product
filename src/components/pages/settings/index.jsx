@@ -4,9 +4,6 @@ const Dashboard = ({ searchQuery, currPage }) => {
   return (
     <>
       <SettingsProfile searchQuery={searchQuery} />
-      {/* <Security /> */}
-      {/* <EmailNotifications /> */}
-      {/* <GeneralPrefrences/> */}
       <div className="mt-4">
         <UsersPage searchQuery={searchQuery} currPage={currPage} />
       </div>

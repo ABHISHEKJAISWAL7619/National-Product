@@ -12,24 +12,24 @@ import Pagination from "@/components/common/Pagination";
 import SearchBox from "@/components/common/SearchBox";
 import Input from "@/components/common/Input";
 import { useToggleQueryParam } from "@/utils/toggleQueryParam";
+import { Button } from "@/components/common/Button";
 
-const Batch = ({ searchQuery, currPage, batchId, type }) => {
+const Batch = ({ searchQuery, currPage, type }) => {
   const dispatch = useDispatch();
   const toggleQueryParam = useToggleQueryParam();
   const {
     batchList = [],
     documentCount,
-    loading,
     dataLoading,
   } = useSelector((state) => state.batch);
   const typeOptions = [
     { label: "Soldering Wire", value: "solderingWire" },
     { label: "Soldering Stick", value: "solderingStick" },
   ];
+
   const [search, setSearch] = useState("");
   const [deleteTarget, setDeleteTarget] = useState(null);
 
-  // ===== Fetch Batches =====
   useEffect(() => {
     dispatch(
       fetchbatchs({
@@ -50,37 +50,47 @@ const Batch = ({ searchQuery, currPage, batchId, type }) => {
 
   return (
     <div className="space-y-5">
-      <h1 className="font-archivo text-black font-bold text-[25px] leading-[28px] ">
-        Batchs
+      <h1 className="font-archivo text-black font-bold text-2xl sm:text-3xl">
+        Batches
       </h1>
-      <Input
-        type="select"
-        name="type"
-        value={type}
-        onChange={(e) => toggleQueryParam("type", e.target.value)}
-        options={typeOptions}
-        valueKey="value"
-        labelKey="label"
-        className="max-w-[320px]"
-      />
-      <div className="flex items-center justify-between">
-        <SearchBox
-          name="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          iconLeft="search-line"
-          placeholder="Search here..."
+
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 w-full">
+        <Input
+          type="select"
+          name="type"
+          value={type}
+          onChange={(e) => toggleQueryParam("type", e.target.value)}
+          options={typeOptions}
+          valueKey="value"
+          labelKey="label"
+          className="w-full sm:w-1/3"
         />
-        <Link href="/batch/create-batch">
-          <button className="flex cursor-pointer items-center gap-2 bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800 transition">
-            <FilePlus2 size={16} /> Create Batch
-          </button>
-        </Link>
+
+        {/* Search + Button */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 w-full sm:w-2/3">
+          <SearchBox
+            name="search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            iconLeft="search-line"
+            placeholder="Search here..."
+            className="w-full sm:flex-1" // full width on mobile, flex-grow on desktop
+          />
+          <Link
+            href="/batch/create-batch"
+            className="w-full sm:w-auto mt-2 sm:mt-0"
+          >
+            <Button className="cursor-pointer whitespace-nowrap px-4 py-2 w-full sm:w-auto">
+              Create Batch
+            </Button>
+          </Link>
+        </div>
       </div>
 
+      {/* Table with horizontal scroll */}
       <div className="overflow-x-auto rounded-md bg-white shadow">
-        <table className="min-w-full text-sm">
-          <thead className="bg-gray-200 text-white">
+        <table className="min-w-[700px] sm:min-w-full text-sm">
+          <thead className="bg-gray-200 text-black">
             <tr>
               <th className="px-4 py-3 text-left">Date</th>
               <th className="px-4 py-3 text-left">Batch No</th>
@@ -91,11 +101,10 @@ const Batch = ({ searchQuery, currPage, batchId, type }) => {
               <th className="px-4 py-3 text-center">Action</th>
             </tr>
           </thead>
-
           <tbody>
             {dataLoading ? (
               <tr>
-                <td colSpan={8} className="py-6 text-center text-gray-500">
+                <td colSpan={7} className="py-6 text-center text-gray-500">
                   Loading...
                 </td>
               </tr>
@@ -109,7 +118,7 @@ const Batch = ({ searchQuery, currPage, batchId, type }) => {
               ))
             ) : (
               <tr>
-                <td colSpan={8} className="py-6 text-center text-gray-500">
+                <td colSpan={7} className="py-6 text-center text-gray-500">
                   No batches found.
                 </td>
               </tr>
@@ -122,7 +131,7 @@ const Batch = ({ searchQuery, currPage, batchId, type }) => {
         </div>
       </div>
 
-      {/* ===== Delete Confirmation Modal ===== */}
+      {/* Delete Modal */}
       {deleteTarget && (
         <OverlayModal
           onClose={() => setDeleteTarget(null)}
@@ -164,57 +173,42 @@ const Batch = ({ searchQuery, currPage, batchId, type }) => {
 };
 
 export default Batch;
+
 const Row = ({ data, onDeleteClick }) => {
-  const { _id, batchNo, createdAt, outputItem, type } = data || {};
-
-  const product = outputItem || {};
-  const productName = product?.productName || "-";
-
-  // Composition full details
+  const { _id, batchNo, createdAt, outputItem, type, quantity, pieces } =
+    data || {};
+  const productName = outputItem?.productName || "-";
   const compositions =
-    product?.compositions?.map((c) => ` ${c.percentage}%`).join(", ") || "-";
+    outputItem?.compositions?.map((c) => `${c.percentage}%`).join(", ") || "-";
 
-  // Smart quantity display
   let quantityDisplay = "-";
-  if (data.quantity > 0 && data.pieces === 0) {
-    quantityDisplay = `${data.quantity} Kg`;
-  } else if (data.pieces > 0 && data.quantity === 0) {
-    quantityDisplay = `${data.pieces} pcs`;
-  } else if (data.quantity > 0 && data.pieces > 0) {
-    quantityDisplay = `${data.quantity} Kg / ${data.pieces} pcs`;
-  }
+  if (quantity > 0 && pieces === 0) quantityDisplay = `${quantity} Kg`;
+  else if (pieces > 0 && quantity === 0) quantityDisplay = `${pieces} pcs`;
+  else if (quantity > 0 && pieces > 0)
+    quantityDisplay = `${quantity} Kg / ${pieces} pcs`;
 
   return (
     <tr className="border-t border-gray-200 text-black hover:bg-gray-50 transition">
       <td className="px-4 py-3">
         {new Date(createdAt).toLocaleDateString("en-IN")}
       </td>
-
       <td className="px-4 py-3 font-medium text-blue-900">{batchNo || "-"}</td>
-
       <td className="px-4 py-3 capitalize">{type || "-"}</td>
-
       <td className="px-4 py-3">{productName}</td>
-
-      <td className="px-4 py-3 text-right whitespace-pre-line">
-        {compositions}
-      </td>
-
+      <td className="px-4 py-3 text-right">{compositions}</td>
       <td className="px-4 py-3 text-right">{quantityDisplay}</td>
-
       <td className="px-4 py-3 text-center">
         <div className="flex justify-center gap-3">
           <Link href={`/batch/${_id}`}>
             <button
-              className="text-blue-600 cursor-pointer hover:text-blue-800 transition"
+              className="text-blue-600 hover:text-blue-800 transition"
               title="Edit"
             >
               <Edit3 size={18} />
             </button>
           </Link>
-
           <button
-            className="text-red-500 cursor-pointer hover:text-red-700 transition"
+            className="text-red-500 hover:text-red-700 transition"
             title="Delete"
             onClick={() => onDeleteClick({ id: _id, batchNo })}
           >

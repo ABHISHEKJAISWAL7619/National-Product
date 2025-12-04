@@ -11,9 +11,9 @@ const Input = ({
   ...rest
 }) => {
   return (
-    <div className="text-text-primary text-black flex w-full flex-col gap-1">
+    <div className="text-text-primary flex w-full flex-col gap-1">
       {label && (
-        <label className="text-sm font-medium text-black">{label}</label>
+        <label className="text-sm font-medium text-gray-700">{label}</label>
       )}
 
       {rest?.type === "textarea" ? (
