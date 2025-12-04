@@ -103,6 +103,7 @@ const Product = ({ searchQuery, currPage, dateTo, dateFrom, type, status }) => {
       </div>
       <div className="grid grid-cols-4 gap-5 my-5 mx-3 ">
         <Input
+          placeholder="Select date"
           label="From"
           type="date"
           value={dateFrom}
@@ -111,6 +112,7 @@ const Product = ({ searchQuery, currPage, dateTo, dateFrom, type, status }) => {
         />
 
         <Input
+          placeholder="Select date"
           label="To"
           type="date"
           value={dateTo}
