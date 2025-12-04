@@ -109,16 +109,14 @@ const CreateStock = ({ incomingId }) => {
   };
 
   return (
-    <div className="bg-white  border  p-6 rounded-lg shadow">
-      <h1 className="font-bold text-lg mb-4 text-black  ">
+    <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8 max-w-4xl mx-auto mt-6">
+      <h1 className="font-bold text-2xl md:text-3xl text-black mb-6">
         {incomingId ? "Update Incoming Stock" : "Add Incoming Stock"}
       </h1>
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 max-w-[940px] text-gray-900 dark:text-gray-100"
-      >
-        <div className="flex gap-6 flex-wrap">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 text-black">
+        {/* DATE + INVOICE */}
+        <div className="grid grid-cols-1 px-5 md:grid-cols-2 gap-5">
           <Input
             type="date"
             label="Date"
@@ -137,35 +135,41 @@ const CreateStock = ({ incomingId }) => {
           />
         </div>
 
+        {/* PRODUCT LIST */}
         {formData.products.map((product, i) => (
           <div
             key={i}
-            className="rounded flex flex-col gap-4 text-gray-900 dark:text-gray-100"
+            className="border border-gray-200 rounded-lg  md:p-5 bg-gray-50 flex flex-col gap-4"
           >
-            <Select
-              label="Select Product"
-              value={product.itemId}
-              options={
-                itemList?.map((item) => ({
-                  label: item.productName,
-                  value: item._id,
-                })) || []
-              }
-              onChange={(value) => handleChange(`products.${i}.itemId`, value)}
-              error={errors.products?.[i]?.itemId}
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <Select
+                label="Select Product"
+                value={product.itemId}
+                options={
+                  itemList?.map((item) => ({
+                    label: item.productName,
+                    value: item._id,
+                  })) || []
+                }
+                onChange={(value) =>
+                  handleChange(`products.${i}.itemId`, value)
+                }
+                error={errors.products?.[i]?.itemId}
+              />
 
-            <Input
-              type="number"
-              label="KG Quantity"
-              value={product.quantity}
-              onChange={(e) =>
-                handleChange(`products.${i}.quantity`, Number(e.target.value))
-              }
-              error={errors.products?.[i]?.quantity}
-            />
+              <Input
+                type="number"
+                label="KG Quantity"
+                value={product.quantity}
+                onChange={(e) =>
+                  handleChange(`products.${i}.quantity`, Number(e.target.value))
+                }
+                error={errors.products?.[i]?.quantity}
+              />
+            </div>
 
-            <label className="flex gap-2 text-black">
+            {/* Pieces Checkbox */}
+            <label className="flex items-center gap-2 text-black">
               <input
                 type="checkbox"
                 checked={product.isPieces}
@@ -176,6 +180,7 @@ const CreateStock = ({ incomingId }) => {
               Add Pieces?
             </label>
 
+            {/* PIECES INPUT */}
             {product.isPieces && (
               <Input
                 type="number"
@@ -188,50 +193,60 @@ const CreateStock = ({ incomingId }) => {
               />
             )}
 
+            {/* REMOVE BUTTON */}
             {formData.products.length > 1 && (
-              <Button
-                type="button"
-                className="bg-red-600 text-white"
-                onClick={() => removeProduct(i)}
-              >
-                Remove
-              </Button>
+              <div>
+                <Button
+                  type="button"
+                  className="bg-red-600 text-white w-full md:w-auto"
+                  onClick={() => removeProduct(i)}
+                >
+                  Remove
+                </Button>
+              </div>
             )}
           </div>
         ))}
 
+        {/* ADD PRODUCT BUTTON */}
         <Button
           type="button"
           onClick={addProduct}
-          className="bg-gray-700 text-white"
+          className="bg-gray-700 text-white w-full md:w-auto"
         >
           + Add Product
         </Button>
 
-        <Input
-          type="number"
-          label="Total Price"
-          value={formData.price}
-          onChange={(e) => handleChange("price", e.target.value)}
-          placeholder="Enter price"
-          error={errors.price}
-        />
+        {/* TOTAL PRICE */}
+        <div className="grid grid-cols-1 md:grid-cols-1 px-5 gap-5">
+          <Input
+            type="number"
+            label="Total Price"
+            value={formData.price}
+            onChange={(e) => handleChange("price", e.target.value)}
+            placeholder="Enter price"
+            error={errors.price}
+          />
+        </div>
 
-        <Button
-          onClick={() => reset()}
-          className="cursor-pointer bg-red-500 text-white"
-          type="cancel"
-        >
-          Cancel
-        </Button>
+        {/* ACTION BUTTONS */}
+        <div className="flex flex-col sm:flex-row justify-end gap-4">
+          <Button
+            onClick={() => reset()}
+            className="cursor-pointer !bg-[#00AEEF] text-white w-full sm:w-auto"
+            type="cancel"
+          >
+            Cancel
+          </Button>
 
-        <Button
-          type="submit"
-          className="bg-blue-700 cursor-pointer text-white w-full"
-          loading={loading}
-        >
-          {incomingId ? "Update" : "Save"}
-        </Button>
+          <Button
+            type="submit"
+            className="bg-blue-700 cursor-pointer text-white w-full sm:w-auto"
+            loading={loading}
+          >
+            {incomingId ? "Update" : "Save"}
+          </Button>
+        </div>
       </form>
     </div>
   );

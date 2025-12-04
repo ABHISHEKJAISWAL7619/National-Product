@@ -16,15 +16,12 @@ import Input from "@/components/common/Input";
 const AddnewItem = ({ ItemId }) => {
   const dispatch = useDispatch();
   const { loading, singleItem } = useSelector((state) => state.item || {});
-
   const [enablePieces, setEnablePieces] = useState(false);
 
   const { formData, handleChange, setFormData, handleSubmit, errors, reset } =
     useForm({
       defaultValues: {
         productName: "",
-        // quantity: "",
-        // pieces: "",
         unitPrice: "",
         symbol: "",
       },
@@ -34,10 +31,8 @@ const AddnewItem = ({ ItemId }) => {
   const onSubmit = async (data) => {
     try {
       const payload = {
-        productName: data.productName || "",
-        // quantity: data.quantity || "",
-        // pieces: enablePieces ? data.pieces : 0, // <-- Important
-        unitPrice: data.unitPrice || "",
+        productName: data.productName,
+        unitPrice: data.unitPrice,
         symbol: data.symbol,
       };
 
@@ -60,13 +55,10 @@ const AddnewItem = ({ ItemId }) => {
     if (singleItem && ItemId) {
       setFormData({
         productName: singleItem.productName || "",
-        // quantity: singleItem.quantity || "",
-        // pieces: singleItem.pieces || "",
         unitPrice: singleItem.unitPrice || "",
         symbol: singleItem.symbol || "",
       });
 
-      // auto enable if existing data has pieces
       if (singleItem.pieces > 0) setEnablePieces(true);
     }
   }, [singleItem, ItemId]);
@@ -76,8 +68,8 @@ const AddnewItem = ({ ItemId }) => {
   }, [ItemId, dispatch]);
 
   return (
-    <div className="bg-white border text-black border-gray-200 p-6">
-      <h1 className="font-inter font-bold text-[32px] leading-[40px] mt-5 mb-5">
+    <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8 max-w-3xl mx-auto mt-6">
+      <h1 className="font-inter font-bold text-2xl md:text-3xl text-black mb-6">
         {ItemId ? "Update Item" : "Create New Item"}
       </h1>
 
@@ -86,8 +78,10 @@ const AddnewItem = ({ ItemId }) => {
           e.preventDefault();
           handleSubmit(onSubmit)(e);
         }}
+        className="space-y-6"
       >
-        <div className="flex flex-wrap gap-5">
+        {/* GRID INPUTS */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Input
             label="Product Name"
             type="text"
@@ -96,15 +90,6 @@ const AddnewItem = ({ ItemId }) => {
             onChange={(e) => handleChange("productName", e.target.value)}
             error={errors.productName}
           />
-
-          {/* <Input
-            label="KG (Qty)"
-            type="number"
-            placeholder="Enter Quantity"
-            value={formData.quantity}
-            onChange={(e) => handleChange("quantity", e.target.value)}
-            error={errors.quantity}
-          /> */}
 
           <Input
             label="Symbol"
@@ -116,31 +101,10 @@ const AddnewItem = ({ ItemId }) => {
           />
         </div>
 
-        {/* Checkbox Toggle */}
-        {/* <div className="flex items-center mt-3 gap-2">
-          <input
-            type="checkbox"
-            checked={enablePieces}
-            onChange={() => setEnablePieces(!enablePieces)}
-          />
-          <label className="text-sm font-semibold">Need Pieces Quantity?</label>
-        </div> */}
-
-        {/* Conditional Input */}
-        {/* {enablePieces && (
+        {/* Price */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Input
-            label="Pieces (Qty)"
-            type="number"
-            placeholder="Enter Quantity"
-            value={formData.pieces}
-            onChange={(e) => handleChange("pieces", e.target.value)}
-            error={errors.pieces}
-          />
-        )} */}
-
-        <div className="flex flex-wrap gap-5">
-          <Input
-            label="Price (per Unit)"
+            label="Price (Per Unit)"
             type="number"
             placeholder="Rs 0.00"
             value={formData.unitPrice}
@@ -149,19 +113,21 @@ const AddnewItem = ({ ItemId }) => {
           />
         </div>
 
-        <div className="flex justify-end gap-4 sm:gap-5 mt-6">
+        {/* BUTTONS */}
+        <div className="flex flex-col sm:flex-row justify-end gap-4 mt-6">
           <Button
             onClick={() => reset()}
+            type="button"
             className="cursor-pointer"
-            type="cancel"
           >
             Cancel
           </Button>
+
           <Button
             type="submit"
-            className="cursor-pointer"
             disabled={loading}
             loading={loading}
+            className="cursor-pointer"
           >
             {ItemId ? "Update" : "Submit"}
           </Button>

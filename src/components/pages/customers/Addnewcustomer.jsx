@@ -61,88 +61,95 @@ const AddNewCustomer = ({ CustomerId }) => {
   }, [singlecustomer, CustomerId]);
 
   return (
-    <div className="p-4 md:p-6 lg:px-20 lg:py-8 bg-white border border-gray-200 rounded-lg shadow">
-      <h1 className="font-bold text-black text-2xl mb-5">
+    <div className="p-5 md:p-8 lg:p-10 bg-white border border-gray-100 rounded-2xl shadow-sm max-w-4xl mx-auto">
+      {/* Title */}
+      <h1 className="font-bold text-2xl md:text-3xl text-gray-900 mb-6">
         {CustomerId ? "Update Customer" : "Add New Customer"}
       </h1>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         {/* Personal Info */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-          <Input
-            label="First Name"
-            type="text"
-            value={formData.firstName}
-            onChange={(e) => handleChange("firstName", e.target.value)}
-            error={errors.firstName}
-          />
-          <Input
-            label="Last Name"
-            type="text"
-            value={formData.lastName}
-            onChange={(e) => handleChange("lastName", e.target.value)}
-            error={errors.lastName}
-          />
-          <Input
-            label="Email"
-            type="email"
-            value={formData.email}
-            onChange={(e) => handleChange("email", e.target.value)}
-            error={errors.email}
-          />
-          <Input
-            label="Mobile"
-            type="number"
-            value={formData.mobile}
-            onChange={(e) => handleChange("mobile", e.target.value)}
-            error={errors.mobile}
-          />
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-gray-800  pl-3">
+            Personal Details
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+            <Input
+              label="First Name"
+              value={formData.firstName}
+              onChange={(e) => handleChange("firstName", e.target.value)}
+              error={errors.firstName}
+            />
+            <Input
+              label="Last Name"
+              value={formData.lastName}
+              onChange={(e) => handleChange("lastName", e.target.value)}
+              error={errors.lastName}
+            />
+            <Input
+              label="Email"
+              type="email"
+              value={formData.email}
+              onChange={(e) => handleChange("email", e.target.value)}
+              error={errors.email}
+            />
+            <Input
+              label="Mobile"
+              type="number"
+              value={formData.mobile}
+              onChange={(e) => handleChange("mobile", e.target.value)}
+              error={errors.mobile}
+            />
+          </div>
         </div>
 
         {/* Address */}
-        <h2 className="font-semibold mt-6 text-black mb-2">Address</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-          <Input
-            label="Country"
-            type="text"
-            value={formData.address.country}
-            onChange={(e) => handleChange("address.country", e.target.value)}
-            error={errors.address?.country}
-          />
-          <Input
-            label="City"
-            type="text"
-            value={formData.address.city}
-            onChange={(e) => handleChange("address.city", e.target.value)}
-            error={errors.address?.city}
-          />
-          <Input
-            label="Zip Code"
-            type="text"
-            value={formData.address.zipCode}
-            onChange={(e) => handleChange("address.zipCode", e.target.value)}
-            error={errors.address?.zipCode}
-          />
-          <Input
-            label="Full Address"
-            type="text"
-            value={formData.address.address}
-            onChange={(e) => handleChange("address.address", e.target.value)}
-            error={errors.address?.address}
-          />
+        <div className="space-y-4">
+          <h2 className="text-lg font-semibold text-gray-800 pl-3">
+            Address Details
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+            <Input
+              label="Country"
+              value={formData.address.country}
+              onChange={(e) => handleChange("address.country", e.target.value)}
+              error={errors.address?.country}
+            />
+            <Input
+              label="City"
+              value={formData.address.city}
+              onChange={(e) => handleChange("address.city", e.target.value)}
+              error={errors.address?.city}
+            />
+            <Input
+              label="Zip Code"
+              value={formData.address.zipCode}
+              onChange={(e) => handleChange("address.zipCode", e.target.value)}
+              error={errors.address?.zipCode}
+            />
+            <Input
+              label="Full Address"
+              value={formData.address.address}
+              onChange={(e) => handleChange("address.address", e.target.value)}
+              error={errors.address?.address}
+            />
+          </div>
         </div>
 
         {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 mt-6">
+        <div className="flex flex-col sm:flex-row justify-end gap-3">
           <Button
-            className="w-full sm:w-auto cursor-pointer"
+            className="w-full sm:w-auto"
             onClick={() => reset()}
             type="cancel"
           >
             Cancel
           </Button>
+
           <Button
-            className="w-full sm:w-auto cursor-pointer"
+            className="w-full sm:w-auto"
             type="submit"
             disabled={loading}
             loading={loading}

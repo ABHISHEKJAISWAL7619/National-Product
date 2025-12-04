@@ -1,7 +1,7 @@
 import Spinner from "./loaders/spinner";
 
 const variantClasses = {
-  primary: "bg-blue-600 bg-navy !text-white",
+  primary: "bg-green-600 bg-navy !text-white",
   secondary:
     "bg-gray-100 text-gray-800 border border-gray-300 hover:bg-gray-200",
   outline:

@@ -97,7 +97,7 @@ const Product = ({ searchQuery, currPage, dateTo, dateFrom, type, status }) => {
           </h2>
 
           <Link href="/production/add-production">
-            <button className="bg-blue-950 cursor-pointer text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-blue-800 transition flex items-center gap-1 h-10 justify-center sm:justify-start">
+            <button className=" cursor-pointer text-white text-sm font-medium py-2 px-4 rounded-md hover:bg-blue-800 transition flex items-center gap-1 h-10 justify-center sm:justify-start">
               <FilePlus2 size={16} />
               <span>Add Production</span>
             </button>

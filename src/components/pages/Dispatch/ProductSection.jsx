@@ -158,7 +158,7 @@ const Row = ({ sno, type, name, quantity, onAdd }) => {
       <td className="px-4 py-3  text-center">
         <button
           onClick={onAdd}
-          className="p-2 rounded-full hover:bg-red-100 text-red-500"
+          className="p-2 rounded-full cursor-pointer hover:bg-red-100 text-red-500"
         >
           <MdOutlinePlaylistAdd className="w-5 h-5" />
         </button>

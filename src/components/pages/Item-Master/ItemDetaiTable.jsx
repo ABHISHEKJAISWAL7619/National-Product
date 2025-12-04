@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchcompositions } from "@/redux/slice/composition-slice";
 import SearchBox from "@/components/common/SearchBox";
 import Pagination from "@/components/common/Pagination";
+import { Button } from "@/components/common/Button";
 
 const ItemDetaiTable = ({ searchQuery, currPage }) => {
   const dispatch = useDispatch();
@@ -43,10 +44,7 @@ const ItemDetaiTable = ({ searchQuery, currPage }) => {
           href={"/item-master/composition/add-new"}
           className="w-full sm:w-auto"
         >
-          <div className="bg-blue-950 px-3 py-2 flex justify-center sm:justify-start items-center gap-2 rounded-md text-white cursor-pointer">
-            <Plus className="mt-1" />
-            <span className="text-center sm:text-left">Create Composition</span>
-          </div>
+          <Button>Create Composition</Button>
         </Link>
       </div>
 

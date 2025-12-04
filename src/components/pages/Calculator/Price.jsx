@@ -180,7 +180,7 @@ const PriceCalculator = () => {
           </Button>
 
           <Button
-            className={`text-white cursor-pointer ${
+            className={`text-white cursor-pointer bg-green-600 ${
               isSubmitDisabled() ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={onSubmit}

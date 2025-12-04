@@ -53,7 +53,7 @@ const AddProduction1 = ({ production2Id }) => {
 
   const gulla = quantity > 0 ? ((quantity * 100) / (100 + flux)).toFixed(3) : 0;
   const FLUX_QUANTITY = quantity > 0 ? (quantity - gulla).toFixed(3) : 0;
-
+  console.log(formData);
   const onSubmit = async () => {
     const payload = {
       ...formData,
@@ -99,6 +99,7 @@ const AddProduction1 = ({ production2Id }) => {
         reusableWaste: singleproduction2?.reusableWaste || "",
         waste: singleproduction2?.waste || "",
         shortAndAccess: singleproduction2?.shortAndAccess || "",
+        gula: singleproduction2?.gula || "",
         available: singleproduction2?.available || "",
         status: singleproduction2?.status || "pending",
       });
@@ -106,52 +107,56 @@ const AddProduction1 = ({ production2Id }) => {
   }, [singleproduction2, isUpdate, setFormData]);
 
   return (
-    <div className="p-6 bg-white border border-gray-200 rounded-md w-full max-w-7xl mx-auto">
-      <h1 className="font-archivo font-bold text-black text-2xl mb-6">
+    <div className="p-6 bg-white border border-gray-200">
+      <h1 className="font-archivo font-bold  text-black text-[25px] leading-[28px]  mb-5">
         {isUpdate ? "Update Production" : "Add Production"}
       </h1>
+      {/* {JSON.stringify(formData)} */}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col px-30 gap-4"
+      >
+        {/* {!isUpdate && ( */}
+        <>
+          <div className="flex justify-between gap-5">
+            <Input
+              label="Select Batch"
+              type="select"
+              value={formData.productionId}
+              onChange={(e) => handleChange("productionId", e.target.value)}
+              options={productionList}
+              valueKey="_id"
+              labelRender={(item) => item?.batch?.batchNo}
+              placeholderOption="Select Batch"
+              disabled={isUpdate}
+              error={errors.productionId}
+            />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-        {/* FIRST ROW - SELECT + QTY + PRODUCTNAME */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          <Input
-            label="Select Batch"
-            type="select"
-            value={formData.productionId}
-            onChange={(e) => handleChange("productionId", e.target.value)}
-            options={productionList}
-            valueKey="_id"
-            labelRender={(item) => item?.batch?.batchNo}
-            placeholderOption="Select Batch"
-            disabled={isUpdate}
-            error={errors.productionId}
-          />
+            <Input
+              label="Enter Quantity"
+              type="number"
+              value={formData.quantity}
+              disabled={isUpdate}
+              onChange={(e) => handleChange("quantity", Number(e.target.value))}
+              placeholder="Enter Quantity"
+              error={errors.quantity}
+            />
+            <Input
+              label="Enter productName"
+              type="text"
+              value={formData.productName}
+              disabled={isUpdate}
+              onChange={(e) => handleChange("productName", e.target.value)}
+              placeholder="Enter productName"
+              error={errors.productName}
+            />
+          </div>
+        </>
+        {/* )} */}
 
-          <Input
-            label="Enter Quantity"
-            type="number"
-            value={formData.quantity}
-            disabled={isUpdate}
-            onChange={(e) => handleChange("quantity", Number(e.target.value))}
-            placeholder="Enter Quantity"
-            error={errors.quantity}
-          />
-
-          <Input
-            label="Enter Product Name"
-            type="text"
-            value={formData.productName}
-            disabled={isUpdate}
-            onChange={(e) => handleChange("productName", e.target.value)}
-            placeholder="Enter Product Name"
-            error={errors.productName}
-          />
-        </div>
-
-        {/* UPDATE MODE FIELDS */}
         {isUpdate && (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="flex justify-between gap-5">
               <Input
                 label="Flux %"
                 type="number"
@@ -159,22 +164,25 @@ const AddProduction1 = ({ production2Id }) => {
                 onChange={(e) => handleChange("flux", Number(e.target.value))}
                 placeholder="0.00%"
               />
-
+              {/* {JSON.stringify(gulla)} */}
               <Input
                 label="Gula"
                 type="number"
                 value={gulla}
                 disabled
+                onChange={(e) => handleChange("gula", e.target.value)}
                 placeholder="0.00"
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="flex justify-between gap-5">
+              {/* {JSON.stringify(FLUX_QUANTITY)} */}
               <Input
                 label="Flux Quantity"
                 type="number"
                 disabled
                 value={FLUX_QUANTITY}
+                onChange={(e) => handleChange("fluxQty", e.target.value)}
                 placeholder="0.00"
               />
 
@@ -189,7 +197,7 @@ const AddProduction1 = ({ production2Id }) => {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="flex justify-between gap-5">
               <Input
                 label="Semi Finished (Pieces)"
                 type="number"
@@ -211,7 +219,7 @@ const AddProduction1 = ({ production2Id }) => {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="flex justify-between gap-5">
               <Input
                 label="Waste"
                 type="number"
@@ -231,7 +239,7 @@ const AddProduction1 = ({ production2Id }) => {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="flex justify-between gap-5">
               <Input
                 label="Gauge"
                 type="number"
@@ -250,7 +258,6 @@ const AddProduction1 = ({ production2Id }) => {
                 placeholder="0.00"
               />
             </div>
-
             <Input
               label="Status"
               type="select"
@@ -265,17 +272,16 @@ const AddProduction1 = ({ production2Id }) => {
           </>
         )}
 
-        {/* ACTION BUTTONS */}
-        <div className="flex flex-col sm:flex-row justify-end gap-4 mt-4">
-          <Button className="bg-gray-300 px-4 py-2 rounded w-full sm:w-auto hover:bg-gray-400">
+        {/* Action Buttons */}
+        <div className="flex justify-between gap-4">
+          <Button className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">
             Cancel
           </Button>
-
           <Button
             type="submit"
             loading={loading}
             disabled={loading}
-            className="px-4 py-2 rounded text-white w-full sm:w-auto bg-blue-900 hover:bg-blue-800"
+            className="px-4 py-2  cursor-pointer rounded text-white bg-blue-900 hover:bg-blue-800"
           >
             {isUpdate ? "Update" : "Create"}
           </Button>

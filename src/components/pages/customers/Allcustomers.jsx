@@ -10,6 +10,7 @@ import { AlertModal } from "@/components/common/AlertModel";
 import SearchBox from "@/components/common/SearchBox";
 import Pagination from "@/components/common/Pagination";
 import { successToast } from "@/utils/toastMessage";
+import { Button } from "@/components/common/Button";
 
 const Allcustomers = ({ searchQuery, currPage }) => {
   const dispatch = useDispatch();
@@ -62,9 +63,9 @@ const Allcustomers = ({ searchQuery, currPage }) => {
         </h2>
 
         <Link href="/customers/add-new">
-          <button className="bg-blue-700 cursor-pointer text-white text-sm font-medium flex items-center justify-center gap-1 py-2.5 px-4 rounded-md hover:bg-blue-800 transition">
+          <Button className=" cursor-pointer text-white text-sm font-medium flex items-center justify-center gap-1 py-2.5 px-4 rounded-md  transition">
             + Add New Customer
-          </button>
+          </Button>
         </Link>
       </div>
 
