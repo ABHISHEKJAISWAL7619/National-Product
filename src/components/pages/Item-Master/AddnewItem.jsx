@@ -23,7 +23,7 @@ const AddnewItem = ({ ItemId }) => {
     useForm({
       defaultValues: {
         productName: "",
-        quantity: "",
+        // quantity: "",
         pieces: "",
         unitPrice: "",
         symbol: "",
@@ -35,7 +35,7 @@ const AddnewItem = ({ ItemId }) => {
     try {
       const payload = {
         productName: data.productName || "",
-        quantity: data.quantity || "",
+        // quantity: data.quantity || "",
         pieces: enablePieces ? data.pieces : 0, // <-- Important
         unitPrice: data.unitPrice || "",
         symbol: data.symbol,
@@ -60,7 +60,7 @@ const AddnewItem = ({ ItemId }) => {
     if (singleItem && ItemId) {
       setFormData({
         productName: singleItem.productName || "",
-        quantity: singleItem.quantity || "",
+        // quantity: singleItem.quantity || "",
         pieces: singleItem.pieces || "",
         unitPrice: singleItem.unitPrice || "",
         symbol: singleItem.symbol || "",
@@ -97,14 +97,14 @@ const AddnewItem = ({ ItemId }) => {
             error={errors.productName}
           />
 
-          <Input
+          {/* <Input
             label="KG (Qty)"
             type="number"
             placeholder="Enter Quantity"
             value={formData.quantity}
             onChange={(e) => handleChange("quantity", e.target.value)}
             error={errors.quantity}
-          />
+          /> */}
 
           <Input
             label="Symbol"
