@@ -80,15 +80,13 @@ const BreakdownDisplay = ({ data }) => {
           {materialArray.map((item, i) => (
             <tr
               key={i}
-              className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="border-b text-black border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <td className="px-3 py-2">{item.productName}</td>
               <td className="px-3 py-2">{item.qty}</td>
               <td className="px-3 py-2">₹{item.unitPrice}</td>
 
-              <td className="px-3 py-2 text-green-700 dark:text-green-400">
-                ₹{item.cost}
-              </td>
+              <td className="px-3 py-2 text-green-700 ">₹{item.cost}</td>
             </tr>
           ))}
         </tbody>
