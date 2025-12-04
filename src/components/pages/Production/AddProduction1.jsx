@@ -118,7 +118,7 @@ const AddProduction1 = ({ production2Id }) => {
       >
         {/* {!isUpdate && ( */}
         <>
-          <div className="flex justify-between gap-5">
+          <div className="grid grid-cols-3 gap-5">
             <Input
               label="Select Batch"
               type="select"
