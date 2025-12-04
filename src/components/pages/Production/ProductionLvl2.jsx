@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { FilePlus2, Edit3 } from "lucide-react";
+import { FilePlus2, Edit3, Eye } from "lucide-react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductions } from "@/redux/slice/production-slice";
@@ -70,106 +70,57 @@ const ProductionLvl2 = ({ currPage, dateTo, dateFrom }) => {
         />
       </div>
 
-      <div className="overflow-x-auto mt-0">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50 border border-gray-200">
+      <div className="overflow-x-auto mt-4 rounded-xl  shadow-sm">
+        <table className="min-w-full table-auto">
+          <thead className="bg-gray-100 sticky top-0 z-10">
             <tr>
-              {[
-                "Date",
-                "Batch No.",
-                "Production",
-                "Gauge",
-                "Flux %",
-                "Flux (Qty)",
-                "Gula Used (Kg)",
-                "Semi Finished (Kg)",
-                "Total  Used",
-                "Actions",
-              ].map((header, index) => (
-                <th
-                  key={index}
-                  className={`px-4 md:px-6 py-5 font-inter font-medium text-[13px] md:text-[14px] leading-[21px] text-gray-700 bg-gray-100 ${
-                    [
-                      "Production",
-                      "Gauge",
-                      "Flux %",
-                      "Flux (Qty)",
-                      "Gulfa Used (Kg)",
-                      "Semi Finished (Kg)",
-                      "Total  Used",
-                    ].includes(header)
-                      ? "text-right whitespace-nowrap"
-                      : "text-left whitespace-nowrap"
-                  }`}
-                >
-                  {header}
-                </th>
-              ))}
+              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                S.NO
+              </th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                DATE
+              </th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+                BATCH NO.
+              </th>
+              <th className="px-6 py-4 text-right text-sm font-semibold text-gray-700">
+                PRODUCTION
+              </th>
+              <th className="px-6 py-4 text-right text-sm font-semibold text-gray-700">
+                ACTIONS
+              </th>
             </tr>
           </thead>
 
-          <tbody className="bg-white divide-y border  border-gray-200 divide-gray-100">
+          <tbody className="bg-white divide-y divide-gray-100">
             {productionList?.length > 0 ? (
-              productionList.map((item) => (
-                <tr
-                  key={item._id}
-                  className="hover:bg-gray-50 transition-colors duration-150"
-                >
-                  {/* Date */}
-                  <td className="px-4 md:px-6 py-4 text-[14px] text-blue-950 whitespace-nowrap">
+              productionList.map((item, i) => (
+                <tr key={item._id} className="hover:bg-gray-50 transition">
+                  <td className="px-6 py-4 text-sm text-gray-800">{i + 1}</td>
+
+                  <td className="px-6 py-4 text-sm text-gray-800">
                     {FormatDatetime(item.createdAt, "date")}
                   </td>
 
-                  {/* Batch No */}
-                  <td className="px-4 md:px-6 py-4 text-[14px] font-medium text-blue-950 whitespace-nowrap cursor-pointer">
+                  <td className="px-6 py-4 text-sm text-blue-600 font-medium">
                     <Link
                       href={`/production/production-level2/details/${item._id}`}
-                      className="hover:underline text-blue-600"
+                      className="hover:underline"
                     >
                       {item.batch?.batchNo || "-"}
                     </Link>
                   </td>
 
-                  {/* Production (quantity/kgs) */}
-                  <td className="px-4 md:px-6 py-4 text-[14px] text-right text-blue-950 whitespace-nowrap">
+                  <td className="px-6 py-4 text-sm text-right text-gray-800">
                     {item.batch?.quantity || "-"}
                   </td>
 
-                  {/* Gauge */}
-                  <td className="px-4 md:px-6 py-4 text-[14px] text-right text-blue-950 whitespace-nowrap">
-                    -
-                  </td>
-
-                  {/* Flux % */}
-                  <td className="px-4 md:px-6 py-4 text-[14px] text-right text-blue-950 whitespace-nowrap">
-                    -
-                  </td>
-
-                  {/* Flux Qty */}
-                  <td className="px-4 md:px-6 py-4 text-[14px] text-right text-blue-950 whitespace-nowrap">
-                    -
-                  </td>
-
-                  {/* Gulfa Used Kg */}
-                  <td className="px-4 md:px-6 py-4 text-[14px] text-right text-blue-950 whitespace-nowrap">
-                    {item.semiFinishedKg ?? "-"}
-                  </td>
-
-                  {/* Semi Finished Kg */}
-                  <td className="px-4 md:px-6 py-4 text-[14px] text-right text-blue-950 whitespace-nowrap">
-                    {item.semiPieces ?? "-"}
-                  </td>
-
-                  {/* Total Consumed Used */}
-                  <td className="px-4 md:px-6 py-4 text-[14px] text-right text-blue-950 whitespace-nowrap">
-                    -
-                  </td>
-
-                  {/* Action */}
-                  <td className="px-4 sm:px-6 py-4 text-center">
-                    <Link href={`/production/production-level2/${item._id}`}>
-                      <button className="text-blue-600 p-1 cursor-pointer rounded-full hover:bg-blue-50 transition">
-                        <Edit3 size={18} />
+                  <td className="px-6 py-4 text-right">
+                    <Link
+                      href={`/production/production-level2/details/${item._id}`}
+                    >
+                      <button className="text-blue-600 p-2 rounded-full hover:bg-blue-50">
+                        <Eye size={18} />
                       </button>
                     </Link>
                   </td>
@@ -177,17 +128,15 @@ const ProductionLvl2 = ({ currPage, dateTo, dateFrom }) => {
               ))
             ) : (
               <tr>
-                <td
-                  colSpan={10}
-                  className="text-center py-10 text-gray-500 text-base md:text-lg"
-                >
+                <td colSpan={5} className="text-center py-10 text-gray-500">
                   No production records found.
                 </td>
               </tr>
             )}
           </tbody>
         </table>
-        <div className="flex justify-end">
+
+        <div className="flex justify-end p-4  bg-white">
           <Pagination total={documentCount} pageSize={10} />
         </div>
       </div>
