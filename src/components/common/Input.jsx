@@ -64,6 +64,12 @@ const Input = ({
           )}
           <input
             {...rest}
+            onWheel={(e) => {
+              if (rest.type === "number") {
+                e.preventDefault();
+                e.target.blur();
+              }
+            }}
             className={`text-black h-[45px] w-full rounded-sm p-3 text-sm transition-all duration-300 ease-in-out outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
               error
                 ? "border border-red-400 ring-2 ring-red-300 focus:ring-red-500"
