@@ -11,15 +11,15 @@ const Input = ({
   ...rest
 }) => {
   return (
-    <div className="text-text-primary flex w-full flex-col gap-1">
+    <div className="text-black flex w-full flex-col gap-1">
       {label && (
-        <label className="text-sm font-medium text-gray-700">{label}</label>
+        <label className="text-sm font-medium text-black">{label}</label>
       )}
 
       {rest?.type === "textarea" ? (
         <textarea
           {...rest}
-          className={`text-dark w-full rounded-sm p-3 text-sm transition-all duration-300 ease-in-out outline-none ${
+          className={`text-black w-full rounded-sm p-3 text-sm transition-all duration-300 ease-in-out outline-none ${
             error
               ? "border border-red-400 ring-2 ring-red-300 focus:ring-red-500"
               : "border border-gray-200 focus:ring-2 focus:ring-gray-200"
@@ -28,7 +28,7 @@ const Input = ({
       ) : rest?.type === "select" ? (
         <select
           {...rest}
-          className={`text-dark h-[45px] w-full rounded-sm px-3 text-sm transition-all duration-300 ease-in-out outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
+          className={`text-black h-[45px] w-full rounded-sm px-3 text-sm transition-all duration-300 ease-in-out outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
             error
               ? "border border-red-400 ring-2 ring-red-300 focus:ring-red-500"
               : "border border-gray-200 focus:ring-2 focus:ring-gray-200"
@@ -64,7 +64,7 @@ const Input = ({
           )}
           <input
             {...rest}
-            className={`text-dark h-[45px] w-full rounded-sm p-3 text-sm transition-all duration-300 ease-in-out outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
+            className={`text-black h-[45px] w-full rounded-sm p-3 text-sm transition-all duration-300 ease-in-out outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
               error
                 ? "border border-red-400 ring-2 ring-red-300 focus:ring-red-500"
                 : "border border-gray-200 focus:ring-2 focus:ring-gray-200"

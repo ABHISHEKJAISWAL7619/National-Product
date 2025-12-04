@@ -32,7 +32,7 @@ export const Button = ({
       type={type}
       disabled={props.disabled || loading}
       className={`
-        flex items-center justify-center gap-2
+        flex items-center cursor-pointer justify-center gap-2
         rounded-md font-medium transition-all duration-150
         disabled:cursor-not-allowed disabled:opacity-50
         ${variantClasses[variant]}

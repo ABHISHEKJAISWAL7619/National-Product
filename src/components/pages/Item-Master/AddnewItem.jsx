@@ -76,7 +76,7 @@ const AddnewItem = ({ ItemId }) => {
   }, [ItemId, dispatch]);
 
   return (
-    <div className="bg-white border border-gray-200 p-6">
+    <div className="bg-white border text-black border-gray-200 p-6">
       <h1 className="font-inter font-bold text-[32px] leading-[40px] mt-5 mb-5">
         {ItemId ? "Update Item" : "Create New Item"}
       </h1>

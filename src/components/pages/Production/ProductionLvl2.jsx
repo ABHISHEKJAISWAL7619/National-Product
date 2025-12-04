@@ -119,7 +119,7 @@ const ProductionLvl2 = ({ currPage, dateTo, dateFrom }) => {
                     <Link
                       href={`/production/production-level2/details/${item._id}`}
                     >
-                      <button className="text-blue-600 p-2 rounded-full hover:bg-blue-50">
+                      <button className="text-blue-600 cursor-pointer p-2 rounded-full hover:bg-blue-50">
                         <Eye size={18} />
                       </button>
                     </Link>
