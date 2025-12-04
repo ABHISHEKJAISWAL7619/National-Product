@@ -86,7 +86,7 @@ const CreateBatch = ({ batchId }) => {
 
   return (
     <div className="p-6 border border-gray-200 bg-white">
-      <h1 className="font-archivo font-bold text-[25px] leading-[28px]  mt-5 mb-5">
+      <h1 className="font-archivo text-black font-bold text-[25px] leading-[28px]  mt-5 mb-5">
         {batchId ? "Update Batch" : "Create Batch"}
       </h1>
 

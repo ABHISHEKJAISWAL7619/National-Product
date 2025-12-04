@@ -131,7 +131,7 @@ const PriceCalculator = () => {
   return (
     <div className="max-w-2xl mx-auto mt-6">
       <div className="bg-white shadow-xl rounded-xl p-6">
-        <h2 className="font-bold text-2xl text-center mb-6">
+        <h2 className="font-bold text-black text-2xl text-center mb-6">
           Price Calculator
         </h2>
 

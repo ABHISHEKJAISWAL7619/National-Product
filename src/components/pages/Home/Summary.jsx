@@ -7,7 +7,7 @@ const Summary = () => {
     <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0 w-full max-w-[1230px] border border-gray-200 rounded-md shadow-sm bg-white px-2 sm:px-6 py-3 mx-auto mt-8">
       {/* Left Section */}
       <div className="flex items-center gap-2">
-        <p className="font-archivo font-bold text-[25px] leading-[28px] tracking-normal">
+        <p className="font-archivo text-black font-bold text-[25px] leading-[28px] tracking-normal">
           Summary Report
         </p>
         <Image

@@ -14,9 +14,7 @@ const Updateinput = ({
     <div className="flex flex-col gap-2 mb-8 w-full sm:w-full md:w-full lg:w-[448px]">
       {/* Label */}
       {label && (
-        <span className="text-md text-gray-700 font-semibold mb-1">
-          {label}
-        </span>
+        <span className="text-md text-black font-semibold mb-1">{label}</span>
       )}
 
       {/* Select Input */}
@@ -24,7 +22,8 @@ const Updateinput = ({
         <select
           {...rest}
           className={clsx(
-            "h-[56px] w-full font-inter font-normal rounded-lg text-[16px] leading-6 tracking-[0px] px-3 bg-gray-100",
+            "h-[56px] w-full font-inter font-normal rounded-lg text-[16px] leading-6 tracking-[0px] px-3",
+            "bg-gray-100 text-black placeholder-black",
             "transition-all duration-200 ease-in-out outline-none",
             error
               ? "border border-red-400 ring-2 ring-red-300 focus:ring-red-500"
@@ -33,11 +32,12 @@ const Updateinput = ({
           )}
           defaultValue=""
         >
-          <option value="" disabled>
+          <option value="" disabled className="text-black">
             {placeholder}
           </option>
+
           {options.map((option, idx) => (
-            <option key={idx} value={option}>
+            <option key={idx} value={option} className="text-black">
               {option}
             </option>
           ))}
@@ -49,7 +49,8 @@ const Updateinput = ({
           type={type}
           placeholder={placeholder}
           className={clsx(
-            "h-[56px] w-full rounded-lg font-sans font-normal shadow text-base leading-6 tracking-normal px-3 bg-gray-100",
+            "h-[56px] w-full rounded-lg font-sans font-normal shadow text-base leading-6 tracking-normal px-3",
+            "bg-gray-100 text-black placeholder-black",
             "transition-all duration-200 ease-in-out outline-none",
             error
               ? "border border-red-400 ring-2 ring-red-300 focus:ring-red-500"

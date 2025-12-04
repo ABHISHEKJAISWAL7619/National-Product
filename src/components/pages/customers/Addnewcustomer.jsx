@@ -66,7 +66,7 @@ const AddNewCustomer = ({ CustomerId }) => {
 
   return (
     <div className="p-6 bg-white border px-20 border-gray-200">
-      <h1 className="font-bold text-2xl mb-5">
+      <h1 className="font-bold text-black text-2xl mb-5">
         {CustomerId ? "Update Customer" : "Add New Customer"}
       </h1>
 
@@ -104,7 +104,7 @@ const AddNewCustomer = ({ CustomerId }) => {
         </div>
 
         {/* Address */}
-        <h2 className="font-semibold mt-6 mb-2">Address</h2>
+        <h2 className="font-semibold mt-6 text-black mb-2">Address</h2>
         <div className="grid grid-cols-2 gap-5">
           <Input
             label="Country"

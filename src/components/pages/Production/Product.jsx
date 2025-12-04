@@ -90,7 +90,7 @@ const Product = ({ searchQuery, currPage, dateTo, dateFrom, type, status }) => {
     <div className="w-full bg-white border border-gray-100 font-inter min-h-screen">
       {/* Header Section */}
       <div className="flex justify-between items-center gap-6 p-6 ">
-        <h2 className="font-archivo font-bold text-[25px] leading-[28px]">
+        <h2 className="font-archivo text-black font-bold text-[25px] leading-[28px]">
           Production
         </h2>
 

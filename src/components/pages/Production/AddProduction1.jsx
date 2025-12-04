@@ -108,7 +108,7 @@ const AddProduction1 = ({ production2Id }) => {
 
   return (
     <div className="p-6 bg-white border border-gray-200">
-      <h1 className="font-archivo font-bold text-[25px] leading-[28px]  mb-5">
+      <h1 className="font-archivo font-bold  text-black text-[25px] leading-[28px]  mb-5">
         {isUpdate ? "Update Production" : "Add Production"}
       </h1>
       {/* {JSON.stringify(formData)} */}

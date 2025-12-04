@@ -7,14 +7,16 @@ import RecentStockIn from "./Home/RecentStockIn";
 import Dispatch from "./Home/Dispatch";
 
 const Homepage = () => {
-  return <div>
-    <Stock/>
-    <Summary/>
-    <Production/>
-    <MonthlyStock/>
-    <RecentStockIn/>
-    <Dispatch/>
-  </div>;
+  return (
+    <div>
+      <Stock />
+      <Summary />
+      <Production />
+      <MonthlyStock />
+      <RecentStockIn />
+      <Dispatch />
+    </div>
+  );
 };
 
 export default Homepage;

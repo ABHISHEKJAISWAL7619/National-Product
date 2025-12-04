@@ -79,7 +79,7 @@ export default function Pagination({
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="relative rounded-lg p-2 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+          className="relative rounded-lg p-2 text-black hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
           aria-label="Previous page"
         >
           <span className="sr-only">Previous page</span>

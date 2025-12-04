@@ -109,14 +109,14 @@ const CreateStock = ({ incomingId }) => {
   };
 
   return (
-    <div className="bg-white border p-6 rounded-lg shadow">
-      <h1 className="font-bold text-lg mb-4">
+    <div className="bg-white dark:bg-neutral-900 border dark:border-neutral-700 p-6 rounded-lg shadow">
+      <h1 className="font-bold text-lg mb-4 text-gray-900 dark:text-gray-100">
         {incomingId ? "Update Incoming Stock" : "Add Incoming Stock"}
       </h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 max-w-[940px]"
+        className="space-y-6 max-w-[940px] text-gray-900 dark:text-gray-100"
       >
         <div className="flex gap-6 flex-wrap">
           <Input
@@ -138,7 +138,10 @@ const CreateStock = ({ incomingId }) => {
         </div>
 
         {formData.products.map((product, i) => (
-          <div key={i} className=" rounded  flex flex-col gap-4">
+          <div
+            key={i}
+            className="rounded flex flex-col gap-4 text-gray-900 dark:text-gray-100"
+          >
             <Select
               label="Select Product"
               value={product.itemId}
@@ -162,7 +165,7 @@ const CreateStock = ({ incomingId }) => {
               error={errors.products?.[i]?.quantity}
             />
 
-            <label className="flex gap-2">
+            <label className="flex gap-2 text-gray-900 dark:text-gray-200">
               <input
                 type="checkbox"
                 checked={product.isPieces}

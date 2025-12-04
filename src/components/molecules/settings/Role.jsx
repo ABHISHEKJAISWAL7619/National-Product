@@ -324,7 +324,7 @@ export default function RoleForm({ roleId }) {
                               }
                               onChange={() => togglePermission(item.name, perm)}
                             />
-                            <span>{perm}</span>
+                            <span className="text-gray-700">{perm}</span>
                           </label>
                         ))}
                       </div>

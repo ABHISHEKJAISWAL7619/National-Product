@@ -12,13 +12,13 @@ export default function Card({
   customProgressWidth = "0%",
 }) {
   return (
-    <div className="w-full shadow-sm bg-white border border-gray-100 p-5 rounded-md flex flex-col gap-5">
+    <div className="w-full shadow-sm bg-white border text-black border-gray-100 p-5 rounded-md flex flex-col gap-5">
       <h2 className="font-inter font-medium text-[18px] flex items-center gap-2">
         {title}
       </h2>
 
       <div>
-        <p className="font-archivo font-bold text-[36px] leading-[40px] tracking-[1px]">
+        <p className="font-archivo font-bold text-black text-[36px] leading-[40px] tracking-[1px]">
           {value.toLocaleString()}
         </p>
       </div>

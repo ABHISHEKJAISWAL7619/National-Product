@@ -99,7 +99,7 @@ const AddProduction = ({ productionId }) => {
   return (
     <div className="border border-gray-200 p-6">
       <div className="flex justify-between">
-        <h1 className="font-archivo font-bold text-[25px] leading-[28px]  mt-5 mb-5">
+        <h1 className="font-archivo text-black font-bold text-[25px] leading-[28px]  mt-5 mb-5">
           {isUpdate ? "Update Production" : "Add Production"}
         </h1>
         {/* {totalEntered !== singleProduction?.batch?.quantity && (

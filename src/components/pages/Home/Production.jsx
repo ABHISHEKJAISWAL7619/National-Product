@@ -47,7 +47,7 @@ const Production = () => {
       <div className="w-full max-w-[1230px] flex flex-col lg:flex-row gap-5">
         {/* Left Card → Chart */}
         <div className="w-full lg:w-[820px] bg-white border border-gray-100 rounded-xl shadow-sm p-5">
-          <h3 className="font-archivo font-bold text-[25px] leading-[28px]  mb-3">
+          <h3 className="font-archivo text-black font-bold text-[25px] leading-[28px]  mb-3">
             Weekly Production Trend
           </h3>
 
@@ -81,7 +81,7 @@ const Production = () => {
         </div>
 
         <div className="w-full lg:w-[390px] bg-white border border-gray-100 rounded-xl shadow-sm p-5 flex flex-col gap-4">
-          <h3 className="font-bold text-[25px] tracking-normal">
+          <h3 className="font-bold  text-black text-[25px] tracking-normal">
             Low Stock Alerts
           </h3>
 
@@ -92,7 +92,7 @@ const Production = () => {
                   key={i}
                   className="flex items-center justify-between border-b border-gray-100 pb-1"
                 >
-                  <span className="font-medium text-[16px] capitalize">
+                  <span className="font-medium  text-black text-[16px] capitalize">
                     {item.productName}
                   </span>
 

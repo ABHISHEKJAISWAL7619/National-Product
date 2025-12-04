@@ -15,18 +15,17 @@ import Cookies from "js-cookie";
 const StockIn = ({ searchQuery, currPage }) => {
   const dispatch = useDispatch();
   const token = Cookies.get("token");
+
   const {
     incomingList = [],
     documentCount,
     loading,
     dataLoading,
   } = useSelector((state) => state.incoming);
-  console.log(incomingList);
 
   const [search, setSearch] = useState("");
   const [deleteTarget, setDeleteTarget] = useState(null);
 
-  // ===== Fetch Data =====
   useEffect(() => {
     dispatch(
       fetchincomings({
@@ -35,7 +34,6 @@ const StockIn = ({ searchQuery, currPage }) => {
     );
   }, [dispatch, currPage, searchQuery]);
 
-  // ===== Delete Handler =====
   const handleDelete = async (incomingId) => {
     try {
       await dispatch(deleteincoming({ token, incomingId })).unwrap();
@@ -47,8 +45,8 @@ const StockIn = ({ searchQuery, currPage }) => {
   };
 
   return (
-    <div className="space-y-5">
-      <h1 className="font-archivo font-bold text-[25px] leading-[28px] ">
+    <div className="space-y-5 text-black">
+      <h1 className="font-archivo font-bold text-[25px] leading-[28px] text-black">
         Stock In
       </h1>
 
@@ -59,7 +57,9 @@ const StockIn = ({ searchQuery, currPage }) => {
           onChange={(e) => setSearch(e.target.value)}
           iconLeft="search-line"
           placeholder="Search here..."
+          className="text-black placeholder-black"
         />
+
         <Link href="/incoming/create-stock">
           <button className="flex cursor-pointer items-center gap-2 bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-gray-800 transition">
             <FilePlus2 size={16} /> Add Incoming
@@ -67,23 +67,25 @@ const StockIn = ({ searchQuery, currPage }) => {
         </Link>
       </div>
 
-      <div className="overflow-x-auto rounded-md bg-white shadow">
-        <table className="min-w-full text-sm">
-          <thead className="bg-gray-100">
+      <div className="overflow-x-auto rounded-md bg-white shadow text-black">
+        <table className="min-w-full text-sm text-black">
+          <thead className="bg-gray-100 text-black">
             <tr>
-              <th className="px-4 py-3 text-left">Date</th>
-              <th className="px-4 py-3 text-left">Invoice No</th>
-              <th className="px-4 py-3 text-left">Product</th>
-              <th className="px-4 py-3 text-right">Price</th>
-              <th className="px-4 py-3 text-right">Quantity (Kg/Pcs)</th>
-              {/* <th className="px-4 py-3 text-right">Pieces</th> */}
-              <th className="px-4 py-3 text-center">Action</th>
+              <th className="px-4 py-3 text-left text-black">Date</th>
+              <th className="px-4 py-3 text-left text-black">Invoice No</th>
+              <th className="px-4 py-3 text-left text-black">Product</th>
+              <th className="px-4 py-3 text-right text-black">Price</th>
+              <th className="px-4 py-3 text-right text-black">
+                Quantity (Kg/Pcs)
+              </th>
+              <th className="px-4 py-3 text-center text-black">Action</th>
             </tr>
           </thead>
+
           <tbody>
             {dataLoading ? (
               <tr>
-                <td colSpan={8} className="py-6 text-center text-gray-500">
+                <td colSpan={8} className="py-6 text-center text-gray-600">
                   Loading...
                 </td>
               </tr>
@@ -110,7 +112,6 @@ const StockIn = ({ searchQuery, currPage }) => {
         </div>
       </div>
 
-      {/* ===== Delete Confirmation Modal ===== */}
       {deleteTarget && (
         <OverlayModal
           onClose={() => setDeleteTarget(null)}
@@ -122,7 +123,7 @@ const StockIn = ({ searchQuery, currPage }) => {
             iconColor="text-red-600 bg-grey-600 text-4xl"
             title="Delete Confirmation"
             message={
-              <span>
+              <span className="text-black">
                 Are you sure you want to delete stock entry{" "}
                 <span className="font-semibold text-blue-600">
                   "{deleteTarget.invoiceNo}"
@@ -163,17 +164,13 @@ const Row = ({ data, onDeleteClick }) => {
 
   let quantityDisplay = "-";
 
-  if (qty > 0 && pcs === 0) {
-    quantityDisplay = `${qty} Kg`;
-  } else if (pcs > 0 && qty === 0) {
-    quantityDisplay = `${pcs} pcs`;
-  } else if (qty > 0 && pcs > 0) {
-    quantityDisplay = `${qty} Kg / ${pcs} pcs`;
-  }
+  if (qty > 0 && pcs === 0) quantityDisplay = `${qty} Kg`;
+  else if (pcs > 0 && qty === 0) quantityDisplay = `${pcs} pcs`;
+  else if (qty > 0 && pcs > 0) quantityDisplay = `${qty} Kg / ${pcs} pcs`;
 
   return (
-    <tr className="border-t border-gray-200 hover:bg-gray-50 transition">
-      <td className="px-4 py-3">
+    <tr className="border-t border-gray-200 hover:bg-gray-50 transition text-black">
+      <td className="px-4 py-3 text-black">
         {new Date(date).toLocaleDateString("en-IN")}
       </td>
 
@@ -181,11 +178,13 @@ const Row = ({ data, onDeleteClick }) => {
         {invoiceNo || "-"}
       </td>
 
-      <td className="px-4 py-3">{item?.productName || "-"}</td>
+      <td className="px-4 py-3 text-black">{item?.productName || "-"}</td>
 
-      <td className="px-4 py-3 text-right">₹{price?.toFixed(2) || "0.00"}</td>
+      <td className="px-4 py-3 text-right text-black">
+        ₹{price?.toFixed(2) || "0.00"}
+      </td>
 
-      <td className="px-4 py-3 text-right">{quantityDisplay}</td>
+      <td className="px-4 py-3 text-right text-black">{quantityDisplay}</td>
 
       <td className="px-4 py-3 text-center">
         <div className="flex justify-center gap-3">

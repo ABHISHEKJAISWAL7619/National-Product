@@ -16,7 +16,9 @@ const SettingsProfile = () => {
     <>
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold md:text-3xl">Settings</h1>
+          <h1 className="text-2xl font-semibold text-black md:text-3xl">
+            Settings
+          </h1>
           <p className="pt-1 text-lg text-gray-500 md:text-lg">
             Manage your account settings.
           </p>

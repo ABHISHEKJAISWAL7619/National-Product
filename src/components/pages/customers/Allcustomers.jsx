@@ -96,7 +96,7 @@ const Allcustomers = ({ searchQuery, currPage }) => {
               ].map((header, i) => (
                 <th
                   key={i}
-                  className="px-4 sm:px-6 py-3 text-left font-medium bg-gray-100 text-gray-700"
+                  className="px-4 sm:px-6 py-3 text-left font-bold bg-gray-100 text-gray-900"
                 >
                   {header}
                 </th>
@@ -106,7 +106,7 @@ const Allcustomers = ({ searchQuery, currPage }) => {
 
           <tbody className="bg-white divide-y divide-gray-200">
             {customerList?.map((cust) => (
-              <tr key={cust._id} className="hover:bg-gray-50">
+              <tr key={cust._id} className="hover:bg-gray-50 text-black">
                 <td className="px-4 py-3">{cust.firstName}</td>
                 <td className="px-4 py-3">{cust.lastName}</td>
                 <td className="px-4 py-3">{cust.email}</td>

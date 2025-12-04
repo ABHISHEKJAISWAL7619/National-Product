@@ -39,7 +39,7 @@ const Inventory = ({ page, searchQuery }) => {
       <div className="w-full bg-white shadow-xl rounded-xl">
         {/* Header */}
         <div className="p-6 border-b border-gray-200 flex flex-col sm:flex-row justify-between">
-          <h2 className="text-2xl font-semibold">
+          <h2 className="text-2xl  text-black font-bold">
             Inventory ({documentCount || 0})
           </h2>
 
@@ -62,7 +62,7 @@ const Inventory = ({ page, searchQuery }) => {
                 {tableHeaders.map((head, idx) => (
                   <th
                     key={idx}
-                    className="px-6 py-4 text-left text-gray-700 font-semibold text-sm"
+                    className="px-6 py-4 text-left text-gray-800 font-semibold text-sm"
                   >
                     {head}
                   </th>
@@ -81,15 +81,19 @@ const Inventory = ({ page, searchQuery }) => {
                 inventoryList?.map((item) => (
                   <tr
                     key={item.itemId}
-                    className="hover:bg-blue-50 cursor-pointer transition"
+                    className="hover:bg-blue-50 text-black cursor-pointer transition"
                   >
-                    <td className="px-6 py-4">{item.productName}</td>
-                    <td className="px-6 py-4">{item.itemCategory}</td>
-                    <td className="px-6 py-4">{item.productCode || "-"}</td>
+                    <td className="px-6 text-black py-4">{item.productName}</td>
+                    <td className="px-6 text-black py-4">
+                      {item.itemCategory}
+                    </td>
+                    <td className="px-6 text-black py-4">
+                      {item.productCode || "-"}
+                    </td>
                     <td className="px-6 py-4 text-blue-800 font-semibold">
                       {item.quantity}
                     </td>
-                    <td className="px-6 py-4">₹{item.unitPrice}</td>
+                    <td className="px-6 text-black py-4">₹{item.unitPrice}</td>
                     <td className="px-6 py-4 font-semibold text-blue-600">
                       ₹ {item.totalValue.toLocaleString()}
                     </td>
