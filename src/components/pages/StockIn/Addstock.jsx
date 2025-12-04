@@ -109,7 +109,7 @@ const CreateStock = ({ incomingId }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-neutral-900 border dark:border-neutral-700 p-6 rounded-lg shadow">
+    <div className="bg-white  border  p-6 rounded-lg shadow">
       <h1 className="font-bold text-lg mb-4 text-gray-900 dark:text-gray-100">
         {incomingId ? "Update Incoming Stock" : "Add Incoming Stock"}
       </h1>
