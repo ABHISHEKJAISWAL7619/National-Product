@@ -29,6 +29,7 @@ const AddProduction = ({ productionId }) => {
     useForm({
       defaultValues: {
         batch: "",
+        quantity: "",
         semiFinishedKg: "",
         semiPieces: "",
         reusableWaste: "",
@@ -54,6 +55,7 @@ const AddProduction = ({ productionId }) => {
     if (isUpdate && singleProduction?._id) {
       setFormData({
         batch: singleProduction.batch?._id || "",
+        quantity: singleProduction.quantity ?? "",
         semiFinishedKg: singleProduction.semiFinishedKg ?? "",
         semiPieces: singleProduction.semiPieces ?? "",
         reusableWaste: singleProduction.reusableWaste ?? "",
@@ -87,7 +89,7 @@ const AddProduction = ({ productionId }) => {
     Number(formData.waste || 0) +
     Number(formData.shortAccess || 0);
 
-  const batchQuantity = Number(singleProduction?.batch?.quantity || 0);
+  const batchQuantity = Number(singleProduction?.quantity || 0);
   const remaining = batchQuantity - totalEntered;
 
   return (
@@ -112,22 +114,31 @@ const AddProduction = ({ productionId }) => {
               const batchId = e.target.value;
               handleChange("batch", batchId);
 
-              const selectedBatch = batchList.find(
-                (item) => item._id === batchId
-              );
+              // const selectedBatch = batchList.find(
+              //   (item) => item._id === batchId
+              // );
 
-              if (selectedBatch) {
-                setFormData((prev) => ({
-                  ...prev,
-                  quantity: selectedBatch.quantity,
-                }));
-              }
+              // if (selectedBatch) {
+              //   setFormData((prev) => ({
+              //     ...prev,
+              //     quantity: selectedBatch.quantity,
+              //   }));
+              // }
             }}
             options={batchList || []}
             valueKey="_id"
             labelKey="batchNo"
             placeholderOption="Select Batch"
             error={errors.batch}
+          />
+
+          <Input
+            label="quantity (KG)"
+            type="number"
+            value={formData.quantity}
+            onChange={(e) => handleChange("quantity", e.target.value)}
+            placeholder="Enter KG"
+            error={errors.quantity}
           />
         </div>
 

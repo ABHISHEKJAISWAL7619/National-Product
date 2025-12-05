@@ -2,6 +2,7 @@ import * as yup from "yup";
 
 export const createProductionSchema = yup.object().shape({
   batch: yup.string().required("Batch No is required"),
+  quantity: yup.string().required("quantity No is required"),
 });
 
 export const updateProductionSchema = yup.object().shape({
