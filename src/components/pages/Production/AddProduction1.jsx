@@ -26,8 +26,8 @@ const AddProduction1 = ({ production2Id }) => {
     (state) => state.production2
   );
 
-  const { formData, handleChange, handleSubmit, setFormData, errors } = useForm(
-    {
+  const { formData, handleChange, handleSubmit, setFormData, reset, errors } =
+    useForm({
       defaultValues: {
         productionId: "",
         quantity: "",
@@ -45,8 +45,7 @@ const AddProduction1 = ({ production2Id }) => {
         status: "pending",
       },
       schema: isUpdate ? updateProduction2Schema : createProduction2Schema,
-    }
-  );
+    });
 
   const quantity = Number(formData.quantity) || 0;
   const flux = Number(formData.flux) || 0;
@@ -59,6 +58,7 @@ const AddProduction1 = ({ production2Id }) => {
       ...formData,
       gula: Number(gulla),
       fluxQty: Number(FLUX_QUANTITY),
+      status: isUpdate ? "completed" : "pending",
     };
 
     setData(payload);
@@ -70,8 +70,9 @@ const AddProduction1 = ({ production2Id }) => {
         })
       ).unwrap();
       successToast(isUpdate ? "Updated Successfully" : "Created Successfully");
+      reset();
     } catch (error) {
-      errorToast(error.error || "Something went wrong");
+      errorToast(error?.message || "Something went wrong");
     }
   };
 
@@ -99,9 +100,10 @@ const AddProduction1 = ({ production2Id }) => {
         reusableWaste: singleproduction2?.reusableWaste || "",
         waste: singleproduction2?.waste || "",
         shortAndAccess: singleproduction2?.shortAndAccess || "",
-        gula: singleproduction2?.gula || "",
         available: singleproduction2?.available || "",
-        status: singleproduction2?.status || "pending",
+
+        // ⚡ Status ALWAYS completed on update
+        status: "completed",
       });
     }
   }, [singleproduction2, isUpdate, setFormData]);
@@ -118,7 +120,7 @@ const AddProduction1 = ({ production2Id }) => {
       >
         {/* {!isUpdate && ( */}
         <>
-          <div className="flex justify-between gap-5">
+          <div className=" justify-between grid grid-cols-2 gap-5">
             <Input
               label="Select Batch"
               type="select"
@@ -152,17 +154,17 @@ const AddProduction1 = ({ production2Id }) => {
             />
           </div>
         </>
-        {/* )} */}
 
         {isUpdate && (
           <>
-            <div className="flex justify-between gap-5">
+            <div className=" justify-between  grid grid-cols-2">
               <Input
                 label="Flux %"
                 type="number"
                 value={formData.flux}
                 onChange={(e) => handleChange("flux", Number(e.target.value))}
                 placeholder="0.00%"
+                error={errors.flux}
               />
               {/* {JSON.stringify(gulla)} */}
               <Input
@@ -172,6 +174,7 @@ const AddProduction1 = ({ production2Id }) => {
                 disabled
                 onChange={(e) => handleChange("gula", e.target.value)}
                 placeholder="0.00"
+                error={errors.gulla}
               />
             </div>
 
@@ -184,6 +187,7 @@ const AddProduction1 = ({ production2Id }) => {
                 value={FLUX_QUANTITY}
                 onChange={(e) => handleChange("fluxQty", e.target.value)}
                 placeholder="0.00"
+                error={errors.fluxQty}
               />
 
               <Input
@@ -194,6 +198,7 @@ const AddProduction1 = ({ production2Id }) => {
                   handleChange("semiFinishedKg", Number(e.target.value))
                 }
                 placeholder="0.00"
+                error={errors.semiFinishedKg}
               />
             </div>
 
@@ -206,6 +211,7 @@ const AddProduction1 = ({ production2Id }) => {
                   handleChange("semiPieces", Number(e.target.value))
                 }
                 placeholder="0.00"
+                error={errors.semiPieces}
               />
 
               <Input
@@ -216,6 +222,7 @@ const AddProduction1 = ({ production2Id }) => {
                   handleChange("reusableWaste", Number(e.target.value))
                 }
                 placeholder="0.00"
+                error={errors.reusableWaste}
               />
             </div>
 
@@ -226,6 +233,7 @@ const AddProduction1 = ({ production2Id }) => {
                 value={formData.waste}
                 onChange={(e) => handleChange("waste", Number(e.target.value))}
                 placeholder="0.00"
+                error={errors.waste}
               />
 
               <Input
@@ -236,6 +244,7 @@ const AddProduction1 = ({ production2Id }) => {
                   handleChange("shortAndAccess", Number(e.target.value))
                 }
                 placeholder="0.00"
+                error={errors.shortAndAccess}
               />
             </div>
 
@@ -246,6 +255,7 @@ const AddProduction1 = ({ production2Id }) => {
                 value={formData.gauge}
                 onChange={(e) => handleChange("gauge", Number(e.target.value))}
                 placeholder="0.00"
+                error={errors.gauge}
               />
 
               <Input
@@ -256,9 +266,10 @@ const AddProduction1 = ({ production2Id }) => {
                   handleChange("available", Number(e.target.value))
                 }
                 placeholder="0.00"
+                error={errors.available}
               />
             </div>
-            <Input
+            {/* <Input
               label="Status"
               type="select"
               value={formData.status}
@@ -268,7 +279,7 @@ const AddProduction1 = ({ production2Id }) => {
                 { label: "Completed", value: "completed" },
               ]}
               error={errors.status}
-            />
+            /> */}
           </>
         )}
 

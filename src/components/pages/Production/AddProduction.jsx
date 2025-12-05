@@ -61,14 +61,16 @@ const AddProduction = ({ productionId }) => {
         reusableWaste: singleProduction.reusableWaste ?? "",
         waste: singleProduction.waste ?? "",
         shortAccess: singleProduction.shortAccess ?? "",
-        status: singleProduction.status ?? "",
+        status: "completed",
       });
     }
   }, [isUpdate, singleProduction, setFormData]);
 
   const onSubmit = async () => {
     try {
-      const payload = isUpdate ? { id: productionId, formData } : { formData };
+      const payload = isUpdate
+        ? { id: productionId, formData: { ...formData, status: "completed" } }
+        : { formData: { ...formData, status: "pending" } };
 
       await dispatch(saveProduction(payload)).unwrap();
 
@@ -77,6 +79,7 @@ const AddProduction = ({ productionId }) => {
           ? "Production updated successfully!"
           : "Production created successfully!"
       );
+
       reset();
     } catch (err) {
       errorToast(err || "Failed to save production");
@@ -99,7 +102,23 @@ const AddProduction = ({ productionId }) => {
           {isUpdate ? "Update Production" : "Add Production"}
         </h1>
       </div>
-
+      <div className="col-span-1 flex justify-end md:col-span-2 mt-2">
+        <p
+          className={`font-semibold text-lg ${
+            totalEntered === batchQuantity
+              ? "text-green-600"
+              : totalEntered > batchQuantity
+              ? "text-red-600"
+              : "text-blue-600"
+          }`}
+        >
+          {totalEntered === batchQuantity
+            ? "✔ Total quantity matched!"
+            : totalEntered > batchQuantity
+            ? `⚠ Exceeds batch by ${Math.abs(remaining)}`
+            : `Remaining to match batch: ${remaining}`}
+        </p>
+      </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1  md:grid-cols-2  gap-6"
@@ -190,7 +209,7 @@ const AddProduction = ({ productionId }) => {
               error={errors.shortAccess}
             />
 
-            <Input
+            {/* <Input
               label="Status"
               type="select"
               value={formData.status}
@@ -200,26 +219,9 @@ const AddProduction = ({ productionId }) => {
                 { label: "Completed", value: "completed" },
               ]}
               error={errors.status}
-            />
+            /> */}
 
             {/* Total Status Indicator */}
-            <div className="col-span-1 md:col-span-2 mt-2">
-              <p
-                className={`font-semibold text-lg ${
-                  totalEntered === batchQuantity
-                    ? "text-green-600"
-                    : totalEntered > batchQuantity
-                    ? "text-red-600"
-                    : "text-blue-600"
-                }`}
-              >
-                {totalEntered === batchQuantity
-                  ? "✔ Total quantity matched!"
-                  : totalEntered > batchQuantity
-                  ? `⚠ Exceeds batch by ${Math.abs(remaining)}`
-                  : `Remaining to match batch: ${remaining}`}
-              </p>
-            </div>
           </>
         )}
 
@@ -236,7 +238,7 @@ const AddProduction = ({ productionId }) => {
           <Button
             type="submit"
             loading={loading}
-            disabled={loading || totalEntered !== batchQuantity}
+            disabled={loading || (isUpdate && totalEntered !== batchQuantity)}
             className={`px-6 py-2 rounded-md font-semibold ${
               totalEntered === batchQuantity
                 ? "bg-blue-700 text-white hover:bg-blue-800"

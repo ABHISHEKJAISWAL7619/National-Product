@@ -30,7 +30,7 @@ const Dispatch = () => {
                 <th className="px-4 py-3  font-medium text-left">Invoice No</th>
                 <th className="px-4 py-3  font-medium text-left">Customer</th>
                 <th className="px-4 py-3  font-medium text-left">Items</th>
-                <th className="px-4 py-3  font-medium text-left">Status</th>
+                {/* <th className="px-4 py-3  font-medium text-left">Status</th> */}
                 <th className="px-4 py-3  font-medium text-left">Date</th>
               </tr>
             </thead>
@@ -52,7 +52,7 @@ const Dispatch = () => {
                     {log.items?.length}
                   </td>
 
-                  <td
+                  {/* <td
                     className={`px-4 py-3  font-semibold ${
                       log.status === "Completed"
                         ? "text-green-600"
@@ -64,7 +64,7 @@ const Dispatch = () => {
                     }`}
                   >
                     {log.status || "Pending"}
-                  </td>
+                  </td> */}
 
                   <td className="px-4 py-3  text-gray-700">
                     {new Date(log.date).toLocaleDateString()}
