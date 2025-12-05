@@ -28,7 +28,7 @@ const CreateBatch = ({ batchId }) => {
         reqQuantity: "",
         pieces: "",
         outputItem: "",
-        reusable: "",
+        reuseable: "",
         type: "",
       },
       schema: batchSchema,
@@ -42,7 +42,7 @@ const CreateBatch = ({ batchId }) => {
         reqQuantity: data?.reqQuantity,
         pieces: data.pieces,
         outputItem: [data.outputItem],
-        reusable: data?.reusable,
+        reuseable: data?.reuseable,
         type: data.type,
       };
 
@@ -74,7 +74,7 @@ const CreateBatch = ({ batchId }) => {
               reqQuantity: batch?.reqQuantity || "",
               pieces: batch.pieces || "",
               outputItem: batch.outputItem?._id || "",
-              reusable: batch.reusable || "",
+              reuseable: batch.reuseable || "",
               type: batch.type || "",
             });
           }
@@ -99,8 +99,8 @@ const CreateBatch = ({ batchId }) => {
 
       setFormData((prev) => ({
         ...prev,
-        availableReusable: reuseValue,
-        reusable: reuseValue === 0 ? 0 : prev.reusable || "", // agar 0 nahi, toh user ka value rahe ya blank
+        availablereuseable: reuseValue,
+        reuseable: reuseValue === 0 ? 0 : prev.reuseable || "", // agar 0 nahi, toh user ka value rahe ya blank
       }));
     }
   }, [formData.outputItem, compositionList]);
@@ -172,39 +172,39 @@ const CreateBatch = ({ batchId }) => {
         </div>
         <div className="w-full">
           <Input
-            label="Reusable"
+            label="reuseable"
             type="number"
-            value={formData.reusable}
+            value={formData.reuseable}
             onChange={(e) => {
               const val = Number(e.target.value);
 
               // validate input
-              if (val > formData.availableReusable) {
+              if (val > formData.availablereuseable) {
                 setFormData((prev) => ({
                   ...prev,
-                  reusable: val,
-                  reusableError: "Value exceeds available reusable!",
+                  reuseable: val,
+                  reuseableError: "Value exceeds available reuseable!",
                 }));
               } else {
                 setFormData((prev) => ({
                   ...prev,
-                  reusable: val,
-                  reusableError: "",
+                  reuseable: val,
+                  reuseableError: "",
                 }));
               }
             }}
-            error={formData.reusableError}
+            error={formData.reuseableError}
           />
 
-          {formData.availableReusable > 0 && (
+          {formData.availablereuseable > 0 && (
             <p className="text-sm text-blue-600 mt-1">
-              Available Reusable: {formData.availableReusable}
+              Available reuseable: {formData.availablereuseable}
             </p>
           )}
 
-          {formData.reusableError && (
+          {formData.reuseableError && (
             <p className="text-sm text-red-600 mt-1 font-semibold">
-              {formData.reusableError}
+              {formData.reuseableError}
             </p>
           )}
         </div>
@@ -212,7 +212,7 @@ const CreateBatch = ({ batchId }) => {
         <div className="flex justify-center">
           <Button
             type="submit"
-            disabled={loading || !!formData.reusableError}
+            disabled={loading || !!formData.reuseableError}
             loading={loading}
             className="px-6 py-3 bg-blue-900 hover:bg-blue-800 text-white font-semibold rounded-lg shadow-md transition-all duration-200"
           >
