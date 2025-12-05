@@ -17,6 +17,7 @@ import { fetchcompositions } from "@/redux/slice/composition-slice";
 const CreateBatch = ({ batchId }) => {
   const dispatch = useDispatch();
   const { compositionList } = useSelector((state) => state.composition);
+  console.log(compositionList);
   const { loading, singlebatch } = useSelector((state) => state.batch);
 
   const { formData, handleChange, setFormData, handleSubmit, reset, errors } =
@@ -24,9 +25,10 @@ const CreateBatch = ({ batchId }) => {
       defaultValues: {
         date: "",
         batchNo: "",
-        quantity: "",
+        reqQuantity: "",
         pieces: "",
         outputItem: "",
+        reusable: "",
         type: "",
       },
       schema: batchSchema,
@@ -37,9 +39,10 @@ const CreateBatch = ({ batchId }) => {
       const batchData = {
         date: data.date,
         batchNo: data.batchNo,
-        quantity: data?.quantity,
+        reqQuantity: data?.reqQuantity,
         pieces: data.pieces,
         outputItem: [data.outputItem],
+        reusable: data?.reusable,
         type: data.type,
       };
 
@@ -68,9 +71,10 @@ const CreateBatch = ({ batchId }) => {
             setFormData({
               date: batch.date?.split("T")[0] || "",
               batchNo: batch.batchNo || "",
-              quantity: batch?.quantity || "",
+              reqQuantity: batch?.reqQuantity || "",
               pieces: batch.pieces || "",
               outputItem: batch.outputItem?._id || "",
+              reusable: batch.reusable || "",
               type: batch.type || "",
             });
           }
@@ -86,6 +90,20 @@ const CreateBatch = ({ batchId }) => {
   useEffect(() => {
     dispatch(fetchcompositions({ filters: {} }));
   }, [dispatch]);
+
+  useEffect(() => {
+    const selected = compositionList.find((c) => c._id === formData.outputItem);
+
+    if (selected) {
+      const reuseValue = Number(selected.quantityUsed?.reuseable) || 0;
+
+      setFormData((prev) => ({
+        ...prev,
+        availableReusable: reuseValue,
+        reusable: reuseValue === 0 ? 0 : prev.reusable || "", // agar 0 nahi, toh user ka value rahe ya blank
+      }));
+    }
+  }, [formData.outputItem, compositionList]);
 
   return (
     <div className="p-6 md:p-8 bg-white border border-gray-200 rounded-xl shadow-sm max-w-4xl mx-auto mt-5">
@@ -103,7 +121,6 @@ const CreateBatch = ({ batchId }) => {
             onChange={(e) => handleChange("date", e.target.value)}
             error={errors.date}
           />
-
           <Input
             label="Batch No."
             type="text"
@@ -112,16 +129,14 @@ const CreateBatch = ({ batchId }) => {
             onChange={(e) => handleChange("batchNo", e.target.value)}
             error={errors.batchNo}
           />
-
           <Input
             label="Quantity (KG)"
             type="number"
             placeholder="Enter quantity"
-            value={formData.quantity}
-            onChange={(e) => handleChange("quantity", e.target.value)}
-            error={errors.quantity}
+            value={formData.reqQuantity}
+            onChange={(e) => handleChange("reqQuantity", e.target.value)}
+            error={errors.reqQuantity}
           />
-
           <Input
             label="Pieces"
             type="number"
@@ -130,7 +145,6 @@ const CreateBatch = ({ batchId }) => {
             onChange={(e) => handleChange("pieces", e.target.value)}
             error={errors.pieces}
           />
-
           <Input
             label="Type"
             type="select"
@@ -142,7 +156,6 @@ const CreateBatch = ({ batchId }) => {
             ]}
             error={errors.type}
           />
-
           <Input
             label="Output Item"
             type="select"
@@ -157,12 +170,50 @@ const CreateBatch = ({ batchId }) => {
             error={errors.outputItem}
           />
         </div>
+        <div className="w-full">
+          <Input
+            label="Reusable"
+            type="number"
+            value={formData.reusable}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+
+              // validate input
+              if (val > formData.availableReusable) {
+                setFormData((prev) => ({
+                  ...prev,
+                  reusable: val,
+                  reusableError: "Value exceeds available reusable!",
+                }));
+              } else {
+                setFormData((prev) => ({
+                  ...prev,
+                  reusable: val,
+                  reusableError: "",
+                }));
+              }
+            }}
+            error={formData.reusableError}
+          />
+
+          {formData.availableReusable > 0 && (
+            <p className="text-sm text-blue-600 mt-1">
+              Available Reusable: {formData.availableReusable}
+            </p>
+          )}
+
+          {formData.reusableError && (
+            <p className="text-sm text-red-600 mt-1 font-semibold">
+              {formData.reusableError}
+            </p>
+          )}
+        </div>
 
         {/* BUTTON AREA */}
         <div className="flex justify-center">
           <Button
             type="submit"
-            disabled={loading}
+            disabled={loading || !!formData.reusableError}
             loading={loading}
             className="px-6 py-3 bg-blue-900 hover:bg-blue-800 text-white font-semibold rounded-lg shadow-md transition-all duration-200"
           >
