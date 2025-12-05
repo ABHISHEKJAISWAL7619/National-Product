@@ -58,7 +58,6 @@ export default function ProductSection({
         onAdd={(item) => setBillingItems((prev) => [...prev, item])}
       />
 
-      {/* Header + Filters */}
       <div className="p-5 -b bg-gray-50 flex flex-col md:flex-row gap-4 justify-between">
         <h2 className="text-2xl font-bold text-gray-800">Product Section</h2>
 
