@@ -50,7 +50,7 @@ export default function ProductSection({
   };
 
   return (
-    <div className="bg-white  -gray-200 rounded-lg shadow-sm">
+    <div className="bg-white w-full rounded-lg shadow-sm p-5">
       <Additem
         open={popupOpen}
         onClose={() => setPopupOpen(false)}
@@ -58,10 +58,13 @@ export default function ProductSection({
         onAdd={(item) => setBillingItems((prev) => [...prev, item])}
       />
 
-      <div className="p-5 -b bg-gray-50 flex flex-col md:flex-row gap-4 justify-between">
-        <h2 className="text-2xl font-bold text-gray-800">Product Section</h2>
+      <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+        Product Section
+      </h2>
 
-        <div className="flex flex-col md:flex-row gap-4">
+      {/* Filters Section */}
+      <div className="bg-gray-50 p-4 rounded-lg mb-5 flex flex-col md:flex-row gap-4 justify-between">
+        <div className="flex flex-col md:flex-row gap-4 w-full">
           <SearchBox
             name="search"
             value={search}
@@ -83,16 +86,16 @@ export default function ProductSection({
         </div>
       </div>
 
-      {/* ===== TABLE (FULLY RESPONSIVE LIKE BATCH) ===== */}
-      <div className="overflow-x-auto w-full">
-        <table className="min-w-[850px] w-full text-sm -collapse">
+      {/* Table Wrapper */}
+      <div className="w-full overflow-x-auto">
+        <table className="w-full min-w-[700px] text-sm">
           <thead className="bg-gray-100 text-gray-600 text-xs uppercase">
             <tr>
-              <th className="px-4 py-3  text-left">S.No</th>
-              <th className="px-4 py-3  text-left w-[40%]">Product Name</th>
-              <th className="px-4 py-3  text-center">Type</th>
-              <th className="px-4 py-3  text-center">Quantity</th>
-              <th className="px-4 py-3  text-center">Action</th>
+              <th className="px-4 py-3 text-left">S.No</th>
+              <th className="px-4 py-3 text-left w-[35%]">Product Name</th>
+              <th className="px-4 py-3 text-center">Type</th>
+              <th className="px-4 py-3 text-center">Quantity</th>
+              <th className="px-4 py-3 text-center">Action</th>
             </tr>
           </thead>
 
@@ -123,7 +126,7 @@ export default function ProductSection({
         </table>
       </div>
 
-      <div className="flex justify-end py-4 px-4">
+      <div className="flex justify-end py-4">
         <Pagination total={documentCount} pageSize={10} />
       </div>
     </div>
@@ -133,16 +136,16 @@ export default function ProductSection({
 const Row = ({ sno, type, name, quantity, onAdd }) => {
   const badge =
     type === "item"
-      ? "bg-emerald-100 text-emerald-700  -emerald-300"
-      : "bg-indigo-100 text-indigo-700  -indigo-300";
+      ? "bg-emerald-100 text-emerald-700 border border-emerald-300"
+      : "bg-indigo-100 text-indigo-700 border border-indigo-300";
 
   return (
-    <tr className="hover:bg-gray-50 transition -b">
-      <td className="px-4 py-3 ">{sno}</td>
+    <tr className="hover:bg-gray-50 transition border-b border-gray-200 ">
+      <td className="px-4 py-3">{sno}</td>
 
-      <td className="px-4 py-3  font-medium text-gray-800 truncate">{name}</td>
+      <td className="px-4 py-3 font-medium text-gray-800 truncate">{name}</td>
 
-      <td className="px-4 py-3  text-center">
+      <td className="px-4 py-3 text-center">
         <span
           className={`px-3 py-1 text-xs rounded-full font-semibold ${badge}`}
         >
@@ -150,11 +153,11 @@ const Row = ({ sno, type, name, quantity, onAdd }) => {
         </span>
       </td>
 
-      <td className="px-4 py-3  text-center font-semibold text-gray-900">
+      <td className="px-4 py-3 text-center font-semibold text-gray-900">
         {quantity}
       </td>
 
-      <td className="px-4 py-3  text-center">
+      <td className="px-4 py-3 text-center">
         <button
           onClick={onAdd}
           className="p-2 rounded-full cursor-pointer hover:bg-red-100 text-red-500"

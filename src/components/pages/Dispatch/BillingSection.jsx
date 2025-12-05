@@ -13,21 +13,32 @@ import {
   fetchdispatchitems,
 } from "@/redux/slice/dispatch-slice";
 import { errorToast, successToast } from "@/utils/toastMessage";
+import InvoiceModel from "./InvoiceModel";
 
-const BillingItemRow = ({ item, qty, price, onDelete }) => (
-  <div className="grid grid-cols-4 gap-2 py-2 border border-gray-100 text-sm items-center">
-    <div className="font-inter font-medium text-[14px] truncate">{item}</div>
-    <span>{qty}</span>
-    <span>{price}</span>
-    <button
-      onClick={onDelete}
-      className="text-red-500 hover:text-red-700 flex justify-center items-left"
-      title="Delete Item"
-    >
-      <FiTrash2 />
-    </button>
-  </div>
-);
+const BillingItemRow = ({ item, qty, price, onDelete }) => {
+  const formattedPrice = Number(price).toFixed(3);
+  const formattedQty = Number(qty).toFixed(3);
+
+  return (
+    <div className="grid grid-cols-4 gap-2 py-2 border border-gray-100 text-sm items-center">
+      <div className="font-inter font-medium text-[14px] break-words">
+        {item}
+      </div>
+
+      <span>{formattedQty}</span>
+
+      <span>{formattedPrice}</span>
+
+      <button
+        onClick={onDelete}
+        className="text-red-500 cursor-pointer hover:text-red-700 flex justify-center items-center"
+        title="Delete Item"
+      >
+        <FiTrash2 />
+      </button>
+    </div>
+  );
+};
 
 const SummaryRow = ({ label, value, isTotal = false }) => (
   <div
@@ -45,9 +56,12 @@ const SummaryRow = ({ label, value, isTotal = false }) => (
 export default function BillingSection({ billingItems, setBillingItems }) {
   const dispatch = useDispatch();
   const { customerList } = useSelector((s) => s.customer);
+  const { loading } = useSelector((s) => s.dispatch);
   const [selectedCustomerId, setSelectedCustomerId] = useState("");
   const [invoiceNumber, setInvoiceNumber] = useState("");
   const [openCustomerModal, setOpenCustomerModal] = useState(false);
+  const [isInvoiceOpen, setIsInvoiceOpen] = useState(false);
+  const [invoiceData, setInvoiceData] = useState(null);
 
   // Validation errors
   const [customerError, setCustomerError] = useState("");
@@ -107,14 +121,33 @@ export default function BillingSection({ billingItems, setBillingItems }) {
     };
 
     try {
-      await dispatch(
+      const response = await dispatch(
         createOrUpdatedispatch({ dispatchData: payload })
       ).unwrap();
-      successToast("Order placed successfully");
+
+      // Prepare invoice data
+      setInvoiceData({
+        customerName: customerList.find((c) => c._id === selectedCustomerId),
+        items: billingItems,
+        subTotal,
+        cgst,
+        sgst,
+        total,
+        orderDate: new Date(),
+        orderId: invoiceNumber,
+      });
+
+      // Open modal
+      setIsInvoiceOpen(true);
+
+      // Clear cart
       setBillingItems([]);
+      setSelectedCustomerId("");
+      setInvoiceNumber("");
+
       await dispatch(fetchdispatchitems({ filters: {} }));
     } catch (error) {
-      errorToast(error || "Failed to placed order");
+      errorToast(error || "Failed to place order");
     }
   };
 
@@ -214,6 +247,8 @@ export default function BillingSection({ billingItems, setBillingItems }) {
 
             <Button
               onClick={handlesubmit}
+              loading={loading}
+              disabled={loading}
               className="flex-1 bg-blue-600 cursor-pointer text-white py-3 rounded-md hover:bg-blue-700"
             >
               Place Order
@@ -221,6 +256,11 @@ export default function BillingSection({ billingItems, setBillingItems }) {
           </div>
         </>
       )}
+      <InvoiceModel
+        isOpen={isInvoiceOpen}
+        onClose={() => setIsInvoiceOpen(false)}
+        data={invoiceData}
+      />
     </div>
   );
 }

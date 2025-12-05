@@ -59,7 +59,7 @@ const AddCustomer = ({ isOpen, onClose, CustomerId }) => {
   const onSubmit = async (data) => {
     try {
       await dispatch(savecustomer({ id: CustomerId, formData: data })).unwrap();
-
+      dispatch(fetchcustomer());
       successToast(
         CustomerId
           ? "Customer updated successfully!"
