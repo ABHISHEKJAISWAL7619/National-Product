@@ -102,23 +102,25 @@ const AddProduction = ({ productionId }) => {
           {isUpdate ? "Update Production" : "Add Production"}
         </h1>
       </div>
-      <div className="col-span-1 flex justify-end md:col-span-2 mt-2">
-        <p
-          className={`font-semibold text-lg ${
-            totalEntered === batchQuantity
-              ? "text-green-600"
+      {productionId && (
+        <div className="col-span-1 flex justify-end md:col-span-2 mt-2">
+          <p
+            className={`font-semibold text-lg ${
+              totalEntered === batchQuantity
+                ? "text-green-600"
+                : totalEntered > batchQuantity
+                ? "text-red-600"
+                : "text-blue-600"
+            }`}
+          >
+            {totalEntered === batchQuantity
+              ? "✔ Total quantity matched!"
               : totalEntered > batchQuantity
-              ? "text-red-600"
-              : "text-blue-600"
-          }`}
-        >
-          {totalEntered === batchQuantity
-            ? "✔ Total quantity matched!"
-            : totalEntered > batchQuantity
-            ? `⚠ Exceeds batch by ${Math.abs(remaining)}`
-            : `Remaining to match batch: ${remaining}`}
-        </p>
-      </div>
+              ? `⚠ Exceeds batch by ${Math.abs(remaining)}`
+              : `Remaining to match batch: ${remaining}`}
+          </p>
+        </div>
+      )}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1  md:grid-cols-2  gap-6"

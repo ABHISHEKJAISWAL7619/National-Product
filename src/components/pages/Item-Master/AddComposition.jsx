@@ -114,7 +114,9 @@ const AddComposition = () => {
 
   return (
     <div className="max-w-xl mx-auto bg-white shadow-xl rounded-xl p-6 mt-4">
-      <h2 className="text-xl font-bold mb-4 text-center">Create Composition</h2>
+      <h2 className="text-xl font-bold mb-4 text-black text-center">
+        Create Composition
+      </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <Input
