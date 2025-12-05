@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchpendingproductions } from "@/redux/slice/production-slice";
 import { FormatDatetime } from "@/utils/formatDatetime";
 import Pagination from "@/components/common/Pagination";
-import SearchBox from "@/components/common/SearchBox";
 import { useToggleQueryParam } from "@/utils/toggleQueryParam";
 import Input from "@/components/common/Input";
 

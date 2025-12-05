@@ -140,7 +140,7 @@ const Row = ({ sno, type, name, quantity, onAdd }) => {
       : "bg-indigo-100 text-indigo-700 border border-indigo-300";
 
   return (
-    <tr className="hover:bg-gray-50 transition border-b border-gray-200 ">
+    <tr className="hover:bg-gray-50 text-black transition border-b border-gray-200 ">
       <td className="px-4 py-3">{sno}</td>
 
       <td className="px-4 py-3 font-medium text-gray-800 truncate">{name}</td>

@@ -15,6 +15,8 @@ const Summary = ({ dateFrom, dateTo, currPage, searchQuery }) => {
   const { dispatchList, documentCount } = useSelector(
     (state) => state.dispatch
   );
+  console.log(dispatchList);
+  console.log("count", documentCount);
 
   useEffect(() => {
     dispatch(
@@ -28,7 +30,7 @@ const Summary = ({ dateFrom, dateTo, currPage, searchQuery }) => {
         },
       })
     );
-  }, [dispatch, dateFrom, dateTo, searchQuery]);
+  }, [dispatch, dateFrom, dateTo, searchQuery, currPage]);
 
   const round2 = (n) => Number(n || 0).toFixed(2);
 
@@ -111,7 +113,7 @@ const Summary = ({ dateFrom, dateTo, currPage, searchQuery }) => {
               <th className="p-3">Order No</th>
               <th className="p-3">Invoice No</th>
               <th className="p-3">Date</th>
-              <th className="p-3">Items</th>
+              <th className="p-3 text-left">Items</th>
               <th className="p-3">Quantity (Kg)</th>
               <th className="p-3">Customer</th>
               <th className="p-3">CGST</th>
@@ -136,10 +138,13 @@ const Summary = ({ dateFrom, dateTo, currPage, searchQuery }) => {
                     {new Date(row.createdAt).toLocaleDateString()}
                   </td>
                   <td className="p-3">
-                    {row.items
-                      ?.map((i) => i.production2?.productName || "-")
-                      .join(", ")}
+                    <div className="flex flex-col gap-1">
+                      {row.items?.map((i) => (
+                        <span key={i._id}>{i.production1?.productName}</span>
+                      ))}
+                    </div>
                   </td>
+
                   <td className="p-3 text-center">{qtyKg}</td>
                   <td className="p-3">
                     {row.customer

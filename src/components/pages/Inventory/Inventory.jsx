@@ -17,6 +17,7 @@ const Inventory = ({ page, searchQuery }) => {
   const { inventoryList, documentCount, loading } = useSelector(
     (state) => state.inventory
   );
+  console.log(documentCount);
 
   useEffect(() => {
     dispatch(

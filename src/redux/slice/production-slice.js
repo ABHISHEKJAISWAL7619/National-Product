@@ -46,6 +46,7 @@ export const fetchpendingproductions = createAsyncThunk(
           params: id ? {} : filters || {},
         }
       );
+      console.log(data);
 
       return { ...data, id };
     } catch (err) {

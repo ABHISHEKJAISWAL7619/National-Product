@@ -21,13 +21,13 @@ const BillingItemRow = ({ item, qty, price, onDelete }) => {
 
   return (
     <div className="grid grid-cols-4 gap-2 py-2 border border-gray-100 text-sm items-center">
-      <div className="font-inter font-medium text-[14px] break-words">
+      <div className="font-inter text-black font-medium text-[14px] break-words">
         {item}
       </div>
 
-      <span>{formattedQty}</span>
+      <span className="text-black">{formattedQty}</span>
 
-      <span>{formattedPrice}</span>
+      <span className="text-black">{formattedPrice}</span>
 
       <button
         onClick={onDelete}
@@ -43,13 +43,11 @@ const BillingItemRow = ({ item, qty, price, onDelete }) => {
 const SummaryRow = ({ label, value, isTotal = false }) => (
   <div
     className={`flex justify-between ${
-      isTotal ? "text-lg font-bold border-t pt-3 mt-3" : "text-sm"
+      isTotal ? "text-lg font-bold border-t text-black pt-3 mt-3" : "text-sm"
     }`}
   >
-    <span className={isTotal ? "text-gray-800" : "text-gray-600"}>
-      {label} :
-    </span>
-    <span className={isTotal ? "text-gray-900" : "text-gray-800"}>{value}</span>
+    <span className={isTotal ? "text-black" : "text-black"}>{label} :</span>
+    <span className={isTotal ? "text-black" : "text-black"}>{value}</span>
   </div>
 );
 

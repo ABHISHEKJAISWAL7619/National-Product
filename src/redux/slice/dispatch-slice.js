@@ -12,7 +12,11 @@ export const fetchdispatchitems = createAsyncThunk(
       const { data } = await axiosInstance.get("/api/admin/sale", {
         params: filters,
       });
-      return data?.data || [];
+
+      return {
+        data: data?.data || [],
+        count: data?.pagination?.count || 0,
+      };
     } catch (error) {
       return rejectWithValue(
         error.response?.data || "Failed to fetch dispatchs"
@@ -28,7 +32,11 @@ export const fetchalldispatch = createAsyncThunk(
       const { data } = await axiosInstance.get("/api/admin/order", {
         params: filters,
       });
-      return data?.data || [];
+
+      return {
+        data: data?.data || [],
+        count: data?.count || 0,
+      };
     } catch (error) {
       return rejectWithValue(
         error.response?.data || "Failed to fetch dispatchs"
@@ -111,9 +119,10 @@ const dispatchSlice = createSlice({
       })
       .addCase(fetchdispatchitems.fulfilled, (state, action) => {
         state.loading = false;
-        state.dispatchList = action.payload;
-        state.documentCount = action.payload.length;
+        state.dispatchList = action.payload.data; // actual list
+        state.documentCount = action.payload.count; // pagination count
       })
+
       .addCase(fetchdispatchitems.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
@@ -124,9 +133,10 @@ const dispatchSlice = createSlice({
       })
       .addCase(fetchalldispatch.fulfilled, (state, action) => {
         state.loading = false;
-        state.dispatchList = action.payload;
-        state.documentCount = action.payload.length;
+        state.dispatchList = action.payload.data; // <-- FIXED
+        state.documentCount = action.payload.count; // <-- FIXED
       })
+
       .addCase(fetchalldispatch.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
