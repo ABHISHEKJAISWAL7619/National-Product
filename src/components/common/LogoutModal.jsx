@@ -15,7 +15,7 @@ export const LogoutModal = ({ onCancel, onConfirm }) => {
       </p>
 
       <div className="mt-6 grid grid-cols-2 gap-2">
-        <Button variant="outline cursor-pointer" onClick={onCancel}>
+        <Button variant="outline bg-gray-300 cursor-pointer" onClick={onCancel}>
           Cancel
         </Button>
         <Button className="cursor-pointer" onClick={onConfirm}>
