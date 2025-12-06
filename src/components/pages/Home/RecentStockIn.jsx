@@ -27,12 +27,18 @@ const RecentStockIn = () => {
           <table className="min-w-[700px] w-full ">
             <thead>
               <tr className="bg-gray-100">
-                <th className="px-4 py-3 text-left font-semibold ">
+                <th className="px-4 py-3 text-black text-left font-semibold ">
                   Invoice No
                 </th>
-                <th className="px-4 py-3 text-left font-semibold ">Items</th>
-                <th className="px-4 py-3 text-left font-semibold ">Quantity</th>
-                <th className="px-4 py-3 text-left font-semibold ">Date</th>
+                <th className="px-4 py-3 text-left text-black font-semibold ">
+                  Items
+                </th>
+                <th className="px-4 py-3 text-left text-black font-semibold ">
+                  Quantity
+                </th>
+                <th className="px-4 py-3 text-left text-black font-semibold ">
+                  Date
+                </th>
               </tr>
             </thead>
 
@@ -61,11 +67,11 @@ const RecentStockIn = () => {
         </div>
 
         {/* Button */}
-        <div className="p-4 sm:px-6 flex justify-center border-t border-gray-200">
+        <div className="p-4 sm:px-6 text-black flex  justify-center border-t border-gray-200">
           <Link href={"/incoming/stock-in"}>
-            <button className="cursor-pointer text-gray-600 font-medium px-6 py-2 border border-gray-300 rounded hover:bg-gray-100 transition">
-              View All Stock In
-            </button>
+            {/* <button className="cursor-pointer w-full text-gray-600 font-medium px-6 py-2 border border-gray-300 rounded hover:bg-gray-100 transition"> */}
+            View All Stock In
+            {/* </button> */}
           </Link>
         </div>
       </div>
