@@ -10,7 +10,7 @@ const Homepage = () => {
   return (
     <div>
       <Stock />
-      <Summary />
+      {/* <Summary /> */}
       <Production />
       <MonthlyStock />
       <RecentStockIn />
