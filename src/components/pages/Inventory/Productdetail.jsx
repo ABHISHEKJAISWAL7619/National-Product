@@ -34,7 +34,7 @@ const Productdetail = ({ itemId }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <InfoRow label="Name" value={data.productName} />
-          <InfoRow label="UID" value={data.itemId} />
+          {/* <InfoRow label="UID" value={data.itemId} /> */}
           <InfoRow label="Category" value={data.itemCategory} />
         </div>
       </div>
