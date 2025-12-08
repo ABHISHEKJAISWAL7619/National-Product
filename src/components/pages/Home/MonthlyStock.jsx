@@ -24,9 +24,11 @@ const CustomTooltip = ({ active, payload, label }) => {
 
     return (
       <div className="bg-white border border-gray-200 p-3 shadow-md rounded-lg text-sm">
-        <p className="font-bold">{label}</p>
-        <p className="text-navy">Inbound: {item.inboundQuantity}</p>
-        <p className="text-yellow">Outbound: {item.outboundQuantity}</p>
+        <p className="font-bold text-black ">{label}</p>
+        <p className="text-navy text-black">Inbound: {item.inboundQuantity}</p>
+        <p className="text-yellow text-black">
+          Outbound: {item.outboundQuantity}
+        </p>
       </div>
     );
   }
