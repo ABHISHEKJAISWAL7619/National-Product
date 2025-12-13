@@ -79,7 +79,7 @@ const CreateSubCategory = ({ subcategoryId }) => {
           updateSubCategory({ subcategoryId, subcategoryData: data })
         ).unwrap();
         successToast("Subcategory updated successfully!");
-        router.replace("/Item-master/Create-SubCategory");
+        router.replace("/item-master/create-subcategory");
         dispatch(fetchSubCategories());
       } else {
         await dispatch(createSubCategory(data)).unwrap();
