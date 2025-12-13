@@ -64,12 +64,14 @@ const Composition1 = ({ compositionId }) => {
       </div>
 
       <div className="p-6 border-b border-gray-200">
-        <h2 className="font-archivo font-bold text-[25px]">Composition</h2>
+        <h2 className="font-archivo text-black font-bold text-[25px]">
+          Composition
+        </h2>
       </div>
 
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+          <thead className="bg-gray-50 text-black">
             <tr>
               {[
                 "Sl No",
@@ -92,7 +94,7 @@ const Composition1 = ({ compositionId }) => {
           <tbody className="bg-white divide-y divide-gray-200">
             {formData?.outputItem?.compositions?.map((item, index) => (
               <tr key={index} className="hover:bg-gray-50">
-                <td className="px-6 py-4 text-sm font-medium">
+                <td className="px-6 py-4  text-black text-sm font-medium">
                   {String(index + 1).padStart(2, "0")}
                 </td>
 
