@@ -54,7 +54,7 @@ const CreateCategory = ({ categoryId }) => {
         await dispatch(
           updateMainCategory({ categoryId, categoryData: data })
         ).unwrap();
-        router.replace("/Item-master/Create-Catgory");
+        router.replace("/Item-master/create-catgory");
         dispatch(fetchMainCategories());
         successToast("Category updated successfully!");
       } else {
