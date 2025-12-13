@@ -136,6 +136,39 @@ const SubCategoryTable = ({ searchQuery, currPage }) => {
               )}
             </tbody>
           </table>
+          {/* ✅ Delete Confirmation Modal */}
+          <OverlayModal
+            onClose={() => setIsDelete(false)}
+            isOpen={isDelete}
+            showCloseIcon={false}
+          >
+            <AlertModal
+              icon={<i className="ri-error-warning-line"></i>}
+              iconColor="text-red-600 bg-grey-600 text-4xl"
+              title="Delete Confirmation"
+              message={
+                <span>
+                  Are you sure you want to delete the subcategory{" "}
+                  <span className="font-semibold text-blue-600">
+                    "{selectedCategory?.name}"
+                  </span>
+                  ?
+                </span>
+              }
+              buttons={[
+                {
+                  text: "Cancel",
+                  onClick: () => setIsDelete(false),
+                  colorClass: "bg-gray-200 text-gray-800 hover:bg-gray-300",
+                },
+                {
+                  text: "Delete",
+                  onClick: handleDeleteConfirm,
+                  colorClass: "bg-red-600 text-white hover:bg-red-700",
+                },
+              ]}
+            />
+          </OverlayModal>
 
           {/* Pagination */}
           <div className="flex justify-end mt-4">
