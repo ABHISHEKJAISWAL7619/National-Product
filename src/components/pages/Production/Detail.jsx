@@ -94,34 +94,34 @@ const Detail = ({ productionId }) => {
                     {item.productName || "-"}
                   </td>
 
-                  <td className="px-4 py-3 text-right text-sm">
+                  <td className="px-4 py-3 text-gray-900 text-right text-sm">
                     {item.quantity || "-"}
                   </td>
-                  <td className="px-4 py-3 text-right text-sm">
+                  <td className="px-4 py-3 text-gray-900 text-right text-sm">
                     {item.gauge ?? "-"}
                   </td>
-                  <td className="px-4 py-3 text-right text-sm">
+                  <td className="px-4 py-3 text-gray-900 text-right text-sm">
                     {item.flux ?? "-"}
                   </td>
-                  <td className="px-4 py-3 text-right text-sm">
+                  <td className="px-4 py-3 text-gray-900 text-right text-sm">
                     {item.fluxQty ?? "-"}
                   </td>
-                  <td className="px-4 py-3 text-right text-sm">
+                  <td className="px-4 py-3 text-gray-900 text-right text-sm">
                     {item.gula ?? "-"}
                   </td>
-                  <td className="px-4 py-3 text-right text-sm">
+                  <td className="px-4 py-3 text-gray-900 text-right text-sm">
                     {item.semiFinishedKg ?? "-"}
                   </td>
-                  <td className="px-4 py-3 text-right text-sm">
+                  <td className="px-4 py-3 text-gray-900 text-right text-sm">
                     {item.shortAndAccess ?? "-"}
                   </td>
-                  <td className="px-4 py-3 text-right text-sm">
+                  <td className="px-4 py-3 text-gray-900 text-right text-sm">
                     {item.waste ?? "-"}
                   </td>
-                  <td className="px-4 py-3 text-right text-sm">
+                  <td className="px-4 py-3 text-gray-900 text-right text-sm">
                     {item.reusableWaste ?? "-"}
                   </td>
-                  <td className="px-4 py-3 text-sm capitalize text-gray-800">
+                  <td className="px-4 py-3  text-sm capitalize text-gray-800">
                     {item.status}
                   </td>
 
