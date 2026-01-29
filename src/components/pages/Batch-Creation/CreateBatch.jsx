@@ -13,37 +13,72 @@ import {
 } from "@/redux/slice/batch-slice";
 import { batchSchema } from "@/validations/batchSchema";
 import { fetchcompositions } from "@/redux/slice/composition-slice";
+import { fetchitems } from "@/redux/slice/Item-slice";
 
 const CreateBatch = ({ batchId }) => {
   const dispatch = useDispatch();
   const { compositionList } = useSelector((state) => state.composition);
   console.log(compositionList);
   const { loading, singlebatch } = useSelector((state) => state.batch);
-
+  const { itemList, documentCount } = useSelector((state) => state.item);
+  console.log(itemList);
   const { formData, handleChange, setFormData, handleSubmit, reset, errors } =
     useForm({
       defaultValues: {
         date: "",
         batchNo: "",
-        reqQuantity: "",
+        quantity: "",
         pieces: "",
         outputItem: "",
         reuseable: "",
         type: "",
+        inputItem: [
+          {
+            itemId: "",
+            quantity: "",
+            reuseableQty: "",
+          },
+        ],
       },
       schema: batchSchema,
     });
+  const totalInputQty = formData.inputItem.reduce(
+    (sum, i) => sum + Number(i.quantity || 0),
+    0,
+  );
+  const addInputItem = () => {
+    setFormData((prev) => ({
+      ...prev,
+      inputItem: [
+        ...prev.inputItem,
+        { itemId: "", quantity: "", reuseableQty: "" },
+      ],
+    }));
+  };
+
+  const removeInputItem = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      inputItem: prev.inputItem.filter((_, i) => i !== index),
+    }));
+  };
 
   const onSubmit = async (data) => {
     try {
       const batchData = {
         date: data.date,
         batchNo: data.batchNo,
-        reqQuantity: data?.reqQuantity,
+        quantity: data?.quantity,
         pieces: data.pieces,
         outputItem: [data.outputItem],
         reuseable: data?.reuseable,
         type: data.type,
+
+        inputItem: data.inputItem.map((i) => ({
+          itemId: i.itemId,
+          quantity: Number(i.quantity),
+          reuseableQty: Number(i.reuseableQty || 0),
+        })),
       };
 
       if (batchId) {
@@ -71,11 +106,16 @@ const CreateBatch = ({ batchId }) => {
             setFormData({
               date: batch.date?.split("T")[0] || "",
               batchNo: batch.batchNo || "",
-              reqQuantity: batch?.reqQuantity || "",
+              quantity: batch?.quantity || "",
               pieces: batch.pieces || "",
               outputItem: batch.outputItem?._id || "",
               reuseable: batch.reuseable || "",
               type: batch.type || "",
+              inputItem: data.inputItem.map((i) => ({
+                itemId: i.itemId,
+                quantity: Number(i.quantity),
+                reuseableQty: Number(i.reuseableQty || 0),
+              })),
             });
           }
         } catch (err) {
@@ -86,6 +126,9 @@ const CreateBatch = ({ batchId }) => {
       fetchBatch();
     }
   }, [dispatch, batchId, setFormData]);
+  useEffect(() => {
+    dispatch(fetchitems({ filters: {} }));
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchcompositions({ filters: {} }));
@@ -133,9 +176,9 @@ const CreateBatch = ({ batchId }) => {
             label="Quantity (KG)"
             type="number"
             placeholder="Enter quantity"
-            value={formData.reqQuantity}
-            onChange={(e) => handleChange("reqQuantity", e.target.value)}
-            error={errors.reqQuantity}
+            value={formData.quantity}
+            onChange={(e) => handleChange("quantity", e.target.value)}
+            error={errors.quantity}
           />
           <Input
             label="Pieces"
@@ -208,11 +251,92 @@ const CreateBatch = ({ batchId }) => {
             </p>
           )}
         </div>
+        <div className=" rounded-lg p-4 bg-gray-50 space-y-4">
+          <h3 className="font-semibold text-lg">Input Items</h3>
+
+          {formData.inputItem.map((row, idx) => (
+            <div
+              key={idx}
+              className="grid grid-cols-1 md:grid-cols-3 gap-4 relative"
+            >
+              <Input
+                label="Item"
+                type="select"
+                value={row.itemId}
+                onChange={(e) =>
+                  handleChange(`inputItem.${idx}.itemId`, e.target.value)
+                }
+                options={(itemList || []).map((i) => ({
+                  label: i.productName,
+                  value: i._id,
+                }))}
+                error={errors.inputItem?.[idx]?.itemId}
+              />
+
+              <Input
+                label="Quantity"
+                type="number"
+                value={row.quantity}
+                onChange={(e) =>
+                  handleChange(`inputItem.${idx}.quantity`, e.target.value)
+                }
+                error={errors.inputItem?.[idx]?.quantity}
+              />
+
+              <Input
+                label="Reuseable Qty"
+                type="number"
+                value={row.reuseableQty}
+                onChange={(e) =>
+                  handleChange(`inputItem.${idx}.reuseableQty`, e.target.value)
+                }
+              />
+
+              {idx > 0 && (
+                <button
+                  type="button"
+                  onClick={() => removeInputItem(idx)}
+                  className="absolute -top-2 -right-2 text-red-600 font-bold"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          ))}
+
+          {totalInputQty < Number(formData.quantity || 0) && (
+            <Button type="button" onClick={addInputItem}>
+              + Add Item
+            </Button>
+          )}
+
+          <p
+            className={`font-semibold ${
+              totalInputQty === Number(formData.quantity)
+                ? "text-green-600"
+                : totalInputQty > Number(formData.quantity)
+                  ? "text-red-600"
+                  : "text-blue-600"
+            }`}
+          >
+            Total Input Quantity: {totalInputQty}
+          </p>
+
+          {totalInputQty !== Number(formData.quantity) && (
+            <p className="text-sm text-red-600 font-semibold">
+              Total input quantity must equal required quantity
+            </p>
+          )}
+        </div>
 
         <div className="flex justify-center">
           <Button
             type="submit"
-            disabled={loading || !!formData.reuseableError}
+            disabled={
+              loading ||
+              !!formData.reuseableError ||
+              totalInputQty !== Number(formData.quantity)
+            }
             loading={loading}
             className="px-6 py-3 bg-blue-900 hover:bg-blue-800 text-white font-semibold rounded-lg shadow-md transition-all duration-200"
           >
