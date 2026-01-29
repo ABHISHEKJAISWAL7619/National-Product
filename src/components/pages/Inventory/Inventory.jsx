@@ -29,7 +29,7 @@ const Inventory = ({ page, searchQuery }) => {
     "Product Name",
     "Category",
     "Code",
-    "Quantity",
+    "Quantity(Kg)",
     "Unit Price",
     "Total Value",
     "View",
