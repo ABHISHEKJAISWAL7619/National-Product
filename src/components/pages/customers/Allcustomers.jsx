@@ -76,7 +76,7 @@ const Allcustomers = ({ searchQuery, currPage }) => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           iconLeft="search-line"
-          placeholder="Search here..."
+          placeholder="Search by name..."
         />
       </div>
 

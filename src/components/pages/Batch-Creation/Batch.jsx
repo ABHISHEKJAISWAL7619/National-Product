@@ -73,7 +73,7 @@ const Batch = ({ searchQuery, currPage, type }) => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             iconLeft="search-line"
-            placeholder="Search here..."
+            placeholder="Search by batchNo..."
             className="w-full sm:flex-1" // full width on mobile, flex-grow on desktop
           />
           <Link

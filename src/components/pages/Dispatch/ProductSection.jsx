@@ -70,7 +70,7 @@ export default function ProductSection({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             iconLeft="search-line"
-            placeholder="Search here..."
+            placeholder="Search by productname..."
           />
 
           <Input

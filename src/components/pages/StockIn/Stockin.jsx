@@ -57,7 +57,7 @@ const StockIn = ({ searchQuery, currPage }) => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             iconLeft="search-line"
-            placeholder="Search here..."
+            placeholder="Search by productname..."
             className="w-full text-black placeholder-black"
           />
         </div>

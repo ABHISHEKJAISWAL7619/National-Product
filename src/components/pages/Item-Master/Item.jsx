@@ -96,7 +96,7 @@ const Item = ({ searchQuery, currPage }) => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           iconLeft="search-line"
-          placeholder="Search here..."
+          placeholder="Search by productname,code..."
         />
       </div>
 
@@ -107,6 +107,7 @@ const Item = ({ searchQuery, currPage }) => {
             <tr>
               {[
                 "Product Name",
+                "Product Code",
                 "Quanity",
                 "Unitprice",
                 "Symbol",
@@ -126,16 +127,19 @@ const Item = ({ searchQuery, currPage }) => {
             {itemList.map((item) => (
               <tr key={item._id} className="hover:bg-gray-50">
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {item.productName}
+                  {item?.productName}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {item.quantity || "-"}
+                  {item?.productCode ||"-"}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {item.unitPrice || "-"}
+                  {item?.quantity || "-"}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {item.symbol || "-"}
+                  {item?.unitPrice || "-"}
+                </td>
+                <td className="px-4 sm:px-6 py-3 text-blue-950">
+                  {item?.symbol || "-"}
                 </td>
 
                 <td className="px-4 sm:px-6 py-3 text-right">
