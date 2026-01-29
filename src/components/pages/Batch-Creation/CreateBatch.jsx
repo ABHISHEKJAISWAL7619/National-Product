@@ -13,14 +13,14 @@ import {
 } from "@/redux/slice/batch-slice";
 import { batchSchema } from "@/validations/batchSchema";
 import { fetchcompositions } from "@/redux/slice/composition-slice";
-import { fetchitems } from "@/redux/slice/Item-slice";
+import { fetchitems, getallitems } from "@/redux/slice/Item-slice";
 
 const CreateBatch = ({ batchId }) => {
   const dispatch = useDispatch();
   const { compositionList } = useSelector((state) => state.composition);
   console.log(compositionList);
   const { loading, singlebatch } = useSelector((state) => state.batch);
-  const { itemList, documentCount } = useSelector((state) => state.item);
+  const { itemList} = useSelector((state) => state.item);
   console.log(itemList);
   const { formData, handleChange, setFormData, handleSubmit, reset, errors } =
     useForm({
@@ -127,7 +127,11 @@ const CreateBatch = ({ batchId }) => {
     }
   }, [dispatch, batchId, setFormData]);
   useEffect(() => {
-    dispatch(fetchitems({ filters: {} }));
+     dispatch(
+         getallitems({
+           filters: {limit:200},
+         })
+       );
   }, [dispatch]);
 
   useEffect(() => {
