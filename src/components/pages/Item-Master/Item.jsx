@@ -97,7 +97,7 @@ const Item = ({ searchQuery, currPage }) => {
         type: "application/octet-stream",
       });
 
-      saveAs(blob, "Item_Master.xlsx");
+      saveAs(blob, "Items.xlsx");
     } catch (error) {
       console.error("Export failed", error);
     }
@@ -184,10 +184,10 @@ const Item = ({ searchQuery, currPage }) => {
           </thead>
 
           <tbody className="bg-white divide-y divide-gray-200">
-            {itemList.map((item,i) => (
+            {itemList.map((item, i) => (
               <tr key={item._id} className="hover:bg-gray-50">
-                 <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {i+1}
+                <td className="px-4 sm:px-6 py-3 text-blue-950">
+                  {((Number(currPage) || 1) - 1) * 10 + i + 1}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {item?.productName}
