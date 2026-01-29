@@ -30,7 +30,7 @@ const CreateBatch = ({ batchId }) => {
         quantity: "",
         pieces: "",
         outputItem: "",
-        reuseable: "",
+        // reuseable: "",
         type: "",
         inputItem: [
           {
@@ -71,7 +71,7 @@ const CreateBatch = ({ batchId }) => {
         quantity: data?.quantity,
         pieces: data.pieces,
         outputItem: [data.outputItem],
-        reuseable: data?.reuseable,
+        // reuseable: data?.reuseable,
         type: data.type,
 
         inputItem: data.inputItem.map((i) => ({
@@ -109,7 +109,7 @@ const CreateBatch = ({ batchId }) => {
               quantity: batch?.quantity || "",
               pieces: batch.pieces || "",
               outputItem: batch.outputItem?._id || "",
-              reuseable: batch.reuseable || "",
+              // reuseable: batch.reuseable || "",
               type: batch.type || "",
               inputItem: data.inputItem.map((i) => ({
                 itemId: i.itemId,
@@ -134,19 +134,19 @@ const CreateBatch = ({ batchId }) => {
     dispatch(fetchcompositions({ filters: {} }));
   }, [dispatch]);
 
-  useEffect(() => {
-    const selected = compositionList.find((c) => c._id === formData.outputItem);
+  // useEffect(() => {
+  //   const selected = compositionList.find((c) => c._id === formData.outputItem);
 
-    if (selected) {
-      const reuseValue = Number(selected.quantityUsed?.reuseable) || 0;
+  //   if (selected) {
+  //     const reuseValue = Number(selected.quantityUsed?.reuseable) || 0;
 
-      setFormData((prev) => ({
-        ...prev,
-        availablereuseable: reuseValue,
-        reuseable: reuseValue === 0 ? 0 : prev.reuseable || "", // agar 0 nahi, toh user ka value rahe ya blank
-      }));
-    }
-  }, [formData.outputItem, compositionList]);
+  //     setFormData((prev) => ({
+  //       ...prev,
+  //       availablereuseable: reuseValue,
+  //       reuseable: reuseValue === 0 ? 0 : prev.reuseable || "", // agar 0 nahi, toh user ka value rahe ya blank
+  //     }));
+  //   }
+  // }, [formData.outputItem, compositionList]);
 
   return (
     <div className="p-6 md:p-8 bg-white border border-gray-200 rounded-xl shadow-sm max-w-4xl mx-auto mt-5">
@@ -213,7 +213,7 @@ const CreateBatch = ({ batchId }) => {
             error={errors.outputItem}
           />
         </div>
-        <div className="w-full">
+        {/* <div className="w-full">
           <Input
             label="reuseable"
             type="number"
@@ -250,7 +250,7 @@ const CreateBatch = ({ batchId }) => {
               {formData.reuseableError}
             </p>
           )}
-        </div>
+        </div> */}
         <div className=" rounded-lg p-4 bg-gray-50 space-y-4">
           <h3 className="font-semibold text-lg">Input Items</h3>
 
@@ -334,7 +334,7 @@ const CreateBatch = ({ batchId }) => {
             type="submit"
             disabled={
               loading ||
-              !!formData.reuseableError ||
+              // !!formData.reuseableError ||
               totalInputQty !== Number(formData.quantity)
             }
             loading={loading}
