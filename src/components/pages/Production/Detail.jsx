@@ -11,7 +11,7 @@ const Detail = ({ productionId }) => {
 
   const fetchsingledata = async () => {
     let res = await dispatch(
-      fetchproduction2({ filters: { productionId } })
+      fetchproduction2({ filters: { productionId } }),
     ).unwrap();
     setData(res?.data || []);
   };
@@ -21,10 +21,10 @@ const Detail = ({ productionId }) => {
   }, []);
 
   // Total Available
-  const totalAvailable = data.reduce(
-    (acc, item) => acc + (item.available || 0),
-    0
-  );
+  let totalAvailable = 0;
+  if (Array.isArray(data) && data.length > 0) {
+    totalAvailable = data[0].available || 0;
+  }
 
   return (
     <div className="p-5">
@@ -55,6 +55,7 @@ const Detail = ({ productionId }) => {
                 "Short/Access",
                 "Waste",
                 "Reusable Waste",
+                "Available",
                 "Status",
                 "Action",
               ].map((header, index) => (
@@ -120,6 +121,9 @@ const Detail = ({ productionId }) => {
                   </td>
                   <td className="px-4 py-3 text-gray-900 text-right text-sm">
                     {item.reusableWaste ?? "-"}
+                  </td>
+                   <td className="px-4 py-3 text-gray-900 text-right text-sm">
+                    {item.available ?? "-"}
                   </td>
                   <td className="px-4 py-3  text-sm capitalize text-gray-800">
                     {item.status}
