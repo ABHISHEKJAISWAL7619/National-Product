@@ -8,7 +8,7 @@ export const batchSchema = yup.object().shape({
     .typeError("quantity must be a number")
     .positive("quantity must be greater than 0")
     .required("quantity is required"),
-  reuseable: yup.string().required("reuseable No is required"),
+  // reuseable: yup.string().required("reuseable No is required"),
   type: yup
     .string()
     .oneOf(["solderingWire", "solderingStick"], "Invalid type selected")
