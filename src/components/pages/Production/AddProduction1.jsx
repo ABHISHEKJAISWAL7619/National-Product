@@ -168,7 +168,7 @@ const AddProduction1 = ({ production2Id }) => {
               />
               {/* {JSON.stringify(gulla)} */}
               <Input
-                label="Gula"
+                label="Gulla"
                 type="number"
                 value={gulla}
                 disabled

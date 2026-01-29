@@ -5,4 +5,5 @@ export const stockSchema = yup.object().shape({
   // quantity: yup.string().required("Quantity is required"),
   unitPrice: yup.number().required("unitPrice is required"),
   symbol: yup.string().required("symbol is required"),
+  productCode: yup.string().required("productCode is required"),
 });

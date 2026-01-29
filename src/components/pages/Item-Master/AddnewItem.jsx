@@ -24,6 +24,7 @@ const AddnewItem = ({ ItemId }) => {
         productName: "",
         unitPrice: "",
         symbol: "",
+        productCode:"",
       },
       schema: stockSchema,
     });
@@ -34,6 +35,7 @@ const AddnewItem = ({ ItemId }) => {
         productName: data.productName,
         unitPrice: data.unitPrice,
         symbol: data.symbol,
+        productCode:data.productCode,
       };
 
       if (ItemId) {
@@ -110,6 +112,14 @@ const AddnewItem = ({ ItemId }) => {
             value={formData.unitPrice}
             onChange={(e) => handleChange("unitPrice", e.target.value)}
             error={errors.unitPrice}
+          />
+          <Input
+            label="ProductCode"
+            type="text"
+            placeholder="Enter ProductCode"
+            value={formData.productCode}
+            onChange={(e) => handleChange("productCode", e.target.value)}
+            error={errors.productCode}
           />
         </div>
 
