@@ -9,24 +9,26 @@ export const fetchstatcard = createAsyncThunk(
       return response.data;
     } catch (err) {
       return rejectWithValue(
-        err.response?.data?.message || "Failed to save dashboard"
+        err.response?.data?.message || "Failed to save dashboard",
       );
     }
-  }
+  },
 );
 
 export const fetchlowstock = createAsyncThunk(
   "dashboard/stock",
-  async (_, { rejectWithValue }) => {
+  async ({ filters = {} } = {}, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get(`/api/admin/low-stock`);
+      const response = await axiosInstance.get(`/api/admin/low-stock`, {
+        params: filters,
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(
-        err.response?.data?.message || "Failed to save dashboard"
+        err.response?.data?.message || "Failed to save dashboard",
       );
     }
-  }
+  },
 );
 
 export const weeklyproductiontrend = createAsyncThunk(
@@ -34,30 +36,30 @@ export const weeklyproductiontrend = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get(
-        `/api/admin/weeklyproduction-trend`
+        `/api/admin/weeklyproduction-trend`,
       );
       return response.data;
     } catch (err) {
       return rejectWithValue(
-        err.response?.data?.message || "Failed to save dashboard"
+        err.response?.data?.message || "Failed to save dashboard",
       );
     }
-  }
+  },
 );
 export const monthlystockmovement = createAsyncThunk(
   "production/monthly",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get(
-        `/api/admin/monthly-stock-movement`
+        `/api/admin/monthly-stock-movement`,
       );
       return response.data;
     } catch (err) {
       return rejectWithValue(
-        err.response?.data?.message || "Failed to save dashboard"
+        err.response?.data?.message || "Failed to save dashboard",
       );
     }
-  }
+  },
 );
 const initialState = {
   statcardList: [],
