@@ -58,7 +58,7 @@ export const fetchItembyid = createAsyncThunk(
       return data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch Sub categories"
+        error.response?.data || "Failed to fetch Sub categories"
       );
     }
   }
@@ -79,7 +79,7 @@ export const updateItem = createAsyncThunk(
       return data?.data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to update Sub category"
+        error.response?.data || "Failed to update Sub category"
       );
     }
   }

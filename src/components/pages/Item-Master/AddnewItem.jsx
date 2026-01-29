@@ -24,7 +24,7 @@ const AddnewItem = ({ ItemId }) => {
         productName: "",
         unitPrice: "",
         symbol: "",
-        productCode:"",
+        productCode: "",
       },
       schema: stockSchema,
     });
@@ -35,7 +35,7 @@ const AddnewItem = ({ ItemId }) => {
         productName: data.productName,
         unitPrice: data.unitPrice,
         symbol: data.symbol,
-        productCode:data.productCode,
+        productCode: data.productCode,
       };
 
       if (ItemId) {
@@ -49,7 +49,21 @@ const AddnewItem = ({ ItemId }) => {
       reset();
       setEnablePieces(false);
     } catch (error) {
-      errorToast(error?.message || "Failed to save item");
+      let message = "Failed to save item";
+
+      const errText =
+        error?.error || error?.message || error?.response?.data?.error;
+
+      if (errText?.includes("E11000")) {
+        if (errText.includes("productCode")) {
+          message =
+            "Product code already exists. Please use a unique product code.";
+        } else {
+          message = "Duplicate entry detected. Please use unique values.";
+        }
+      }
+
+      errorToast(message);
     }
   };
 
@@ -59,6 +73,7 @@ const AddnewItem = ({ ItemId }) => {
         productName: singleItem.productName || "",
         unitPrice: singleItem.unitPrice || "",
         symbol: singleItem.symbol || "",
+        productCode: singleItem.productCode || "",
       });
 
       if (singleItem.pieces > 0) setEnablePieces(true);
