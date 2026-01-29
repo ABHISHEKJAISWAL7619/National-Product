@@ -29,7 +29,7 @@ const Item = ({ searchQuery, currPage }) => {
     dispatch(
       fetchitems({
         filters: { search: searchQuery, page: currPage, limit: 10 },
-      })
+      }),
     );
   };
 
@@ -43,7 +43,11 @@ const Item = ({ searchQuery, currPage }) => {
     try {
       await dispatch(deleteItem({ ItemId: deleteItemData._id })).unwrap();
       successToast(`Item deleted successfully`);
-      fetchallitems();
+      dispatch(
+        fetchitems({
+          filters: { search: searchQuery, page: currPage, limit: 10 },
+        }),
+      );
     } catch (error) {
       console.error("Delete failed:", error);
     } finally {
@@ -130,7 +134,7 @@ const Item = ({ searchQuery, currPage }) => {
                   {item?.productName}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {item?.productCode ||"-"}
+                  {item?.productCode || "-"}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {item?.quantity || "-"}

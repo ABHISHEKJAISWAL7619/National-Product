@@ -57,7 +57,7 @@ const AddComposition = () => {
   useEffect(() => {
     dispatch(
       getallitems({
-        filters: {},
+        filters: {limit:200},
       })
     );
 
