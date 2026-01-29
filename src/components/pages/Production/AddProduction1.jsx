@@ -23,7 +23,7 @@ const AddProduction1 = ({ production2Id }) => {
 
   const { productionList } = useSelector((state) => state.production);
   const { singleproduction2, loading } = useSelector(
-    (state) => state.production2
+    (state) => state.production2,
   );
 
   const { formData, handleChange, handleSubmit, setFormData, reset, errors } =
@@ -67,7 +67,7 @@ const AddProduction1 = ({ production2Id }) => {
         saveproduction2({
           id: production2Id,
           formData: payload,
-        })
+        }),
       ).unwrap();
       successToast(isUpdate ? "Updated Successfully" : "Created Successfully");
       reset();
@@ -157,39 +157,15 @@ const AddProduction1 = ({ production2Id }) => {
 
         {isUpdate && (
           <>
-            <div className=" justify-between  grid grid-cols-2">
+            <div className=" justify-between gap-4  grid grid-cols-2">
               <Input
-                label="Flux %"
+                label="Gauge"
                 type="number"
-                value={formData.flux}
-                onChange={(e) => handleChange("flux", Number(e.target.value))}
-                placeholder="0.00%"
-                error={errors.flux}
-              />
-              {/* {JSON.stringify(gulla)} */}
-              <Input
-                label="Gulla"
-                type="number"
-                value={gulla}
-                disabled
-                onChange={(e) => handleChange("gula", e.target.value)}
+                value={formData.gauge}
+                onChange={(e) => handleChange("gauge", Number(e.target.value))}
                 placeholder="0.00"
-                error={errors.gulla}
+                error={errors.gauge}
               />
-            </div>
-
-            <div className="flex justify-between gap-5">
-              {/* {JSON.stringify(FLUX_QUANTITY)} */}
-              <Input
-                label="Flux Quantity"
-                type="number"
-                disabled
-                value={FLUX_QUANTITY}
-                onChange={(e) => handleChange("fluxQty", e.target.value)}
-                placeholder="0.00"
-                error={errors.fluxQty}
-              />
-
               <Input
                 label="Semi Finished (KG)"
                 type="number"
@@ -200,9 +176,6 @@ const AddProduction1 = ({ production2Id }) => {
                 placeholder="0.00"
                 error={errors.semiFinishedKg}
               />
-            </div>
-
-            <div className="flex justify-between gap-5">
               <Input
                 label="Semi Finished (Pieces)"
                 type="number"
@@ -213,29 +186,34 @@ const AddProduction1 = ({ production2Id }) => {
                 placeholder="0.00"
                 error={errors.semiPieces}
               />
-
-              <Input
-                label="Reusable Waste"
+               <Input
+                label="Gulla"
                 type="number"
-                value={formData.reusableWaste}
-                onChange={(e) =>
-                  handleChange("reusableWaste", Number(e.target.value))
-                }
+                value={gulla}
+                disabled
+                onChange={(e) => handleChange("gula", e.target.value)}
                 placeholder="0.00"
-                error={errors.reusableWaste}
+                error={errors.gulla}
               />
-            </div>
-
-            <div className="flex justify-between gap-5">
               <Input
-                label="Waste"
+                label="Flux %"
                 type="number"
-                value={formData.waste}
-                onChange={(e) => handleChange("waste", Number(e.target.value))}
-                placeholder="0.00"
-                error={errors.waste}
+                value={formData.flux}
+                onChange={(e) => handleChange("flux", Number(e.target.value))}
+                placeholder="0.00%"
+                error={errors.flux}
               />
-
+              {/* {JSON.stringify(gulla)} */}
+             
+              <Input
+                label="Flux Quantity"
+                type="number"
+                disabled
+                value={FLUX_QUANTITY}
+                onChange={(e) => handleChange("fluxQty", e.target.value)}
+                placeholder="0.00"
+                error={errors.fluxQty}
+              />
               <Input
                 label="Short And Excess"
                 type="number"
@@ -246,18 +224,24 @@ const AddProduction1 = ({ production2Id }) => {
                 placeholder="0.00"
                 error={errors.shortAndAccess}
               />
-            </div>
-
-            <div className="flex justify-between gap-5">
               <Input
-                label="Gauge"
+                label="Reusable Waste"
                 type="number"
-                value={formData.gauge}
-                onChange={(e) => handleChange("gauge", Number(e.target.value))}
+                value={formData.reusableWaste}
+                onChange={(e) =>
+                  handleChange("reusableWaste", Number(e.target.value))
+                }
                 placeholder="0.00"
-                error={errors.gauge}
+                error={errors.reusableWaste}
               />
-
+              <Input
+                label="Waste"
+                type="number"
+                value={formData.waste}
+                onChange={(e) => handleChange("waste", Number(e.target.value))}
+                placeholder="0.00"
+                error={errors.waste}
+              />
               <Input
                 label="Available"
                 type="number"
@@ -269,6 +253,7 @@ const AddProduction1 = ({ production2Id }) => {
                 error={errors.available}
               />
             </div>
+
             {/* <Input
               label="Status"
               type="select"
