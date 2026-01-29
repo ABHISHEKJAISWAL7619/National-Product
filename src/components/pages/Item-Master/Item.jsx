@@ -16,6 +16,8 @@ import OverlayModal from "@/components/common/OverlayModal";
 import { AlertModal } from "@/components/common/AlertModel";
 import SearchBox from "@/components/common/SearchBox";
 import Pagination from "@/components/common/Pagination";
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const Item = ({ searchQuery, currPage }) => {
   const [deleteItemData, setDeleteItemData] = useState(null);
@@ -55,6 +57,51 @@ const Item = ({ searchQuery, currPage }) => {
       setDeleteItemData(null);
     }
   };
+  const handleExport = async () => {
+    try {
+      const res = await dispatch(
+        fetchitems({
+          filters: {
+            search: searchQuery,
+            page: 1,
+            limit: documentCount, // 🔥 yahin magic hai
+          },
+        }),
+      ).unwrap();
+
+      const data = res?.data || [];
+
+      if (!data.length) return;
+
+      const excelData = data.map((item, index) => ({
+        "S.No": index + 1,
+        "Product Name": item.productName,
+        "Product Code": item.productCode,
+        Quantity: item.quantity,
+        Pieces: item.piece,
+        "Unit Price": item.unitPrice,
+        Symbol: item.symbol,
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(excelData);
+      const workbook = XLSX.utils.book_new();
+
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Items");
+
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+
+      const blob = new Blob([excelBuffer], {
+        type: "application/octet-stream",
+      });
+
+      saveAs(blob, "Item_Master.xlsx");
+    } catch (error) {
+      console.error("Export failed", error);
+    }
+  };
 
   useEffect(() => {
     fetchallitems();
@@ -90,6 +137,13 @@ const Item = ({ searchQuery, currPage }) => {
               <span>Create Item</span>
             </button>
           </Link>
+          <button
+            onClick={handleExport}
+            className="w-full cursor-pointer sm:w-auto bg-green-600 text-white text-sm font-medium flex items-center justify-center gap-1 py-2.5 px-4 rounded-md transition"
+          >
+            <FilePlus size={18} />
+            <span>Export</span>
+          </button>
         </div>
       </div>
 
@@ -110,9 +164,11 @@ const Item = ({ searchQuery, currPage }) => {
           <thead className="bg-gray-50">
             <tr>
               {[
+                "S.No",
                 "Product Name",
                 "Product Code",
                 "Quanity",
+                "pieces",
                 "Unitprice",
                 "Symbol",
                 "Actions",
@@ -128,8 +184,11 @@ const Item = ({ searchQuery, currPage }) => {
           </thead>
 
           <tbody className="bg-white divide-y divide-gray-200">
-            {itemList.map((item) => (
+            {itemList.map((item,i) => (
               <tr key={item._id} className="hover:bg-gray-50">
+                 <td className="px-4 sm:px-6 py-3 text-blue-950">
+                  {i+1}
+                </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {item?.productName}
                 </td>
@@ -138,6 +197,9 @@ const Item = ({ searchQuery, currPage }) => {
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {item?.quantity || "-"}
+                </td>
+                <td className="px-4 sm:px-6 py-3 text-blue-950">
+                  {item?.piece || "-"}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {item?.unitPrice || "-"}
