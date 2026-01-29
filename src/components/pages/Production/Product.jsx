@@ -219,7 +219,7 @@ const Product = ({ searchQuery, currPage, dateTo, dateFrom, type, status }) => {
                     </td>
 
                     <td className="px-4 py-3 text-sm text-center text-blue-950">
-                      {batch?.quantity ?? "—"}
+                      {p?.quantity ?? "—"}
                     </td>
 
                     <td className="px-4 py-3 text-sm text-center text-blue-950">

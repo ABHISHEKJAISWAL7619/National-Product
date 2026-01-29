@@ -33,6 +33,7 @@ const Workprogress = ({ page, searchQuery, type }) => {
     "S.No",
     "Batch No",
     "Quantity",
+    "Price",
     "Date",
     "Production Level",
     "Composition",
@@ -107,7 +108,9 @@ const Workprogress = ({ page, searchQuery, type }) => {
                     <td className="px-6 py-4 text-[#003566]">
                       {item?.quantity || item?.semiFinishedKg}
                     </td>
-
+ <td className="px-6 py-4 text-[#003566]">
+                      {item?.price || item?.semiFinishedKg}
+                    </td>
                     <td className="px-6 py-4 text-[#003566]">
                       {FormatDatetime(item?.createdAt, "date")}
                     </td>
