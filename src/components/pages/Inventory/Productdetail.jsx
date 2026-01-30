@@ -67,7 +67,7 @@ const Productdetail = ({ itemId }) => {
               {[
                 "Time Stamp",
                 "Type",
-                "Percentage Used",
+                "Reference",
                 "Qty In",
                 "Qty Out",
               ].map((h) => (
@@ -88,7 +88,7 @@ const Productdetail = ({ itemId }) => {
                   {new Date(tx.timeStamp).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-3 text-black">{tx.type}</td>
-                <td className="px-6 py-3 text-black">{tx.percentageUsed}</td>
+                <td className="px-6 py-3 text-black">{tx.reference}</td>
                 <td className="px-6 py-3 text-black">{tx.qtyIn}</td>
                 <td className="px-6 py-3 text-black">{tx.qtyOut}</td>
               </tr>
