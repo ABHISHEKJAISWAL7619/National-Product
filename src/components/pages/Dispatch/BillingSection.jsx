@@ -78,7 +78,7 @@ export default function BillingSection({ billingItems, setBillingItems }) {
   // Subtotal, CGST, SGST, Total calculation
   const { subTotal, cgst, sgst, total } = useMemo(() => {
     const subTotalCalc = billingItems.reduce(
-      (sum, item) => sum + item.quantity * item.price,
+      (sum, item) => sum + item.price,
       0
     );
     const cgstCalc = subTotalCalc * 0.09;
