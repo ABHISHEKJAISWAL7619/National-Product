@@ -24,5 +24,6 @@ export const updateProductionSchema = yup.object().shape({
     .typeError("Must be a number")
     .min(0)
     .required("Short and Access is required"),
+  flex: yup.number().typeError("Must be a number").min(0).nullable(),
   status: yup.string().required("Status is required"),
 });

@@ -36,6 +36,7 @@ const AddProduction = ({ productionId }) => {
         waste: "",
         shortAccess: "",
         quantity: "",
+        flux:"",
         status: "pending",
       },
       schema: isUpdate ? updateProductionSchema : createProductionSchema,
@@ -61,6 +62,7 @@ const AddProduction = ({ productionId }) => {
         reusableWaste: singleProduction.reusableWaste ?? "",
         waste: singleProduction.waste ?? "",
         shortAccess: singleProduction.shortAccess ?? "",
+        flux:singleProduction.flux??"",
         status: "completed",
       });
     }
@@ -209,6 +211,14 @@ const AddProduction = ({ productionId }) => {
               onChange={(e) => handleChange("shortAccess", e.target.value)}
               placeholder="Enter Short/Access"
               error={errors.shortAccess}
+            />
+             <Input
+              label="Flux"
+              type="number"
+              value={formData.flux}
+              onChange={(e) => handleChange("flux", e.target.value)}
+              placeholder="Enter flux"
+              error={errors.flux}
             />
 
             {/* <Input
