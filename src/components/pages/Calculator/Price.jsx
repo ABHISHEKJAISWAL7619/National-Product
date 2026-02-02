@@ -138,7 +138,7 @@ const PriceCalculator = () => {
     <div className="max-w-2xl mx-auto mt-6">
       <div className="bg-white shadow-xl rounded-xl p-6">
         <h2 className="font-bold text-black text-2xl text-center mb-6">
-          Price Calculator
+          Price Calculator for composition/ kg. 
         </h2>
 
         <div className="space-y-4">

@@ -101,16 +101,6 @@ const CreateSubCategory = ({ subcategoryId }) => {
       <div className="max-w-[940px]">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col">
-            <Input
-              label="Subcategory Name"
-              type="text"
-              placeholder="Enter Subcategory Name"
-              value={formData.name}
-              className="max-w-[360px]"
-              onChange={(e) => handleChange("name", e.target.value)}
-              error={errors.name}
-            />
-
             <Select
               label="Select Category"
               placeholder="Select Category"
@@ -122,6 +112,17 @@ const CreateSubCategory = ({ subcategoryId }) => {
               error={errors.category}
               className="max-w-[360px] my-3"
             />
+            <Input
+              label="Subcategory Name"
+              type="text"
+              placeholder="Enter Subcategory Name"
+              value={formData.name}
+              className="max-w-[360px]"
+              onChange={(e) => handleChange("name", e.target.value)}
+              error={errors.name}
+            />
+
+            
           </div>
 
           <div className="flex gap-5 mt-2 w-full lg:w-[448px]">
