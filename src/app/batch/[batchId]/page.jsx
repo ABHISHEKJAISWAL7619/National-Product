@@ -1,3 +1,5 @@
+
+import BatchDetail from "@/components/pages/Batch-Creation/BatchDetail";
 import CreateBatch from "@/components/pages/Batch-Creation/CreateBatch";
 import MainLayout from "@/components/templates/templates/MainLayout";
 import React from "react";
@@ -7,7 +9,7 @@ const page = async ({ params }) => {
   return (
     <div>
       <MainLayout>
-        <CreateBatch batchId={batchId} />
+        <BatchDetail batchId={batchId} />
       </MainLayout>
     </div>
   );

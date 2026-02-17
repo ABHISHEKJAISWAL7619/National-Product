@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { FilePlus2, Edit3, Trash2 } from "lucide-react";
+import { FilePlus2, Edit3, Trash2, Eye } from "lucide-react";
 import { fetchbatchs, deletebatch } from "@/redux/slice/batch-slice";
 import { successToast, errorToast } from "@/utils/toastMessage";
 import OverlayModal from "@/components/common/OverlayModal";
@@ -201,10 +201,10 @@ const Row = ({ data, onDeleteClick }) => {
         <div className="flex justify-center gap-3">
           <Link href={`/batch/${_id}`}>
             <button
-              className="text-blue-600 hover:text-blue-800 transition"
-              title="Edit"
+              className="text-blue-600 cursor-pointer hover:text-blue-800 transition"
+              title="view"
             >
-              <Edit3 size={18} />
+              <Eye size={18} />
             </button>
           </Link>
           <button
