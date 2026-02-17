@@ -60,7 +60,7 @@ const BatchDetail = ({batchId}) => {
           <tbody>
             {batch.inputItem?.map((item, idx) => (
               <tr key={idx}>
-                <td className="border p-2">
+                <td className="border p-2 text-center">
                   {item.itemId?.productName || "N/A"}
                 </td>
                 <td className="border p-2 text-center">{item.quantity}</td>
