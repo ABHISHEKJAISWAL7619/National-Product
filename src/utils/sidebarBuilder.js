@@ -71,7 +71,9 @@ export const buildSidebar = (entities = []) => {
       "/price-calculator",
       "/inventory",
       "/price-calculater",
-      "/summary"
+      "/summary",
+      "/work-in-progress",
+      
     ];
 
     if (MAIN_ROUTES.includes(route)) {
