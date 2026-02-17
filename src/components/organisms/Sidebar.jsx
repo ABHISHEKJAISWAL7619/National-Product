@@ -11,6 +11,7 @@ import OverlayModal from "@/components/common/OverlayModal";
 import { LogoutModal } from "@/components/common/LogoutModal";
 import { fetchUserDetails, logout } from "@/redux/slice/auth-slice";
 import { usePathname } from "next/navigation";
+import { buildSidebar } from "@/utils/sidebarBuilder";
 
 const RenderIcon = ({ icon }) => {
   if (!icon) return null;
@@ -46,6 +47,7 @@ export default function Sidebar({ isOpen, onClose }) {
   const router = useRouter();
 
   const toggle = (title) => setOpen(open === title ? null : title);
+  const sidebarStructure = buildSidebar(user?.roleId?.entity || []);
 
   const handleLogoutConfirm = () => {
     setIsLogoutModalOpen(false);
@@ -88,69 +90,95 @@ export default function Sidebar({ isOpen, onClose }) {
         {/* Menu Items */}
         <nav className="flex-1 overflow-y-auto mt-4 custom-scroll">
           <ul className="space-y-2 font-nunito font-semibold text-[14px] capitalize mb-2">
-            {menuItems.map((item, i) => {
-              const isOpenItem = open === item.label;
+            {sidebarStructure.map((section, si) => (
+              <div key={si}>
+                <p className="px-5 text-xs text-gray-400 uppercase mt-4 mb-2">
+                  {section.section}
+                </p>
 
-              if (item.subMenu && item.subMenu.length > 0) {
-                return (
-                  <li key={i}>
-                    <button
-                      onClick={() => toggle(item.label)}
-                      className={`flex items-center justify-between w-full px-5 py-2 text-[15px] ${
-                        isOpenItem
-                          ? "text-red-600"
-                          : "text-navy hover:bg-gray-100"
-                      }`}
-                    >
-                      <span className="flex items-center gap-2">
-                        <RenderIcon icon={item.icon} />
-                        {item.label}
-                      </span>
-                      <MdArrowDropDown
-                        className={`w-5 h-5 transition-transform ${
-                          isOpenItem ? "rotate-180 text-red-600" : ""
-                        }`}
-                      />
-                    </button>
+                <ul className="space-y-2">
+                  {section.items.map((item, i) => {
+                    if (item.subMenu) {
+                      const isChildActive = item.subMenu?.some(
+                        (child) => child.route === pathname,
+                      );
 
-                    {isOpenItem && (
-                      <ul className="ml-8 mt-1 space-y-1 font-nunito font-semibold text-[14px]">
-                        {item.subMenu.map((child, ci) => (
-                          <li key={ci}>
-                            <Link
-                              href={child.route}
-                              className="block px-2 py-1 hover:bg-gray-100"
-                              onClick={onClose}
-                            >
-                              {child.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                );
-              }
+                      const isOpenItem = open === item.label || isChildActive;
 
-              return (
-                <li key={i}>
-                  <Link
-                    href={item.route}
-                    className={`flex items-center gap-2 px-5 py-2 text-[15px] 
+                      return (
+                        <li key={i}>
+                          <button
+                            onClick={() => toggle(item.label)}
+                            className={`flex items-center justify-between w-full px-5 py-2 rounded-md
   ${
-    pathname === item.route
-      ? "bg-green-600 text-white shadow-md mx-2 rounded-md border border-blue-200"
-      : "text-navy hover:bg-gray-100 mx-2 rounded-md"
+    isOpenItem
+      ? "bg-green-100 m-2 text-green-700 font-semibold"
+      : "hover:bg-gray-100"
   }
 `}
-                    onClick={onClose}
-                  >
-                    <RenderIcon icon={item.icon} />
-                    {item.label}
-                  </Link>
-                </li>
-              );
-            })}
+                          >
+                            <span className="flex items-center gap-2">
+                              <RenderIcon icon={item.icon} />
+                              {item.label}
+                            </span>
+
+                            <MdArrowDropDown
+                              className={`transition-transform ${
+                                isOpenItem ? "rotate-180" : ""
+                              }`}
+                            />
+                          </button>
+
+                          {isOpenItem && (
+                            <ul className="ml-8 mt-1 space-y-1">
+                              {item.subMenu.map((child, ci) => (
+                                <li key={ci}>
+                                  <Link
+  href={child.route}
+  className={`flex items-center gap-2 py-2 rounded-md
+    ${
+      pathname === child.route
+        ? "bg-green-600 text-white mx-3 px-4 shadow-md font-semibold"
+        : "hover:bg-gray-100 mx-3 px-4"
+    }
+  `}
+  onClick={onClose}
+>
+  {/* <RenderIcon icon={child.icon} />   */}
+  {child.label}                    
+</Link>
+
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
+                      );
+                    }
+
+                    return (
+                      <li key={i}>
+                       <Link
+  href={item.route}
+  className={`flex items-center gap-2 py-2 rounded-md
+    ${
+      pathname === item.route
+        ? "bg-green-600 text-white mx-3 px-4 shadow-md font-semibold"
+        : "hover:bg-gray-100 mx-3 px-4"
+    }
+  `}
+  onClick={onClose}
+>
+  <RenderIcon icon={item.icon} /> 
+  {item.label}
+</Link>
+
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
           </ul>
         </nav>
 
@@ -158,7 +186,7 @@ export default function Sidebar({ isOpen, onClose }) {
         <div className="flex-none mb-4">
           <button
             onClick={() => setIsLogoutModalOpen(true)}
-            className="flex cursor-pointer items-center gap-2 px-5 py-2 text-[15px] text-navy hover:bg-gray-100 w-full text-left"
+            className="flex cursor-pointer text-red-500 items-center gap-2 px-5 py-2 text-[15px] text-navy hover:bg-gray-100 w-full text-left"
           >
             <i className="ri-logout-circle-line text-[20px]"></i>
             Logout
