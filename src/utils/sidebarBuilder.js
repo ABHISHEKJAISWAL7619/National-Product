@@ -65,8 +65,16 @@ export const buildSidebar = (entities = []) => {
 
   entities.forEach((item) => {
     const route = item.route || "";
+    const MAIN_ROUTES = [
+      "/", // dashboard
+      "/dispatch",
+      "/price-calculator",
+      "/inventory",
+      "/price-calculater",
+      "/summary"
+    ];
 
-    if (route === "/" || route === "/dispatch") {
+    if (MAIN_ROUTES.includes(route)) {
       groupedMenu.main.push(item);
     } else if (route.startsWith("/item-master")) {
       groupedMenu.itemMaster.push(item);
