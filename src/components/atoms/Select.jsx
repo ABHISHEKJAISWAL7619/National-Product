@@ -40,7 +40,7 @@ const Select = ({
             ${className}`}
         >
           <option value="" disabled hidden className="text-black">
-            {placeholder}
+            Select {label}
           </option>
 
           {options.map((opt, i) => (

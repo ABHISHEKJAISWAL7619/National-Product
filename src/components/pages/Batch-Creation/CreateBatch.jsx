@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "@/components/common/Input";
 import { Button } from "@/components/common/Button";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,13 +14,21 @@ import {
 import { batchSchema } from "@/validations/batchSchema";
 import { fetchcompositions } from "@/redux/slice/composition-slice";
 import { fetchitems, getallitems } from "@/redux/slice/Item-slice";
+import { fetchMainCategories } from "@/redux/slice/main-category";
+import { fetchSubCategories } from "@/redux/slice/SubCategory";
+import Select from "@/components/atoms/Select";
 
 const CreateBatch = ({ batchId }) => {
   const dispatch = useDispatch();
   const { compositionList } = useSelector((state) => state.composition);
   console.log(compositionList);
+  const { categoryList } = useSelector((state) => state.category);
+  const { SubcategoryList } = useSelector((state) => state.subcategory);
   const { loading, singlebatch } = useSelector((state) => state.batch);
-  const { itemList} = useSelector((state) => state.item);
+  const { itemList } = useSelector((state) => state.item);
+  const [localSubcategoryByRow, setLocalSubcategoryByRow] = useState({});
+  const [localItemByRow, setLocalItemByRow] = useState({});
+
   console.log(itemList);
   const { formData, handleChange, setFormData, handleSubmit, reset, errors } =
     useForm({
@@ -32,8 +40,11 @@ const CreateBatch = ({ batchId }) => {
         outputItem: "",
         // reuseable: "",
         type: "",
+
         inputItem: [
           {
+            category: "",
+            subcategory: "",
             itemId: "",
             quantity: "",
             reuseableQty: "",
@@ -51,7 +62,13 @@ const CreateBatch = ({ batchId }) => {
       ...prev,
       inputItem: [
         ...prev.inputItem,
-        { itemId: "", quantity: "", reuseableQty: "" },
+        {
+          category: "",
+          subcategory: "",
+          itemId: "",
+          quantity: "",
+          reuseableQty: "",
+        },
       ],
     }));
   };
@@ -127,12 +144,25 @@ const CreateBatch = ({ batchId }) => {
     }
   }, [dispatch, batchId, setFormData]);
   useEffect(() => {
-     dispatch(
-         getallitems({
-           filters: {limit:200},
-         })
-       );
-  }, [dispatch]);
+    formData.inputItem.forEach(async (row, idx) => {
+      if (!row.category && !row.subcategory) return;
+
+      const filters = { limit: 200 };
+      if (row.category) filters.category = row.category;
+      if (row.subcategory) filters.subcategory = row.subcategory;
+
+      try {
+        const res = await dispatch(getallitems({ filters })).unwrap();
+
+        setLocalItemByRow((prev) => ({
+          ...prev,
+          [idx]: res?.data || [],
+        }));
+      } catch (e) {
+        console.log("Item fetch error", e);
+      }
+    });
+  }, [formData.inputItem, dispatch]);
 
   useEffect(() => {
     dispatch(fetchcompositions({ filters: {} }));
@@ -151,6 +181,29 @@ const CreateBatch = ({ batchId }) => {
   //     }));
   //   }
   // }, [formData.outputItem, compositionList]);
+  useEffect(() => {
+    dispatch(fetchMainCategories({ filters: { limit: 200 } }));
+  }, [dispatch]);
+  useEffect(() => {
+    formData.inputItem.forEach(async (row, idx) => {
+      if (!row.category) return;
+
+      try {
+        const res = await dispatch(
+          fetchSubCategories({
+            filters: { category: row.category, limit: 200 },
+          }),
+        ).unwrap();
+
+        setLocalSubcategoryByRow((prev) => ({
+          ...prev,
+          [idx]: res?.data || [],
+        }));
+      } catch (e) {
+        console.log("Subcategory fetch error", e);
+      }
+    });
+  }, [formData.inputItem, dispatch]);
 
   return (
     <div className="p-6 md:p-8 bg-white border border-gray-200 rounded-xl shadow-sm max-w-4xl mx-auto mt-5">
@@ -263,6 +316,31 @@ const CreateBatch = ({ batchId }) => {
               key={idx}
               className="grid grid-cols-1 md:grid-cols-3 gap-4 relative"
             >
+              <Select
+                label="Category"
+                value={row.category}
+                options={
+                  categoryList?.map((c) => ({
+                    label: c.category,
+                    value: c._id,
+                  })) || []
+                }
+                onChange={(v) => handleChange(`inputItem.${idx}.category`, v)}
+                error={errors.inputItem?.[idx]?.category}
+              />
+
+              <Select
+                label="Subcategory"
+                value={row.subcategory}
+                options={(localSubcategoryByRow[idx] || []).map((s) => ({
+                  label: s.name,
+                  value: s._id,
+                }))}
+                onChange={(v) =>
+                  handleChange(`inputItem.${idx}.subcategory`, v)
+                }
+              />
+
               <Input
                 label="Item"
                 type="select"
@@ -270,11 +348,10 @@ const CreateBatch = ({ batchId }) => {
                 onChange={(e) =>
                   handleChange(`inputItem.${idx}.itemId`, e.target.value)
                 }
-                options={(itemList || []).map((i) => ({
+                options={(localItemByRow[idx] || []).map((i) => ({
                   label: i.productName,
                   value: i._id,
                 }))}
-                error={errors.inputItem?.[idx]?.itemId}
               />
 
               <Input

@@ -18,6 +18,8 @@ export const batchSchema = yup.object().shape({
     .array()
     .of(
       yup.object().shape({
+        category: yup.string().required("Category is required"),
+        subcategory: yup.string().required("Subcategory is required"),
         itemId: yup.string().required("Item is required"),
         quantity: yup
           .number()

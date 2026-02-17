@@ -94,14 +94,14 @@ const AddnewItem = ({ ItemId }) => {
     if (ItemId) dispatch(fetchItembyid({ ItemId })).unwrap();
   }, [ItemId, dispatch]);
   useEffect(() => {
-    dispatch(fetchMainCategories({ filters: {} }));
+    dispatch(fetchMainCategories({ filters: {limit:200} }));
   }, [dispatch]);
   useEffect(() => {
     if (!formData.category) return;
 
     dispatch(
       fetchSubCategories({
-        filters: { category: formData.category },
+        filters: { category: formData.category,limit:200 },
       }),
     );
   }, [formData.category, dispatch]);
