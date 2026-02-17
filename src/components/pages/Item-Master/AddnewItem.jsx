@@ -12,16 +12,22 @@ import {
   updateItem,
 } from "@/redux/slice/Item-slice";
 import Input from "@/components/common/Input";
+import { fetchMainCategories } from "@/redux/slice/main-category";
+import { fetchSubCategories } from "@/redux/slice/SubCategory";
+import Select from "@/components/atoms/Select";
 
 const AddnewItem = ({ ItemId }) => {
   const dispatch = useDispatch();
   const { loading, singleItem } = useSelector((state) => state.item || {});
   const [enablePieces, setEnablePieces] = useState(false);
-
+  const { categoryList } = useSelector((state) => state.category);
+  const { SubcategoryList } = useSelector((state) => state.subcategory);
   const { formData, handleChange, setFormData, handleSubmit, errors, reset } =
     useForm({
       defaultValues: {
         productName: "",
+        category: "",
+        subcategory: "",
         unitPrice: "",
         symbol: "",
         productCode: "",
@@ -33,6 +39,8 @@ const AddnewItem = ({ ItemId }) => {
     try {
       const payload = {
         productName: data.productName,
+        category: data.category,
+        subcategory: data.subcategory,
         unitPrice: data.unitPrice,
         symbol: data.symbol,
         productCode: data.productCode,
@@ -74,6 +82,8 @@ const AddnewItem = ({ ItemId }) => {
         unitPrice: singleItem.unitPrice || "",
         symbol: singleItem.symbol || "",
         productCode: singleItem.productCode || "",
+        category: singleItem?.category._id || "",
+        subcategory: singleItem?.subcategory._id || "",
       });
 
       if (singleItem.pieces > 0) setEnablePieces(true);
@@ -83,6 +93,18 @@ const AddnewItem = ({ ItemId }) => {
   useEffect(() => {
     if (ItemId) dispatch(fetchItembyid({ ItemId })).unwrap();
   }, [ItemId, dispatch]);
+  useEffect(() => {
+    dispatch(fetchMainCategories({ filters: {} }));
+  }, [dispatch]);
+  useEffect(() => {
+    if (!formData.category) return;
+
+    dispatch(
+      fetchSubCategories({
+        filters: { category: formData.category },
+      }),
+    );
+  }, [formData.category, dispatch]);
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8 max-w-3xl mx-auto mt-6">
@@ -106,6 +128,31 @@ const AddnewItem = ({ ItemId }) => {
             value={formData.productName}
             onChange={(e) => handleChange("productName", e.target.value)}
             error={errors.productName}
+          />
+          <Select
+            label="Select Category"
+            value={formData.category}
+            options={
+              categoryList?.map((c) => ({
+                label: c.category,
+                value: c._id,
+              })) || []
+            }
+            onChange={(v) => handleChange("category", v)}
+            error={errors.category}
+          />
+
+          <Select
+            label="Select Subcategory"
+            value={formData.subcategory}
+            options={
+              SubcategoryList?.map((s) => ({
+                label: s.name,
+                value: s._id,
+              })) || []
+            }
+            onChange={(v) => handleChange("subcategory", v)}
+            error={errors.subcategory}
           />
 
           <Input
