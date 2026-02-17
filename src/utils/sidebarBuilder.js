@@ -66,22 +66,17 @@ export const buildSidebar = (entities = []) => {
   entities.forEach((item) => {
     const route = item.route || "";
 
-    if (route === "/") {
+    if (route === "/" || route === "/dispatch") {
       groupedMenu.main.push(item);
-    } 
-    else if (route.startsWith("/item-master")) {
+    } else if (route.startsWith("/item-master")) {
       groupedMenu.itemMaster.push(item);
-    } 
-    else if (route.startsWith("/incoming")) {
+    } else if (route.startsWith("/incoming")) {
       groupedMenu.incoming.push(item);
-    } 
-    else if (route.startsWith("/batch")) {
+    } else if (route.startsWith("/batch")) {
       groupedMenu.batch.push(item);
-    } 
-    else if (route.startsWith("/production")) {
+    } else if (route.startsWith("/production")) {
       groupedMenu.production.push(item);
-    } 
-    else {
+    } else {
       groupedMenu.management.push(item);
     }
   });
@@ -142,4 +137,3 @@ export const buildSidebar = (entities = []) => {
 
   return sidebar;
 };
-
