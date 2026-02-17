@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import OverlayModal from "@/components/common/OverlayModal";
 import { LogoutModal } from "@/components/common/LogoutModal";
 import { fetchUserDetails, logout } from "@/redux/slice/auth-slice";
+import { usePathname } from "next/navigation";
 
 const RenderIcon = ({ icon }) => {
   if (!icon) return null;
@@ -39,6 +40,8 @@ export default function Sidebar({ isOpen, onClose }) {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const { user } = useSelector((state) => state.auth.user);
   console.log(user);
+  const pathname = usePathname();
+
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -133,7 +136,13 @@ export default function Sidebar({ isOpen, onClose }) {
                 <li key={i}>
                   <Link
                     href={item.route}
-                    className="flex items-center gap-2 px-5 py-2 text-[15px] text-navy hover:bg-gray-100"
+                    className={`flex items-center gap-2 px-5 py-2 text-[15px] 
+  ${
+    pathname === item.route
+      ? "bg-green-600 text-white shadow-md mx-2 rounded-md border border-blue-200"
+      : "text-navy hover:bg-gray-100 mx-2 rounded-md"
+  }
+`}
                     onClick={onClose}
                   >
                     <RenderIcon icon={item.icon} />

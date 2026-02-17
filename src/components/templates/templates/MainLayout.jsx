@@ -12,7 +12,7 @@ export default function MainLayout({ children }) {
   const { user } = useSelector((state) => state.auth.user);
 
   return (
-    <div className="flex flex-col h-screen bg-white overflow-hidden">
+    <div className="flex flex-col h-screen bg-gray-50 overflow-hidden">
       {/* Header — full width */}
       <Header user={user} onMenuClick={() => setDrawerOpen(true)} />
 

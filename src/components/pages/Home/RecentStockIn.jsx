@@ -13,7 +13,7 @@ const RecentStockIn = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex justify-center px-3 sm:px-6 lg:px-1 w-full">
+    <div className="flex justify-center  px-3 sm:px-6 lg:px-1 w-full">
       <div className="w-full max-w-full bg-white rounded-lg shadow-sm">
         {/* Header */}
         <div className="p-4 sm:p-6  ">

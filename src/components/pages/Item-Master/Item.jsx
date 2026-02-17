@@ -159,7 +159,7 @@ const Item = ({ searchQuery, currPage }) => {
       </div>
 
       {/* Table Section */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto   ">
         <table className="min-w-full divide-y divide-gray-200 text-sm">
           <thead className="bg-gray-50">
             <tr>

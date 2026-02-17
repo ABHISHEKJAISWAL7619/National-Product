@@ -8,8 +8,8 @@ export default function Dispatch({ searchQuery, type, currPage }) {
   const [billingItems, setBillingItems] = useState([]);
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="flex flex-col lg:flex-row gap-6 max-w-screen-xl mx-auto items-start">
+    <div className="max-h-content ">
+      <div className="flex bg-gray-50 flex-col lg:flex-row gap-6 max-w-screen-xl mx-auto items-start">
         <ProductSection
           searchQuery={searchQuery}
           type={type}

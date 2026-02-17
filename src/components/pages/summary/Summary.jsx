@@ -106,7 +106,7 @@ const Summary = ({ dateFrom, dateTo, currPage, searchQuery }) => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-xl shadow bg-white mt-4">
+      <div className="overflow-x-auto rounded-md border border-gray-300 shadow bg-white mt-4">
         <table className="min-w-[900px] md:min-w-full border-collapse">
           <thead className="bg-gray-100 border-b">
             <tr className="text-gray-700 text-sm">
@@ -165,7 +165,7 @@ const Summary = ({ dateFrom, dateTo, currPage, searchQuery }) => {
       </div>
 
       {/* Totals */}
-      <div className="mt-6 bg-gray-50 rounded-md p-4 overflow-x-auto">
+      <div className="mt-6 bg-white border border-gray-300 rounded-md p-4 overflow-x-auto">
         <div className="flex flex-wrap gap-4 min-w-[600px] md:min-w-full">
           {[
             { label: "Total Quantity", value: totals.totalQty },

@@ -13,7 +13,7 @@ const Dispatch = () => {
   }, [dispatch]);
 
   return (
-    <div className="flex justify-center px-4 sm:px-6 lg:px-1 py-6 bg-gray-50">
+    <div className="flex justify-center px-4 sm:px-6 lg:px-1 py-6 ">
       <div className="w-full max-w-[1300px] bg-white rounded-lg shadow-sm  -gray-100">
         {/* HEADER */}
         <div className="p-4 sm:p-6">

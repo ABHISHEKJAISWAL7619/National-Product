@@ -146,7 +146,7 @@ export default function ProductSection({
 
       {/* Table Wrapper */}
       <div className="w-full overflow-x-auto">
-        <table className="w-full min-w-[700px] text-sm">
+        <table className="w-full max-w-[600px] text-sm">
           <thead className="bg-gray-100 text-gray-600 text-xs uppercase">
             <tr>
               <th className="px-4 py-3 text-left">S.No</th>

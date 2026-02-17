@@ -62,7 +62,7 @@ const MonthlyStock = () => {
   ];
 
   return (
-    <div className="flex justify-center py-10 bg-gray-50 font-inter px-4 sm:px-6 lg:px-1">
+    <div className="flex justify-center py-10  font-inter px-4 sm:px-6 lg:px-1">
       <div className="flex flex-col lg:flex-row justify-between gap-8 w-full max-w-full">
         {/* 📊 Monthly Stock Chart */}
         <div className="bg-white p-5 rounded-2xl shadow-sm w-full lg:w-1/2">
