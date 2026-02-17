@@ -86,7 +86,6 @@ export const buildSidebar = (entities = []) => {
     }
   });
 
-  // 🔥 EMPTY GROUP FILTER LOGIC
   const sidebar = [];
 
   if (groupedMenu.main.length) {
@@ -134,7 +133,6 @@ export const buildSidebar = (entities = []) => {
     managementItems.push(...groupedMenu.management);
   }
 
-  // 👉 MANAGEMENT tab sirf tab add hoga jab kuch ho
   if (managementItems.length) {
     sidebar.push({
       section: "MANAGEMENT",
