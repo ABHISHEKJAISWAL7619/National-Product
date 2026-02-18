@@ -47,16 +47,17 @@ const CreateBatch = ({ batchId }) => {
             subcategory: "",
             itemId: "",
             quantity: "",
-            reuseableQty: "",
+            // reuseableQty: "",
+            pieces: "",
           },
         ],
       },
       schema: batchSchema,
     });
-  const totalInputQty = formData.inputItem.reduce(
-    (sum, i) => sum + Number(i.quantity || 0),
-    0,
-  );
+  // const totalInputQty = formData.inputItem.reduce(
+  //   (sum, i) => sum + Number(i.quantity || 0),
+  //   0,
+  // );
   const addInputItem = () => {
     setFormData((prev) => ({
       ...prev,
@@ -67,7 +68,8 @@ const CreateBatch = ({ batchId }) => {
           subcategory: "",
           itemId: "",
           quantity: "",
-          reuseableQty: "",
+          // reuseableQty: "",
+          pieces: "",
         },
       ],
     }));
@@ -94,7 +96,8 @@ const CreateBatch = ({ batchId }) => {
         inputItem: data.inputItem.map((i) => ({
           itemId: i.itemId,
           quantity: Number(i.quantity),
-          reuseableQty: Number(i.reuseableQty || 0),
+          // reuseableQty: Number(i.reuseableQty || 0),
+          pieces: Number(i.pieces || 0),
         })),
       };
 
@@ -131,7 +134,8 @@ const CreateBatch = ({ batchId }) => {
               inputItem: data.inputItem.map((i) => ({
                 itemId: i.itemId,
                 quantity: Number(i.quantity),
-                reuseableQty: Number(i.reuseableQty || 0),
+                // reuseableQty: Number(i.reuseableQty || 0),
+                pieces: Number(i.pieces || 0),
               })),
             });
           }
@@ -181,6 +185,16 @@ const CreateBatch = ({ batchId }) => {
   //     }));
   //   }
   // }, [formData.outputItem, compositionList]);
+ const totalInputQty = formData.inputItem.reduce(
+  (sum, i) => sum + Number(i.quantity || 0),
+  0,
+);
+
+const totalInputPieces = formData.inputItem.reduce(
+  (sum, i) => sum + Number(i.pieces || 0),
+  0,
+);
+
   useEffect(() => {
     dispatch(fetchMainCategories({ filters: { limit: 200 } }));
   }, [dispatch]);
@@ -204,6 +218,13 @@ const CreateBatch = ({ batchId }) => {
       }
     });
   }, [formData.inputItem, dispatch]);
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      quantity: totalInputQty,
+      pieces: totalInputPieces,
+    }));
+  }, [totalInputQty, totalInputPieces]);
 
   return (
     <div className="p-6 md:p-8 bg-white border border-gray-200 rounded-xl shadow-sm max-w-4xl mx-auto mt-5">
@@ -232,19 +253,19 @@ const CreateBatch = ({ batchId }) => {
           <Input
             label="Quantity (KG)"
             type="number"
-            placeholder="Enter quantity"
+            placeholder="Auto calculated"
             value={formData.quantity}
-            onChange={(e) => handleChange("quantity", e.target.value)}
-            error={errors.quantity}
+            readOnly
           />
+
           <Input
             label="Pieces"
             type="number"
-            placeholder="Enter pieces"
+            placeholder="Auto calculated"
             value={formData.pieces}
-            onChange={(e) => handleChange("pieces", e.target.value)}
-            error={errors.pieces}
+            readOnly
           />
+
           <Input
             label="Type"
             type="select"
@@ -364,12 +385,20 @@ const CreateBatch = ({ batchId }) => {
                 error={errors.inputItem?.[idx]?.quantity}
               />
 
-              <Input
+              {/* <Input
                 label="Reuseable Qty"
                 type="number"
                 value={row.reuseableQty}
                 onChange={(e) =>
                   handleChange(`inputItem.${idx}.reuseableQty`, e.target.value)
+                }
+              /> */}
+              <Input
+                label="pieces"
+                type="number"
+                value={row.pieces}
+                onChange={(e) =>
+                  handleChange(`inputItem.${idx}.pieces`, e.target.value)
                 }
               />
 
@@ -385,11 +414,11 @@ const CreateBatch = ({ batchId }) => {
             </div>
           ))}
 
-          {totalInputQty < Number(formData.quantity || 0) && (
+          {/* {totalInputQty < Number(formData.quantity || 0) && ( */}
             <Button type="button" onClick={addInputItem}>
               + Add Item
             </Button>
-          )}
+          {/* )} */}
 
           <p
             className={`font-semibold ${
@@ -403,11 +432,11 @@ const CreateBatch = ({ batchId }) => {
             Total Input Quantity: {totalInputQty}
           </p>
 
-          {totalInputQty !== Number(formData.quantity) && (
+          {/* {totalInputQty !== Number(formData.quantity) && (
             <p className="text-sm text-red-600 font-semibold">
               Total input quantity must equal required quantity
             </p>
-          )}
+          )} */}
         </div>
 
         <div className="flex justify-center">

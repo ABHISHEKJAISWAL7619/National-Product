@@ -45,6 +45,33 @@ const BatchDetail = ({batchId}) => {
           ))}
         </ul>
       </div>
+      {/* Cost Summary */}
+<div className="border-t pt-4">
+  <h2 className="text-xl font-semibold mb-2">Cost Summary</h2>
+
+  <div className="grid grid-cols-2 gap-4">
+    <p>
+      <b>Total Raw Material Cost:</b>{" "}
+      ₹{batch.totalRawMaterialCost?.toLocaleString("en-IN")}
+    </p>
+
+    <p>
+      <b>Factory Overhead (%):</b>{" "}
+      {batch.factoryOverhead}%
+    </p>
+
+    <p>
+      <b>Overhead Cost:</b>{" "}
+      ₹{batch.overheadCost?.toLocaleString("en-IN")}
+    </p>
+
+    <p className="text-lg font-bold text-green-700">
+      <b>Final Cost:</b>{" "}
+      ₹{batch.finalCost?.toLocaleString("en-IN")}
+    </p>
+  </div>
+</div>
+
 
       <div className="border-t pt-4">
         <h2 className="text-xl font-semibold mb-2">Input Items</h2>
@@ -69,6 +96,7 @@ const BatchDetail = ({batchId}) => {
             ))}
           </tbody>
         </table>
+        
       </div>
 
     </div>
