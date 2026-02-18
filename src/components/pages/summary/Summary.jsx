@@ -107,7 +107,7 @@ const Summary = ({ dateFrom, dateTo, currPage, searchQuery }) => {
 
       {/* Table */}
       <div className="overflow-x-auto rounded-md border border-gray-300 shadow bg-white mt-4">
-        <table className="min-w-[900px] md:min-w-full border-collapse">
+        <table className="min-w-full md:min-w-full border-collapse">
           <thead className="bg-gray-100 border-b">
             <tr className="text-gray-700 text-sm">
               <th className="p-3">Order No</th>

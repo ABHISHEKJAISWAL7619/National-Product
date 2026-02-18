@@ -18,7 +18,8 @@ import Select from "@/components/atoms/Select";
 const CreateStock = ({ incomingId }) => {
   const dispatch = useDispatch();
   const { itemList } = useSelector((state) => state.item);
-  const { loading } = useSelector((state) => state.incoming);
+  const { loading, singleincoming } = useSelector((state) => state.incoming);
+  console.log(singleincoming);
 
   const { formData, handleChange, setFormData, handleSubmit, reset, errors } =
     useForm({
@@ -36,34 +37,32 @@ const CreateStock = ({ incomingId }) => {
   }, [dispatch]);
 
   useEffect(() => {
+    if (!singleincoming && incomingId) {
+      dispatch(fetchincomingbyid({ incomingId }));
+    }
+  }, [dispatch, incomingId]);
+
+  useEffect(() => {
     if (!incomingId) return;
+    if (!singleincoming?._id) return;
 
-    const load = async () => {
-      try {
-        const res = await dispatch(fetchincomingbyid({ incomingId })).unwrap();
+    const incoming = singleincoming;
 
-        if (res?.data) {
-          const incoming = res.data;
+    setFormData({
+      date: incoming.date?.split("T")[0] || "",
+      invoiceNo: incoming.invoiceNo || "",
+      price: incoming.price || "",
 
-          setFormData({
-            date: incoming.date?.split("T")[0] || "",
-            invoiceNo: incoming.invoiceNo,
-            price: incoming.price,
-            products: incoming.products.map((p) => ({
-              itemId: p.item || "",
-              quantity: p.quantity || "",
-              isPieces: !!p.pieces,
-              pieces: p.pieces || "",
-            })),
-          });
-        }
-      } catch {
-        errorToast("Failed to load stock data");
-      }
-    };
-
-    load();
-  }, [incomingId, dispatch, setFormData]);
+      products: incoming.products
+        .filter((p) => p.item && p.item._id)
+        .map((p) => ({
+          itemId: p.item._id,
+          quantity: p.quantity || "",
+          isPieces: !!p.pieces,
+          pieces: p.pieces || "",
+        })),
+    });
+  }, [incomingId, singleincoming, setFormData]);
 
   const addProduct = () =>
     setFormData((prev) => ({
@@ -95,7 +94,7 @@ const CreateStock = ({ incomingId }) => {
     try {
       if (incomingId) {
         await dispatch(
-          updateincoming({ incomingId, incomingData: formatted })
+          updateincoming({ incomingId, incomingData: formatted }),
         ).unwrap();
         successToast("Stock Updated!");
       } else {
