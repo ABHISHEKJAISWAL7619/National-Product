@@ -30,7 +30,7 @@ const StockIn = ({ searchQuery, currPage }) => {
     dispatch(
       fetchincomings({
         filters: { page: currPage, limit: 10, search: searchQuery },
-      })
+      }),
     );
   }, [dispatch, currPage, searchQuery]);
 
@@ -77,8 +77,7 @@ const StockIn = ({ searchQuery, currPage }) => {
             <tr>
               <th className="px-4 py-3 text-left text-black">Date</th>
               <th className="px-4 py-3 text-left text-black">Invoice No</th>
-              <th className="px-4 py-3 text-left text-black">Product</th>
-              <th className="px-4 py-3 text-right text-black">Price</th>
+              <th className="px-4 py-3 text-center text-black">Price</th>
               <th className="px-4 py-3 text-right text-black">
                 Quantity (Kg/Pcs)
               </th>
@@ -159,18 +158,7 @@ const StockIn = ({ searchQuery, currPage }) => {
 export default StockIn;
 
 const Row = ({ data, onDeleteClick }) => {
-  const { _id, invoiceNo, date, price, products } = data || {};
-  const firstProduct = products?.[0];
-  const item = firstProduct?.item;
-
-  const qty = firstProduct?.quantity ?? 0;
-  const pcs = firstProduct?.pieces ?? 0;
-
-  let quantityDisplay = "-";
-
-  if (qty > 0 && pcs === 0) quantityDisplay = `${qty} Kg`;
-  else if (pcs > 0 && qty === 0) quantityDisplay = `${pcs} pcs`;
-  else if (qty > 0 && pcs > 0) quantityDisplay = `${qty} Kg / ${pcs} pcs`;
+  const { _id, invoiceNo, date, price, totalQuantity } = data || {};
 
   return (
     <tr className="border-t border-gray-200 hover:bg-gray-50 transition text-black">
@@ -182,13 +170,11 @@ const Row = ({ data, onDeleteClick }) => {
         {invoiceNo || "-"}
       </td>
 
-      <td className="px-4 py-3 text-black">{item?.productName || "-"}</td>
-
-      <td className="px-4 py-3 text-right text-black">
+      <td className="px-4 py-3 text-center text-black">
         ₹{price?.toFixed(2) || "0.00"}
       </td>
 
-      <td className="px-4 py-3 text-right text-black">{quantityDisplay}</td>
+      <td className="px-4 py-3 text-right text-black">{totalQuantity}</td>
 
       <td className="px-4 py-3 text-center">
         <div className="flex justify-center gap-3">
