@@ -70,8 +70,8 @@ const Productdetail = ({ itemId }) => {
                 "Reference",
                 "Qty In",
                 "Qty Out",
-                "piecesIn",
-                "piecesOut",
+                "PiecesIn",
+                "PiecesOut",
               ].map((h) => (
                 <th
                   key={h}
