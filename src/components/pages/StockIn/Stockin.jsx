@@ -78,9 +78,8 @@ const StockIn = ({ searchQuery, currPage }) => {
               <th className="px-4 py-3 text-left text-black">Date</th>
               <th className="px-4 py-3 text-left text-black">Invoice No</th>
               <th className="px-4 py-3 text-center text-black">Price</th>
-              <th className="px-4 py-3 text-right text-black">
-                Quantity (Kg/Pcs)
-              </th>
+              <th className="px-4 py-3 text-right text-black">Quantity(kg)</th>
+              <th className="px-4 py-3 text-right text-black">Quantity(pcs)</th>
               <th className="px-4 py-3 text-center text-black">Action</th>
             </tr>
           </thead>
@@ -158,7 +157,8 @@ const StockIn = ({ searchQuery, currPage }) => {
 export default StockIn;
 
 const Row = ({ data, onDeleteClick }) => {
-  const { _id, invoiceNo, date, price, totalQuantity } = data || {};
+  const { _id, invoiceNo, date, price, totalQuantity, totalPieces } =
+    data || {};
 
   return (
     <tr className="border-t border-gray-200 hover:bg-gray-50 transition text-black">
@@ -174,7 +174,8 @@ const Row = ({ data, onDeleteClick }) => {
         ₹{price?.toFixed(2) || "0.00"}
       </td>
 
-      <td className="px-4 py-3 text-right text-black">{totalQuantity}</td>
+      <td className="px-4 py-3 text-center text-black">{totalQuantity}</td>
+      <td className="px-4 py-3 text-center text-black">{totalPieces}</td>
 
       <td className="px-4 py-3 text-center">
         <div className="flex justify-center gap-3">
