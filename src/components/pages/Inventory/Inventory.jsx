@@ -98,7 +98,7 @@ const Inventory = ({ page, searchQuery }) => {
                     <td className="px-6 py-4 text-blue-800 font-semibold">
                       {item.pieces}
                     </td>
-                    <td className="px-6 text-black py-4">₹{item.unitPrice}</td>
+                    <td className="px-6 text-black py-4">₹{item.unitPrice.toFixed(2)}</td>
                     <td className="px-6 py-4 font-semibold text-blue-600">
                       ₹ {item.totalValue.toLocaleString()}
                     </td>
