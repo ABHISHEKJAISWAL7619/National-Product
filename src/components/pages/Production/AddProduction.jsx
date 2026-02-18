@@ -30,6 +30,7 @@ const AddProduction = ({ productionId }) => {
       defaultValues: {
         batch: "",
         quantity: "",
+        pieces:"",
         semiFinishedKg: "",
         semiPieces: "",
         reusableWaste: "",
@@ -57,6 +58,7 @@ const AddProduction = ({ productionId }) => {
       setFormData({
         batch: singleProduction.batch?._id || "",
         quantity: singleProduction.quantity ?? "",
+        pieces:singleProduction.pieces ??"",
         semiFinishedKg: singleProduction.semiFinishedKg ?? "",
         semiPieces: singleProduction.semiPieces ?? "",
         reusableWaste: singleProduction.reusableWaste ?? "",
@@ -162,6 +164,13 @@ const AddProduction = ({ productionId }) => {
             onChange={(e) => handleChange("quantity", e.target.value)}
             placeholder="Enter KG"
             error={errors.quantity}
+          />
+          <Input
+            label="pieces"
+            type="number"
+            value={formData.pieces}
+            onChange={(e) => handleChange("pieces", e.target.value)}
+            placeholder="Enter pieces"
           />
         </div>
 
