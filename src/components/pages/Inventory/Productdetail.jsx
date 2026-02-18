@@ -70,6 +70,8 @@ const Productdetail = ({ itemId }) => {
                 "Reference",
                 "Qty In",
                 "Qty Out",
+                "piecesIn",
+                "piecesOut",
               ].map((h) => (
                 <th
                   key={h}
@@ -87,10 +89,12 @@ const Productdetail = ({ itemId }) => {
                 <td className="px-6 py-3 text-black">
                   {new Date(tx.timeStamp).toLocaleDateString()}
                 </td>
-                <td className="px-6 py-3 text-black">{tx.type}</td>
-                <td className="px-6 py-3 text-black">{tx.reference}</td>
-                <td className="px-6 py-3 text-black">{tx.qtyIn}</td>
-                <td className="px-6 py-3 text-black">{tx.qtyOut}</td>
+                <td className="px-6 py-3 text-black">{tx?.type || "-"}</td>
+                <td className="px-6 py-3 text-black">{tx?.reference || "-"}</td>
+                <td className="px-6 py-3 text-black">{tx?.qtyIn || "-"}</td>
+                <td className="px-6 py-3 text-black">{tx?.qtyOut || "-"}</td>
+                <td className="px-6 py-3 text-black">{tx?.piecesIn || "-"}</td>
+                <td className="px-6 py-3 text-black">{tx?.piecesOut || "-"}</td>
               </tr>
             ))}
           </tbody>

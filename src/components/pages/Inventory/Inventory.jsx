@@ -30,6 +30,7 @@ const Inventory = ({ page, searchQuery }) => {
     "Category",
     "Code",
     "Quantity(Kg)",
+    "Pieces",
     "Unit Price",
     "Total Value",
     "View",
@@ -93,6 +94,9 @@ const Inventory = ({ page, searchQuery }) => {
                     </td>
                     <td className="px-6 py-4 text-blue-800 font-semibold">
                       {item.quantity}
+                    </td>
+                    <td className="px-6 py-4 text-blue-800 font-semibold">
+                      {item.pieces}
                     </td>
                     <td className="px-6 text-black py-4">₹{item.unitPrice}</td>
                     <td className="px-6 py-4 font-semibold text-blue-600">
