@@ -40,12 +40,12 @@ const ItemDetaiTable = ({ searchQuery, currPage }) => {
           />
         </div>
 
-        <Link
+        {/* <Link
           href={"/item-master/composition/add-new"}
           className="w-full sm:w-auto"
         >
           <Button>Create Composition</Button>
-        </Link>
+        </Link> */}
       </div>
 
       {/* TABLE */}

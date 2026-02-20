@@ -134,7 +134,7 @@ const Item = ({ searchQuery, currPage }) => {
           <Link href="/item-master/view-item/add-new">
             <button className="w-full cursor-pointer sm:w-auto bg-blue-700 text-white text-sm font-medium flex items-center justify-center gap-1 py-2.5 px-4 rounded-md hover:bg-blue-800 transition">
               <FilePlus size={18} />
-              <span>Create Item</span>
+              <span>Create Item/Composition</span>
             </button>
           </Link>
           <button

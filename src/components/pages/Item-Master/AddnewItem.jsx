@@ -1,212 +1,332 @@
+
 "use client";
 
-import { Button } from "@/components/common/Button";
-import { useForm } from "@/hooks/useForm";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { successToast, errorToast } from "@/utils/toastMessage";
-import React, { useEffect, useState } from "react";
-import { stockSchema } from "@/validations/stockSchema";
-import {
-  createItem,
-  fetchItembyid,
-  updateItem,
-} from "@/redux/slice/Item-slice";
+import * as Yup from "yup";
+import Select from "@/components/atoms/Select";
 import Input from "@/components/common/Input";
+import { Button } from "@/components/common/Button";
+
+import { useForm } from "@/hooks/useForm";
+import { stockSchema } from "@/validations/stockSchema";
+import { compositionSchema } from "@/validations/compositionSchema";
+
 import { fetchMainCategories } from "@/redux/slice/main-category";
 import { fetchSubCategories } from "@/redux/slice/SubCategory";
-import Select from "@/components/atoms/Select";
+import {
+  fetchitems,
+  createItem,
+  getallitems,
+} from "@/redux/slice/Item-slice";
 
-const AddnewItem = ({ ItemId }) => {
+import { successToast, errorToast } from "@/utils/toastMessage";
+
+const UnifiedItemCompositionForm = () => {
   const dispatch = useDispatch();
-  const { loading, singleItem } = useSelector((state) => state.item || {});
-  const [enablePieces, setEnablePieces] = useState(false);
+
   const { categoryList } = useSelector((state) => state.category);
   const { SubcategoryList } = useSelector((state) => state.subcategory);
-  const { formData, handleChange, setFormData, handleSubmit, errors, reset } =
+  const { itemList, loading } = useSelector((state) => state.item);
+
+  const { formData, handleChange, setFormData, handleSubmit, reset, errors } =
     useForm({
       defaultValues: {
+        // common
         productName: "",
         category: "",
         subcategory: "",
+
+        // item form
         unitPrice: "",
         symbol: "",
         productCode: "",
+
+        // composition form
+        compositions: [{ itemId: "", percentage: "" }],
       },
-      schema: stockSchema,
+      schema: Yup.lazy((values) => {
+        const categoryName = getCategoryName(values.category);
+        if (["rm", "raw material"].includes(categoryName)) {
+          return stockSchema;
+        }
+        return compositionSchema;
+      }),
     });
 
-  const onSubmit = async (data) => {
-    try {
-      const payload = {
-        productName: data.productName,
-        category: data.category,
-        subcategory: data.subcategory,
-        unitPrice: data.unitPrice,
-        symbol: data.symbol,
-        productCode: data.productCode,
-      };
+  /* ---------------- helpers ---------------- */
 
-      if (ItemId) {
-        await dispatch(updateItem({ ItemId, ItemData: payload })).unwrap();
-        successToast("Item updated successfully!");
-      } else {
-        await dispatch(createItem({ itemData: payload })).unwrap();
-        successToast("Item created successfully!");
-      }
-
-      reset();
-      setEnablePieces(false);
-    } catch (error) {
-      let message = "Failed to save item";
-
-      const errText =
-        error?.error || error?.message || error?.response?.data?.error;
-
-      if (errText?.includes("E11000")) {
-        if (errText.includes("productCode")) {
-          message =
-            "Product code already exists. Please use a unique product code.";
-        } else {
-          message = "Duplicate entry detected. Please use unique values.";
-        }
-      }
-
-      errorToast(message);
-    }
+  const getCategoryName = (catId) => {
+    const cat = categoryList?.find((c) => c._id === catId);
+    return cat?.category?.toLowerCase() || "";
   };
 
-  useEffect(() => {
-    if (singleItem && ItemId) {
-      setFormData({
-        productName: singleItem.productName || "",
-        unitPrice: singleItem.unitPrice || "",
-        symbol: singleItem.symbol || "",
-        productCode: singleItem.productCode || "",
-        category: singleItem?.category._id || "",
-        subcategory: singleItem?.subcategory._id || "",
-      });
+  const selectedCategoryName = useMemo(
+    () => getCategoryName(formData.category),
+    [formData.category, categoryList]
+  );
 
-      if (singleItem.pieces > 0) setEnablePieces(true);
-    }
-  }, [singleItem, ItemId]);
+  const isRMCategory = ["rm", "raw material"].includes(selectedCategoryName);
+
+  /* ---------------- effects ---------------- */
 
   useEffect(() => {
-    if (ItemId) dispatch(fetchItembyid({ ItemId })).unwrap();
-  }, [ItemId, dispatch]);
-  useEffect(() => {
-    dispatch(fetchMainCategories({ filters: {limit:200} }));
+    dispatch(fetchMainCategories({ filters: { limit: 200 } }));
   }, [dispatch]);
+
   useEffect(() => {
     if (!formData.category) return;
 
     dispatch(
       fetchSubCategories({
-        filters: { category: formData.category,limit:200 },
-      }),
+        filters: { category: formData.category, limit: 200 },
+      })
     );
-  }, [formData.category, dispatch]);
+
+    // reset subcategory + composition when category changes
+    setFormData((prev) => ({
+      ...prev,
+      subcategory: "",
+      compositions: [{ itemId: "", percentage: "" }],
+    }));
+  }, [formData.category, dispatch, setFormData]);
+
+ useEffect(() => {
+  if (!isRMCategory) {
+    let filters = { limit: 200 };
+
+    if (formData.subcategory) {
+      // subcategory priority
+      filters.subcategory = formData.subcategory;
+    } else if (formData.category) {
+      // only category if no subcategory
+      filters.category = formData.category;
+    }
+
+    dispatch(getallitems({ filters }));
+  }
+}, [formData.category, formData.subcategory, dispatch, isRMCategory]);
+
+  const totalPercentage = formData.compositions.reduce(
+    (sum, c) => sum + Number(c.percentage || 0),
+    0
+  );
+
+  const addComposition = () =>
+    setFormData((prev) => ({
+      ...prev,
+      compositions: [...prev.compositions, { itemId: "", percentage: "" }],
+    }));
+
+  const removeComposition = (index) =>
+    setFormData((prev) => ({
+      ...prev,
+      compositions: prev.compositions.filter((_, i) => i !== index),
+    }));
+
+  /* ---------------- submit ---------------- */
+
+  const onSubmit = async (data) => {
+    try {
+      // RM / RAW MATERIAL → ITEM FORM
+      if (isRMCategory) {
+        const payload = {
+          productName: data.productName,
+          category: data.category,
+          subcategory: data.subcategory,
+          unitPrice: data.unitPrice,
+          symbol: data.symbol,
+          productCode: data.productCode,
+        };
+
+        await dispatch(createItem({ itemData: payload })).unwrap();
+        successToast("Item created successfully!");
+      }
+
+      // OTHER CATEGORY → COMPOSITION FORM
+      else {
+        if (totalPercentage !== 100) {
+          return errorToast("Total percentage must equal 100%");
+        }
+
+        const payload = {
+          category: data.category,
+          subcategory: data.subcategory,
+          productName: data.productName,
+          productCode:"0",
+          compositions: data.compositions.map((c) => ({
+            item: c.itemId,
+            percentage: Number(c.percentage),
+          })),
+        };
+
+        await dispatch(createItem({ itemData: payload })).unwrap();
+        successToast("Composition created successfully!");
+      }
+
+      reset();
+    } catch (err) {
+      errorToast(err?.message || "Failed to save!");
+    }
+  };
+
+  /* ---------------- UI ---------------- */
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8 max-w-3xl mx-auto mt-6">
-      <h1 className="font-inter font-bold text-2xl md:text-3xl text-black mb-6">
-        {ItemId ? "Update Item" : "Create New Item"}
-      </h1>
+    <div className="max-w-3xl mx-auto bg-white shadow-xl rounded-xl p-6 mt-6">
+      <h2 className="text-2xl font-bold mb-6 text-black text-center">
+        Create Product
+      </h2>
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit(onSubmit)(e);
-        }}
-        className="space-y-6"
-      >
-        {/* GRID INPUTS */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <Input
-            label="Product Name"
-            type="text"
-            placeholder="Enter Product Name"
-            value={formData.productName}
-            onChange={(e) => handleChange("productName", e.target.value)}
-            error={errors.productName}
-          />
-          <Select
-            label="Select Category"
-            value={formData.category}
-            options={
-              categoryList?.map((c) => ({
-                label: c.category,
-                value: c._id,
-              })) || []
-            }
-            onChange={(v) => handleChange("category", v)}
-            error={errors.category}
-          />
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {/* Common Fields */}
+        <Input
+          label="Product / Composition Name"
+          placeholder="Enter name"
+          value={formData.productName}
+          onChange={(e) => handleChange("productName", e.target.value)}
+          error={errors.productName}
+        />
 
-          <Select
-            label="Select Subcategory"
-            value={formData.subcategory}
-            options={
-              SubcategoryList?.map((s) => ({
-                label: s.name,
-                value: s._id,
-              })) || []
-            }
-            onChange={(v) => handleChange("subcategory", v)}
-            error={errors.subcategory}
-          />
+        <Select
+          label="Select Category"
+          value={formData.category}
+          options={
+            categoryList?.map((c) => ({
+              label: c.category,
+              value: c._id,
+            })) || []
+          }
+          onChange={(v) => handleChange("category", v)}
+          error={errors.category}
+        />
 
-          <Input
-            label="Symbol"
-            type="text"
-            placeholder="Enter Symbol"
-            value={formData.symbol}
-            onChange={(e) => handleChange("symbol", e.target.value)}
-            error={errors.symbol}
-          />
-        </div>
+        <Select
+          label="Subcategory"
+          value={formData.subcategory}
+          options={
+            SubcategoryList?.map((s) => ({
+              label: s.name,
+              value: s._id,
+            })) || []
+          }
+          onChange={(v) => handleChange("subcategory", v)}
+          error={errors.subcategory}
+        />
 
-        {/* Price */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <Input
-            label="Price (Per Unit)"
-            type="number"
-            placeholder="Rs 0.00"
-            value={formData.unitPrice}
-            onChange={(e) => handleChange("unitPrice", e.target.value)}
-            error={errors.unitPrice}
-          />
-          <Input
-            label="ProductCode"
-            type="text"
-            placeholder="Enter ProductCode"
-            value={formData.productCode}
-            onChange={(e) => handleChange("productCode", e.target.value)}
-            error={errors.productCode}
-          />
-        </div>
+        {/* ================= RM / RAW MATERIAL FORM ================= */}
+        {isRMCategory && (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <Input
+                label="Symbol"
+                value={formData.symbol}
+                onChange={(e) => handleChange("symbol", e.target.value)}
+                error={errors.symbol}
+              />
 
-        {/* BUTTONS */}
-        <div className="flex flex-col sm:flex-row justify-end gap-4 mt-6">
-          <Button
-            onClick={() => reset()}
-            type="button"
-            className="cursor-pointer"
-          >
-            Cancel
-          </Button>
+              <Input
+                label="Price (Per Unit)"
+                type="number"
+                value={formData.unitPrice}
+                onChange={(e) => handleChange("unitPrice", e.target.value)}
+                error={errors.unitPrice}
+              />
 
-          <Button
-            type="submit"
-            disabled={loading}
-            loading={loading}
-            className="cursor-pointer"
-          >
-            {ItemId ? "Update" : "Submit"}
-          </Button>
-        </div>
+              <Input
+                label="Product Code"
+                value={formData.productCode}
+                onChange={(e) => handleChange("productCode", e.target.value)}
+                error={errors.productCode}
+              />
+            </div>
+          </>
+        )}
+
+        {/* ================= COMPOSITION FORM ================= */}
+        {!isRMCategory && (
+          <>
+            {formData.compositions.map((row, idx) => (
+              <div
+                key={idx}
+                className="flex gap-3 bg-gray-50 p-3 rounded relative"
+              >
+                <Select
+                  label="Item"
+                  value={row.itemId}
+                  options={
+                    itemList?.map((item) => ({
+                      label: item.productName,
+                      value: item._id,
+                    })) || []
+                  }
+                  onChange={(v) =>
+                    handleChange(`compositions.${idx}.itemId`, v)
+                  }
+                  error={errors.compositions?.[idx]?.itemId}
+                />
+
+                <Input
+                  type="number"
+                  label="%"
+                  value={row.percentage}
+                  onChange={(e) =>
+                    handleChange(
+                      `compositions.${idx}.percentage`,
+                      e.target.value
+                    )
+                  }
+                  error={errors.compositions?.[idx]?.percentage}
+                />
+
+                {idx > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => removeComposition(idx)}
+                    className="absolute right-2 top-2 text-red-600"
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+            ))}
+
+            {totalPercentage < 100 && (
+              <Button
+                type="button"
+                onClick={addComposition}
+                className="bg-gray-700 text-white"
+              >
+                + Add Item
+              </Button>
+            )}
+
+            <p
+              className={`font-semibold ${
+                totalPercentage === 100
+                  ? "text-green-600"
+                  : totalPercentage > 100
+                  ? "text-red-600"
+                  : "text-blue-600"
+              }`}
+            >
+              Total: {totalPercentage}%
+            </p>
+          </>
+        )}
+
+        {/* Submit */}
+        <Button
+          type="submit"
+          disabled={!isRMCategory && totalPercentage !== 100}
+          loading={loading}
+          className="cursor-pointer"
+        >
+          Submit
+        </Button>
       </form>
     </div>
   );
 };
 
-export default AddnewItem;
+export default UnifiedItemCompositionForm;
