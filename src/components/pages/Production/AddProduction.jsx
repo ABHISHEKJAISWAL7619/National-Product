@@ -94,7 +94,8 @@ const AddProduction = ({ productionId }) => {
     Number(formData.semiFinishedKg || 0) +
     Number(formData.reusableWaste || 0) +
     Number(formData.waste || 0) +
-    Number(formData.shortAccess || 0);
+    Number(formData.shortAccess || 0)+
+    Number(formData.semiPieces ||0);
 
   const batchQuantity = Number(singleProduction?.quantity || 0);
   const remaining = batchQuantity - totalEntered;
