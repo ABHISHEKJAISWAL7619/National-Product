@@ -252,7 +252,7 @@ export default function Additem({ open, onClose, product, onAdd }) {
           error={qtyError}
         />
 
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <input
             type="checkbox"
             checked={addFO}
@@ -263,7 +263,7 @@ export default function Additem({ open, onClose, product, onAdd }) {
           <label htmlFor="factoryOverhead" className="text-gray-800 text-sm">
             Add Factory Overhead
           </label>
-        </div>
+        </div> */}
 
         {addFO && (
           <Input

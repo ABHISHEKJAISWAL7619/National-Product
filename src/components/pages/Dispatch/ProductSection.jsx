@@ -59,7 +59,7 @@ export default function ProductSection({
             search: searchQuery,
             type,
             page: 1,
-            limit: documentCount, // 🔥 poora data
+            limit: documentCount, 
           },
         }),
       ).unwrap();

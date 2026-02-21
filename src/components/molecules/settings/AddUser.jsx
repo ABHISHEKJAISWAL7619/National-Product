@@ -18,7 +18,7 @@ import {
   deletemember,
   fetchmembers,
 } from "@/redux/slice/member-slice";
-import { successToast } from "@/utils/toastMessage";
+import { errorToast, successToast } from "@/utils/toastMessage";
 
 export default function UsersPage({ searchQuery, currPage }) {
   const dispatch = useDispatch();
@@ -39,11 +39,13 @@ export default function UsersPage({ searchQuery, currPage }) {
       await dispatch(deletemember({ memberId })).unwrap();
       successToast("User deleted successfully");
       dispatch(
-        fetchmembers({ filters: { role: "admin", limit: 100, page: currPage } })
+        fetchmembers({
+          filters: { role: "admin", limit: 100, page: currPage },
+        }),
       );
       setIsDelete(false);
     } catch (err) {
-      console.error(err.message);
+      errorToast(err?.message || "faled to delete user");
     }
   };
 
@@ -56,7 +58,7 @@ export default function UsersPage({ searchQuery, currPage }) {
           search: searchQuery,
           page: currPage || null,
         },
-      })
+      }),
     );
   }, [searchQuery, currPage]);
 
@@ -183,7 +185,7 @@ const Row = ({ data, index, onDelete, currentUser }) => {
         createOrUpdatemember({
           memberId: id,
           memberData: { isVerified: !value },
-        })
+        }),
       ).unwrap();
       dispatch(fetchmembers({ filters: {} }));
     } catch (err) {
