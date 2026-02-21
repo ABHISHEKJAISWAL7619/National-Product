@@ -97,7 +97,7 @@ export default function UsersPage({ searchQuery, currPage }) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             iconLeft="search-line"
-            placeholder="Search by name,email,mobile..."
+            placeholder="Search by name,email..."
             className="w-full md:w-64"
           />
         </div>
