@@ -56,7 +56,7 @@ const BreakdownDisplay = ({ data }) => {
           </p>
         </div>
         <div className="p-4 bg-gray-100 rounded-lg">
-          <p className="font-medium text-gray-700">FinalCode with 
+          <p className="font-medium text-gray-700">FinalCost with 
             Factory OverHead
           </p>
           <p className="font-bold text-green-700">

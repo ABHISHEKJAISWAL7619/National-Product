@@ -40,12 +40,10 @@ const Product = ({ searchQuery, currPage, dateTo, dateFrom, type, status }) => {
   const toggleQueryParam = useToggleQueryParam();
 
   const { productionList, documentCount } = useSelector(
-    (state) => state.production
+    (state) => state.production,
   );
-  // console.log(productionList);
 
-  // Fetch All Productions
-  const fetchAllProductions = () => {
+  useEffect(() => {
     dispatch(
       fetchProductions({
         filters: {
@@ -57,12 +55,8 @@ const Product = ({ searchQuery, currPage, dateTo, dateFrom, type, status }) => {
           status,
           type,
         },
-      })
+      }),
     );
-  };
-
-  useEffect(() => {
-    fetchAllProductions();
   }, [dispatch, searchQuery, currPage, type, status, dateFrom, dateTo]);
 
   // Confirm Delete
@@ -198,7 +192,7 @@ const Product = ({ searchQuery, currPage, dateTo, dateFrom, type, status }) => {
                 const batch = p?.batch;
                 const compositions =
                   batch?.outputItem?.[0]?.compositions?.map(
-                    (c) => c.percentage
+                    (c) => c.percentage,
                   ) || [];
 
                 return (
