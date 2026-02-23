@@ -11,10 +11,10 @@ export const fetchinventorys = createAsyncThunk(
       return { ...data, id };
     } catch (err) {
       return rejectWithValue(
-        err.response?.data?.message || "Failed to fetch inventory(s)"
+        err.response?.data?.message || "Failed to fetch inventory(s)",
       );
     }
-  }
+  },
 );
 
 export const fetchsingleinventory = createAsyncThunk(
@@ -25,21 +25,22 @@ export const fetchsingleinventory = createAsyncThunk(
         `/api/admin/inventory/ledger/${id}`,
         {
           params: id ? { id } : filters || {},
-        }
+        },
       );
       return { ...data, id };
     } catch (err) {
       return rejectWithValue(
-        err.response?.data?.message || "Failed to fetch inventory(s)"
+        err.response?.data?.message || "Failed to fetch inventory(s)",
       );
     }
-  }
+  },
 );
 
 const initialState = {
   inventoryList: [],
   documentCount: 0,
   loading: false,
+  totalAmount: 0,
   dataLoading: true,
   error: null,
 };
@@ -61,9 +62,10 @@ const inventorySlice = createSlice({
         state.error = null;
       })
       .addCase(fetchinventorys.fulfilled, (state, action) => {
-        const { data, count, id } = action.payload;
+        const { data, count, id, totalAmount } = action.payload;
         state.dataLoading = false;
         state.inventoryList = data;
+        state.totalAmount = totalAmount;
         state.documentCount = count;
       })
 

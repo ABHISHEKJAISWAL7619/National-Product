@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchinventorys } from "@/redux/slice/inventory-slice";
 import Link from "next/link";
 import {
-  RiSearchLine,
   RiFileList2Line,
-  RiArrowDownSLine,
 } from "react-icons/ri";
 import Pagination from "@/components/common/Pagination";
 import SearchBox from "@/components/common/SearchBox";
@@ -14,7 +12,7 @@ import SearchBox from "@/components/common/SearchBox";
 const Inventory = ({ page, searchQuery }) => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
-  const { inventoryList, documentCount, loading } = useSelector(
+  const { inventoryList, documentCount, loading,totalAmount } = useSelector(
     (state) => state.inventory
   );
   // console.log(documentCount);
@@ -42,7 +40,7 @@ const Inventory = ({ page, searchQuery }) => {
         {/* Header */}
         <div className="p-6 border-b border-gray-200 flex flex-col sm:flex-row justify-between">
           <h2 className="text-2xl  text-black font-bold">
-            Inventory ({documentCount || 0})
+           Total Amount ₹{(totalAmount ?? 0).toFixed(2)}
           </h2>
 
           <div className="flex mt-4 sm:mt-0 space-x-2 items-center">
