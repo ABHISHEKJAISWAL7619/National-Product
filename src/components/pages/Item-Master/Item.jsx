@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   Edit3,
   Trash2,
+  Eye,
 } from "lucide-react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
@@ -219,7 +220,7 @@ const Item = ({ searchQuery, currPage }) => {
                   <div className="flex items-center space-x-2">
                     <Link href={`/item-master/view-item/${item._id}`}>
                       <button className="text-blue-600 p-1 cursor-pointer rounded-full hover:bg-blue-50 transition">
-                        <Edit3 size={18} />
+                        <Eye size={18} />
                       </button>
                     </Link>
                     <button
