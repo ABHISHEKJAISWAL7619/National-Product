@@ -98,6 +98,8 @@ const StockIn = ({ searchQuery, currPage }) => {
                 Incoming Pieces
               </th>
               <th className="px-4 py-3 text-left text-black">Total Pieces</th>
+                            <th className="px-4 py-3 text-left text-black">Invoice Price</th>
+
               <th className="px-4 py-3 text-center text-black">Action</th>
             </tr>
           </thead>
@@ -186,6 +188,7 @@ const Row = ({ data, onDeleteClick }) => {
     price,
     symbol,
     productName,
+    invoicePrice
   } = data || {};
 
   return (
@@ -214,6 +217,9 @@ const Row = ({ data, onDeleteClick }) => {
 
       <td className="px-4 py-3 text-center text-black">
         {availablePieces + pieces || "-"}
+      </td>
+        <td className="px-4 py-3 text-center text-black">
+        {invoicePrice || "-"}
       </td>
 
       <td className="px-4 py-3 text-center">
