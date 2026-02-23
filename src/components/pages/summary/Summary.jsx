@@ -15,8 +15,8 @@ const Summary = ({ dateFrom, dateTo, currPage, searchQuery }) => {
   const { dispatchList, documentCount } = useSelector(
     (state) => state.dispatch
   );
-  console.log(dispatchList);
-  console.log("count", documentCount);
+  // console.log(dispatchList);
+  // console.log("count", documentCount);
 
   useEffect(() => {
     dispatch(

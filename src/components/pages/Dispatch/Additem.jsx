@@ -7,7 +7,7 @@
 // import { FiPackage } from "react-icons/fi";
 
 // export default function Additem({ open, onClose, product, onAdd }) {
-//   console.log(product);
+//   // console.log(product);
 //   const [qty, setQty] = useState("");
 //   const [price, setPrice] = useState("");
 //   const [qtyError, setQtyError] = useState("");
@@ -125,7 +125,7 @@ import { successToast, errorToast } from "@/utils/toastMessage";
 
 export default function Additem({ open, onClose, product, onAdd }) {
   const dispatch = useDispatch();
-  console.log(product);
+  // console.log(product);
 
   const [qty, setQty] = useState("");
   const [price, setPrice] = useState(0);

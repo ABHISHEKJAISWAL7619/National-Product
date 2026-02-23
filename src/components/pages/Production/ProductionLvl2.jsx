@@ -16,7 +16,7 @@ const ProductionLvl2 = ({ currPage, dateTo, dateFrom }) => {
   const { productionList, loading, documentCount } = useSelector(
     (state) => state.production
   );
-  console.log(productionList);
+  // console.log(productionList);
 
   useEffect(() => {
     dispatch(

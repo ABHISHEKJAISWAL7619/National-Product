@@ -21,7 +21,7 @@ import Select from "@/components/atoms/Select";
 const CreateBatch = ({ batchId }) => {
   const dispatch = useDispatch();
   const { compositionList } = useSelector((state) => state.composition);
-  console.log(compositionList);
+  // console.log(compositionList);
   const { categoryList } = useSelector((state) => state.category);
   const { SubcategoryList } = useSelector((state) => state.subcategory);
   const { loading, singlebatch } = useSelector((state) => state.batch);
@@ -29,7 +29,7 @@ const CreateBatch = ({ batchId }) => {
   const [localSubcategoryByRow, setLocalSubcategoryByRow] = useState({});
   const [localItemByRow, setLocalItemByRow] = useState({});
 
-  console.log(itemList);
+  // console.log(itemList);
   const { formData, handleChange, setFormData, handleSubmit, reset, errors } =
     useForm({
       defaultValues: {
@@ -111,7 +111,7 @@ const CreateBatch = ({ batchId }) => {
 
       reset();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       errorToast(error || "Failed to save batch");
     }
   };
@@ -163,7 +163,7 @@ const CreateBatch = ({ batchId }) => {
           [idx]: res?.data || [],
         }));
       } catch (e) {
-        console.log("Item fetch error", e);
+        // console.log("Item fetch error", e);
       }
     });
   }, [formData.inputItem, dispatch]);
@@ -214,7 +214,7 @@ const totalInputPieces = formData.inputItem.reduce(
           [idx]: res?.data || [],
         }));
       } catch (e) {
-        console.log("Subcategory fetch error", e);
+        // console.log("Subcategory fetch error", e);
       }
     });
   }, [formData.inputItem, dispatch]);

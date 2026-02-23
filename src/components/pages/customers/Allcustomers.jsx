@@ -43,7 +43,7 @@ const Allcustomers = ({ searchQuery, currPage }) => {
       successToast("Customer deleted successfully");
       fetchAllCustomers();
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     } finally {
       setShowDeleteModal(false);
       setDeleteUser(null);

@@ -20,8 +20,8 @@ const CreateRole = ({ searchquery, currPage }) => {
   const router = useRouter();
 
   const { roleList, documentCount } = useSelector((state) => state.role);
-  console.log(roleList);
-  // console.log(documentCount);
+  // console.log(roleList);
+  // // console.log(documentCount);
 
   const fetchroles = async () => {
     try {

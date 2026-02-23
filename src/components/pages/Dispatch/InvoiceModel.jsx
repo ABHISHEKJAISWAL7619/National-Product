@@ -15,7 +15,7 @@ const InvoiceModal = ({ isOpen, onClose, data }) => {
     orderDate,
     orderId,
   } = data || {};
-  console.log(data)
+  // console.log(data)
 
   const contentRef = useRef(null);
 

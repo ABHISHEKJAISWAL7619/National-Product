@@ -19,7 +19,7 @@ const CreateStock = ({ incomingId }) => {
   const dispatch = useDispatch();
   const { itemList } = useSelector((state) => state.item);
   const { loading, singleincoming } = useSelector((state) => state.incoming);
-  console.log(singleincoming);
+  // console.log(singleincoming);
 
   const { formData, handleChange, setFormData, handleSubmit, reset, errors } =
     useForm({
@@ -102,7 +102,7 @@ const CreateStock = ({ incomingId }) => {
       };
     }),
   };
-    console.log(formatted)
+    // console.log(formatted)
 
     try {
       if (incomingId) {

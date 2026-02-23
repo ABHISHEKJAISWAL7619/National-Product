@@ -15,7 +15,7 @@ const Composition1 = ({ compositionId }) => {
     let res = await dispatch(
       fetchsinglecompositions({ filters: {}, id: compositionId })
     ).unwrap();
-    console.log(res);
+    // console.log(res);
     setFormData(res);
   };
 

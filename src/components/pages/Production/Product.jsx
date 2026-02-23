@@ -42,7 +42,7 @@ const Product = ({ searchQuery, currPage, dateTo, dateFrom, type, status }) => {
   const { productionList, documentCount } = useSelector(
     (state) => state.production
   );
-  console.log(productionList);
+  // console.log(productionList);
 
   // Fetch All Productions
   const fetchAllProductions = () => {

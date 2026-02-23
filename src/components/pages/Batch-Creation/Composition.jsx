@@ -156,7 +156,7 @@ const Composition = () => {
                   <div className="flex items-center space-x-3">
                     <button
                       className=" text-blue-600 p-1 rounded-full hover:bg-blue-50 transition"
-                      onClick={() => console.log(`Edit ${item.productId}`)}
+                      onClick={() => // console.log(`Edit ${item.productId}`)}
                     >
                       <SquarePen />
                     </button>

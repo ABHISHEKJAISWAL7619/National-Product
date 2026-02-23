@@ -32,7 +32,7 @@ const Production = () => {
       units: item.totalKg ?? 0, // plotting totalKg
     })) || [];
   const [low, setLow] = useState("");
-  console.log(low);
+  // console.log(low);
   useEffect(() => {
     (async () => {
       try {

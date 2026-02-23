@@ -52,7 +52,7 @@ const AddProduction1 = ({ production2Id }) => {
 
   const gulla = quantity > 0 ? ((quantity * 100) / (100 + flux)).toFixed(3) : 0;
   const FLUX_QUANTITY = quantity > 0 ? (quantity - gulla).toFixed(3) : 0;
-  console.log(formData);
+  // console.log(formData);
   const onSubmit = async () => {
     const payload = {
       ...formData,

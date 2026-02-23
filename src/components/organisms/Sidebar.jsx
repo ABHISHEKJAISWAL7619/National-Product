@@ -40,7 +40,7 @@ export default function Sidebar({ isOpen, onClose }) {
   const [open, setOpen] = useState(null);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const { user } = useSelector((state) => state.auth.user);
-  console.log(user);
+  // console.log(user);
   const pathname = usePathname();
 
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ export default function Sidebar({ isOpen, onClose }) {
   };
 
   const menuItems = user?.roleId?.entity || [];
-  console.log(menuItems);
+  // console.log(menuItems);
 
   useEffect(() => {
     dispatch(fetchUserDetails());
