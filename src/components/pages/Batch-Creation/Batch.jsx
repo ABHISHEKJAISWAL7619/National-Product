@@ -34,7 +34,7 @@ const Batch = ({ searchQuery, currPage, type }) => {
     dispatch(
       fetchbatchs({
         filters: { page: currPage, limit: 10, search: searchQuery, type },
-      })
+      }),
     );
   }, [dispatch, currPage, searchQuery, type]);
 
@@ -95,13 +95,16 @@ const Batch = ({ searchQuery, currPage, type }) => {
               <th className="px-4 py-3 text-left">Date</th>
               <th className="px-4 py-3 text-left">Batch No</th>
 
-                            <th className="px-4 py-3 text-left">Category</th>
+              <th className="px-4 py-3 text-left">Category</th>
               <th className="px-4 py-3 text-left">Sub Category</th>
 
               <th className="px-4 py-3 text-left">Type</th>
               <th className="px-4 py-3 text-left">Product</th>
               <th className="px-4 py-3 text-right">Composition (%)</th>
-              <th className="px-4 py-3 text-right">Quantity (Kg/Pcs)</th>
+              <th className="px-4 py-3 text-right">Quantity</th>
+              <th className="px-4 py-3 text-right">Pieces</th>
+              <th className="px-4 py-3 text-right">Price</th>
+
               <th className="px-4 py-3 text-center">Action</th>
             </tr>
           </thead>
@@ -179,15 +182,14 @@ const Batch = ({ searchQuery, currPage, type }) => {
 export default Batch;
 
 const Row = ({ data, onDeleteClick }) => {
-  const { _id, batchNo, createdAt, outputItem, type, quantity, pieces } =
+  const { _id, batchNo, createdAt, outputItem, type, quantity, pieces, price } =
     data || {};
-const firstComposition = outputItem?.compositions?.[0]?.item;
+  const firstComposition = outputItem?.compositions?.[0]?.item;
 
-const categoryName =
-  firstComposition?.category?.category || "-";
+  const categoryName = firstComposition?.category?.category || "-";
 
-const subCategoryName =
-  firstComposition?.subcategory?.name || "-";  const productName = outputItem?.productName || "-";
+  const subCategoryName = firstComposition?.subcategory?.name || "-";
+  const productName = outputItem?.productName || "-";
   const composition =
     outputItem?.compositions?.map((c) => `${c.percentage}%`).join(", ") || "-";
 
@@ -203,13 +205,20 @@ const subCategoryName =
         {new Date(createdAt).toLocaleDateString("en-IN")}
       </td>
       <td className="px-4 py-3 font-medium text-blue-900">{batchNo || "-"}</td>
-            <td className="px-4 py-3 font-medium text-blue-900">{categoryName || "-"}</td>
-      <td className="px-4 py-3 font-medium text-blue-900">{subCategoryName || "-"}</td>
+      <td className="px-4 py-3 font-medium text-blue-900">
+        {categoryName || "-"}
+      </td>
+      <td className="px-4 py-3 font-medium text-blue-900">
+        {subCategoryName || "-"}
+      </td>
 
       <td className="px-4 py-3 capitalize">{type || "-"}</td>
       <td className="px-4 py-3">{productName}</td>
       <td className="px-4 py-3 text-right">{composition}</td>
-      <td className="px-4 py-3 text-right">{quantityDisplay}</td>
+      <td className="px-4 py-3 text-right">{quantity}</td>
+      <td className="px-4 py-3 text-right">{pieces}</td>
+      <td className="px-4 py-3 text-right">{price?.finalCost || 0}</td>
+
       <td className="px-4 py-3 text-center">
         <div className="flex justify-center gap-3">
           <Link href={`/batch/${_id}`}>

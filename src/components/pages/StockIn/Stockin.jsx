@@ -86,15 +86,18 @@ const StockIn = ({ searchQuery, currPage }) => {
                 Available Quantity
               </th>
               <th className="px-4 py-3 text-left text-black">
-                Available Pieces
-              </th>
-              <th className="px-4 py-3 text-left text-black">
                 Incoming Quantity
               </th>
+              <th className="px-4 py-3 text-left text-black">Total Quantity</th>
+
+              <th className="px-4 py-3 text-left text-black">
+                Available Pieces
+              </th>
+
               <th className="px-4 py-3 text-left text-black">
                 Incoming Pieces
               </th>
-
+              <th className="px-4 py-3 text-left text-black">Total Pieces</th>
               <th className="px-4 py-3 text-center text-black">Action</th>
             </tr>
           </thead>
@@ -202,10 +205,16 @@ const Row = ({ data, onDeleteClick }) => {
       </td>
 
       <td className="px-4 py-3 text-center text-black">{availableQty}</td>
-      <td className="px-4 py-3 text-center text-black">{availablePieces}</td>
       <td className="px-4 py-3 text-center text-black">{quantity}</td>
+      <td className="px-4 py-3 text-center text-black">
+        {availableQty + quantity || "-"}
+      </td>
+      <td className="px-4 py-3 text-center text-black">{availablePieces}</td>
       <td className="px-4 py-3 text-center text-black">{pieces}</td>
 
+      <td className="px-4 py-3 text-center text-black">
+        {availablePieces + pieces || "-"}
+      </td>
 
       <td className="px-4 py-3 text-center">
         <div className="flex justify-center gap-3">
