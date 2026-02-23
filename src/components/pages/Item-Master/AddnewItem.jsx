@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -14,11 +13,7 @@ import { compositionSchema } from "@/validations/compositionSchema";
 
 import { fetchMainCategories } from "@/redux/slice/main-category";
 import { fetchSubCategories } from "@/redux/slice/SubCategory";
-import {
-  fetchitems,
-  createItem,
-  getallitems,
-} from "@/redux/slice/Item-slice";
+import { fetchitems, createItem, getallitems } from "@/redux/slice/Item-slice";
 
 import { successToast, errorToast } from "@/utils/toastMessage";
 
@@ -36,11 +31,11 @@ const UnifiedItemCompositionForm = () => {
         productName: "",
         category: "",
         subcategory: "",
+        symbol: "",
+        productCode: "",
 
         // item form
         unitPrice: "",
-        symbol: "",
-        productCode: "",
 
         // composition form
         compositions: [{ itemId: "", percentage: "" }],
@@ -63,7 +58,7 @@ const UnifiedItemCompositionForm = () => {
 
   const selectedCategoryName = useMemo(
     () => getCategoryName(formData.category),
-    [formData.category, categoryList]
+    [formData.category, categoryList],
   );
 
   const isRMCategory = ["rm", "raw material"].includes(selectedCategoryName);
@@ -80,7 +75,7 @@ const UnifiedItemCompositionForm = () => {
     dispatch(
       fetchSubCategories({
         filters: { category: formData.category, limit: 200 },
-      })
+      }),
     );
 
     // reset subcategory + composition when category changes
@@ -91,25 +86,25 @@ const UnifiedItemCompositionForm = () => {
     }));
   }, [formData.category, dispatch, setFormData]);
 
- useEffect(() => {
-  if (!isRMCategory) {
-    let filters = { limit: 200 };
+  useEffect(() => {
+    if (!isRMCategory) {
+      let filters = { limit: 200 };
 
-    if (formData.subcategory) {
-      // subcategory priority
-      filters.subcategory = formData.subcategory;
-    } else if (formData.category) {
-      // only category if no subcategory
-      filters.category = formData.category;
+      if (formData.subcategory) {
+        // subcategory priority
+        filters.subcategory = formData.subcategory;
+      } else if (formData.category) {
+        // only category if no subcategory
+        filters.category = formData.category;
+      }
+
+      dispatch(getallitems({ filters }));
     }
-
-    dispatch(getallitems({ filters }));
-  }
-}, [formData.category, formData.subcategory, dispatch, isRMCategory]);
+  }, [formData.category, formData.subcategory, dispatch, isRMCategory]);
 
   const totalPercentage = formData.compositions.reduce(
     (sum, c) => sum + Number(c.percentage || 0),
-    0
+    0,
   );
 
   const addComposition = () =>
@@ -153,7 +148,8 @@ const UnifiedItemCompositionForm = () => {
           category: data.category,
           subcategory: data.subcategory,
           productName: data.productName,
-          productCode:"0",
+          symbol: data.symbol,
+          productCode: data.productCode,
           compositions: data.compositions.map((c) => ({
             item: c.itemId,
             percentage: Number(c.percentage),
@@ -213,31 +209,29 @@ const UnifiedItemCompositionForm = () => {
           onChange={(v) => handleChange("subcategory", v)}
           error={errors.subcategory}
         />
+        <Input
+          label="Symbol"
+          value={formData.symbol}
+          onChange={(e) => handleChange("symbol", e.target.value)}
+          error={errors.symbol}
+        />
+        <Input
+          label="Product Code"
+          value={formData.productCode}
+          onChange={(e) => handleChange("productCode", e.target.value)}
+          error={errors.productCode}
+        />
 
         {/* ================= RM / RAW MATERIAL FORM ================= */}
         {isRMCategory && (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <Input
-                label="Symbol"
-                value={formData.symbol}
-                onChange={(e) => handleChange("symbol", e.target.value)}
-                error={errors.symbol}
-              />
-
-              <Input
                 label="Price (Per Unit)"
                 type="number"
                 value={formData.unitPrice}
                 onChange={(e) => handleChange("unitPrice", e.target.value)}
                 error={errors.unitPrice}
-              />
-
-              <Input
-                label="Product Code"
-                value={formData.productCode}
-                onChange={(e) => handleChange("productCode", e.target.value)}
-                error={errors.productCode}
               />
             </div>
           </>
@@ -273,7 +267,7 @@ const UnifiedItemCompositionForm = () => {
                   onChange={(e) =>
                     handleChange(
                       `compositions.${idx}.percentage`,
-                      e.target.value
+                      e.target.value,
                     )
                   }
                   error={errors.compositions?.[idx]?.percentage}
@@ -306,8 +300,8 @@ const UnifiedItemCompositionForm = () => {
                 totalPercentage === 100
                   ? "text-green-600"
                   : totalPercentage > 100
-                  ? "text-red-600"
-                  : "text-blue-600"
+                    ? "text-red-600"
+                    : "text-blue-600"
               }`}
             >
               Total: {totalPercentage}%

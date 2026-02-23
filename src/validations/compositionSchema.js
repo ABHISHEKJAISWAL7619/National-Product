@@ -4,7 +4,8 @@ export const compositionSchema = Yup.object().shape({
   productName: Yup.string().trim().required("Composition name is required"),
   category: Yup.string().required("Category is required"),
   subcategory: Yup.string().required("Subcategory is required"),
-
+  symbol: Yup.string().required("symbol is required"),
+    productCode: Yup.string().required("productCode is required"),
   compositions: Yup.array()
     .of(
       Yup.object().shape({
