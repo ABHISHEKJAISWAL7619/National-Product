@@ -7,7 +7,9 @@ import { FormatDatetime } from "@/utils/formatDatetime";
 import Pagination from "@/components/common/Pagination";
 import { useToggleQueryParam } from "@/utils/toggleQueryParam";
 import Input from "@/components/common/Input";
-
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import { FilePlus } from "lucide-react";
 const Workprogress = ({ page, searchQuery, type }) => {
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
@@ -38,7 +40,52 @@ const Workprogress = ({ page, searchQuery, type }) => {
     "Production Level",
     "Composition",
   ];
+const handleExport = async () => {
+  try {
+    const res = await dispatch(
+      fetchpendingproductions({
+        filters: {
+          limit: documentCount, // full data
+          page: 1,
+          search: searchQuery,
+          type,
+        },
+      })
+    ).unwrap();
 
+    const data = res?.data || [];
+
+    if (!data.length) return;
+
+    const excelData = data.map((item, index) => ({
+      "S.No": index + 1,
+      "Batch No":
+        item?.batch?.batchNo || item?.production?.batch?.batchNo,
+      Quantity: item?.quantity || item?.semiFinishedKg,
+      Price: item?.price || 0,
+      Date: FormatDatetime(item?.createdAt, "date"),
+      "Production Level":
+        item.type === "Production" ? "Level 1" : "Level 2",
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Pending Productions");
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    const blob = new Blob([excelBuffer], {
+      type: "application/octet-stream",
+    });
+
+    saveAs(blob, "Work_In_Progress_List.xlsx");
+  } catch (error) {
+    console.error("Export failed", error);
+  }
+};
   return (
     <div className="w-full font-inter">
       <div className="w-full bg-white shadow-xl rounded-xl">
@@ -59,19 +106,34 @@ const Workprogress = ({ page, searchQuery, type }) => {
           </div>
 
           {/* Type Filter */}
-          <div className="w-full max-w-xs">
-            <Input
-              type="select"
-              name="type"
-              value={type}
-              onChange={(e) => toggleQueryParam("type", e.target.value)}
-              options={typeOptions}
-              valueKey="value"
-              labelKey="label"
-              placeholderOption="Select Type"
-              className="w-full"
-            />
-          </div>
+         <div className="w-full flex items-center justify-between">
+  
+  {/* Left Side - Fixed Width Select */}
+  <div className="w-[250px]">
+    <Input
+      type="select"
+      name="type"
+      value={type}
+      onChange={(e) => toggleQueryParam("type", e.target.value)}
+      options={typeOptions}
+      valueKey="value"
+      labelKey="label"
+      placeholderOption="Select Type"
+      className="w-full"
+    />
+  </div>
+
+  {/* Right Side - Export Button */}
+  <button
+    onClick={handleExport}
+    className="flex items-center gap-2 cursor-pointer bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-green-700 transition"
+  >
+    <FilePlus size={18} />
+    Export
+  </button>
+
+</div>
+          
         </div>
 
         <div className="overflow-x-auto">
