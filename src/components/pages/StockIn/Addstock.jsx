@@ -81,32 +81,43 @@ const CreateStock = ({ incomingId }) => {
 
   const onSubmit = async (data) => {
     const formatted = {
-      date: data.date,
-      invoiceNo: data.invoiceNo,
-      price: data.price,
-      products: data.products.map((p) => ({
+    date: data.date,
+    invoiceNo: data.invoiceNo,
+    price: data.price,
+    products: data.products.map((p) => {
+
+      // selected product find karo
+      const selectedItem = itemList.find(
+        (item) => item._id === p.itemId
+      );
+
+      return {
         item: p.itemId,
         quantity: Number(p.quantity),
         pieces: p.isPieces ? Number(p.pieces) : 0,
-        availableQty: p.quantity || 0,
-        availablePieces: p.pieces || 0,
-      })),
-    };
 
-    try {
-      if (incomingId) {
-        await dispatch(
-          updateincoming({ incomingId, incomingData: formatted }),
-        ).unwrap();
-        successToast("Stock Updated!");
-      } else {
-        await dispatch(createincoming(formatted)).unwrap();
-        successToast("Incoming Stock Added!");
-      }
-      reset();
-    } catch (err) {
-      errorToast(err?.message || "Failed to save");
-    }
+        // selected item se value lo
+        availableQty: selectedItem?.quantity || 0,
+        availablePieces: selectedItem?.pieces || 0,
+      };
+    }),
+  };
+    console.log(formatted)
+
+    // try {
+    //   if (incomingId) {
+    //     await dispatch(
+    //       updateincoming({ incomingId, incomingData: formatted }),
+    //     ).unwrap();
+    //     successToast("Stock Updated!");
+    //   } else {
+    //     await dispatch(createincoming(formatted)).unwrap();
+    //     successToast("Incoming Stock Added!");
+    //   }
+    //   reset();
+    // } catch (err) {
+    //   errorToast(err?.message || "Failed to save");
+    // }
   };
 
   return (
