@@ -104,20 +104,20 @@ const CreateStock = ({ incomingId }) => {
   };
     console.log(formatted)
 
-    // try {
-    //   if (incomingId) {
-    //     await dispatch(
-    //       updateincoming({ incomingId, incomingData: formatted }),
-    //     ).unwrap();
-    //     successToast("Stock Updated!");
-    //   } else {
-    //     await dispatch(createincoming(formatted)).unwrap();
-    //     successToast("Incoming Stock Added!");
-    //   }
-    //   reset();
-    // } catch (err) {
-    //   errorToast(err?.message || "Failed to save");
-    // }
+    try {
+      if (incomingId) {
+        await dispatch(
+          updateincoming({ incomingId, incomingData: formatted }),
+        ).unwrap();
+        successToast("Stock Updated!");
+      } else {
+        await dispatch(createincoming(formatted)).unwrap();
+        successToast("Incoming Stock Added!");
+      }
+      reset();
+    } catch (err) {
+      errorToast(err?.message || "Failed to save");
+    }
   };
 
   return (
