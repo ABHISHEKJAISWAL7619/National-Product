@@ -217,8 +217,9 @@ const Row = ({ data, onDeleteClick }) => {
       <td className="px-4 py-3 text-right">{composition}</td>
       <td className="px-4 py-3 text-right">{quantity}</td>
       <td className="px-4 py-3 text-right">{pieces}</td>
-      <td className="px-4 py-3 text-right">{price?.finalCost || 0}</td>
-
+<td className="px-4 py-3 text-right">
+  {(outputItem?.price?.finalCost ?? 0).toFixed(2)}
+</td>
       <td className="px-4 py-3 text-center">
         <div className="flex justify-center gap-3">
           <Link href={`/batch/${_id}`}>
