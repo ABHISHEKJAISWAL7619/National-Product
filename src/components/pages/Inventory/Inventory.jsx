@@ -3,26 +3,70 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchinventorys } from "@/redux/slice/inventory-slice";
 import Link from "next/link";
-import {
-  RiFileList2Line,
-} from "react-icons/ri";
+import { RiFileList2Line } from "react-icons/ri";
 import Pagination from "@/components/common/Pagination";
 import SearchBox from "@/components/common/SearchBox";
-
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import { FilePlus } from "lucide-react";
 const Inventory = ({ page, searchQuery }) => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
-  const { inventoryList, documentCount, loading,totalAmount } = useSelector(
-    (state) => state.inventory
+  const { inventoryList, documentCount, loading, totalAmount } = useSelector(
+    (state) => state.inventory,
   );
   // console.log(documentCount);
 
   useEffect(() => {
     dispatch(
-      fetchinventorys({ filters: { limit: 10, page, search: searchQuery } })
+      fetchinventorys({ filters: { limit: 10, page, search: searchQuery } }),
     );
   }, [dispatch, page, searchQuery]);
+  const handleExport = async () => {
+    try {
+      const res = await dispatch(
+        fetchinventorys({
+          filters: {
+            limit: documentCount, // full data
+            page: 1,
+            search: searchQuery,
+          },
+        }),
+      ).unwrap();
 
+      const data = res?.data || [];
+
+      if (!data.length) return;
+
+      const excelData = data.map((item, index) => ({
+        "S.No": index + 1,
+        "Product Name": item.productName,
+        Category: item.itemCategory,
+        Code: item.productCode || "-",
+        "Quantity (Kg)": item.quantity,
+        Pieces: item.pieces,
+        "Unit Price": item.unitPrice,
+        "Total Value": item.totalValue,
+      }));
+
+      const worksheet = XLSX.utils.json_to_sheet(excelData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Inventory List");
+
+      const excelBuffer = XLSX.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+
+      const blob = new Blob([excelBuffer], {
+        type: "application/octet-stream",
+      });
+
+      saveAs(blob, "Inventory_List.xlsx");
+    } catch (error) {
+      console.error("Export failed", error);
+    }
+  };
   const tableHeaders = [
     "Product Name",
     "Category",
@@ -40,7 +84,7 @@ const Inventory = ({ page, searchQuery }) => {
         {/* Header */}
         <div className="p-6 border-b border-gray-200 flex flex-col sm:flex-row justify-between">
           <h2 className="text-2xl  text-black font-bold">
-           Total Amount ₹{(totalAmount ?? 0).toFixed(2)}
+            Total Amount ₹{(totalAmount ?? 0).toFixed(2)}
           </h2>
 
           <div className="flex mt-4 sm:mt-0 space-x-2 items-center">
@@ -52,6 +96,13 @@ const Inventory = ({ page, searchQuery }) => {
               placeholder="Search here..."
             />
           </div>
+          <button
+            onClick={handleExport}
+            className="flex items-center  cursor-pointer gap-2 bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-md hover:bg-green-700 transition"
+          >
+            <FilePlus size={18} />
+            Export
+          </button>
         </div>
 
         {/* Table */}
@@ -96,7 +147,9 @@ const Inventory = ({ page, searchQuery }) => {
                     <td className="px-6 py-4 text-blue-800 font-semibold">
                       {item.pieces}
                     </td>
-                    <td className="px-6 text-black py-4">₹{item.unitPrice.toFixed(2)}</td>
+                    <td className="px-6 text-black py-4">
+                      ₹{item.unitPrice.toFixed(2)}
+                    </td>
                     <td className="px-6 py-4 font-semibold text-blue-600">
                       ₹ {item.totalValue.toLocaleString()}
                     </td>
