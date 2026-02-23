@@ -80,7 +80,7 @@ const StockIn = ({ searchQuery, currPage }) => {
               <th className="px-4 py-3 text-left text-black">Name</th>
 
               <th className="px-4 py-3 text-left text-black">Symbol</th>
-              <th className="px-4 py-3 text-center text-black">Price</th>
+              <th className="px-4 py-3 text-center text-black"> Unit Price</th>
 
               <th className="px-4 py-3 text-left text-black">
                 Available Quantity

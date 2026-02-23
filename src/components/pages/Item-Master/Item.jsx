@@ -64,7 +64,7 @@ const Item = ({ searchQuery, currPage }) => {
           filters: {
             search: searchQuery,
             page: 1,
-            limit: documentCount, // 🔥 yahin magic hai
+            limit: documentCount,
           },
         }),
       ).unwrap();

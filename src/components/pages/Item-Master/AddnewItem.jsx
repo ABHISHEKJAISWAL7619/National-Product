@@ -39,6 +39,7 @@ const UnifiedItemCompositionForm = () => {
 
         // composition form
         compositions: [{ itemId: "", percentage: "" }],
+        factoryOverhead:0,
       },
       schema: Yup.lazy((values) => {
         const categoryName = getCategoryName(values.category);
@@ -154,6 +155,7 @@ const UnifiedItemCompositionForm = () => {
             item: c.itemId,
             percentage: Number(c.percentage),
           })),
+          factoryOverhead:data.factoryOverhead ||0,
         };
 
         await dispatch(createItem({ itemData: payload })).unwrap();
@@ -284,6 +286,13 @@ const UnifiedItemCompositionForm = () => {
                 )}
               </div>
             ))}
+
+             <Input
+                label="Factory OverHead (%)"
+                type="number"
+                value={formData.factoryOverhead}
+                onChange={(e) => handleChange("factoryOverhead", e.target.value)}
+              />
 
             {totalPercentage < 100 && (
               <Button
