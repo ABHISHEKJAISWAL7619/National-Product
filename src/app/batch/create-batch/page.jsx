@@ -8,7 +8,6 @@ const page = () => {
     <div>
       <MainLayout>
         <CreateBatch />
-        {/* <Composition/> */}
       </MainLayout>
     </div>
   );

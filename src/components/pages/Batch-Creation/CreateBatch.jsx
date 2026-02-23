@@ -147,26 +147,29 @@ const CreateBatch = ({ batchId }) => {
       fetchBatch();
     }
   }, [dispatch, batchId, setFormData]);
-  useEffect(() => {
-    formData.inputItem.forEach(async (row, idx) => {
-      if (!row.category && !row.subcategory) return;
+ useEffect(() => {
+  formData.inputItem.forEach(async (row, idx) => {
+    if (!row.category && !row.subcategory) return;
 
-      const filters = { limit: 200 };
-      if (row.category) filters.category = row.category;
-      if (row.subcategory) filters.subcategory = row.subcategory;
+    const filters = { limit: 200 };
 
-      try {
-        const res = await dispatch(getallitems({ filters })).unwrap();
+    if (row.subcategory) {
+      filters.subcategory = row.subcategory;
+    } 
+    else if (row.category) {
+      filters.category = row.category;
+    }
 
-        setLocalItemByRow((prev) => ({
-          ...prev,
-          [idx]: res?.data || [],
-        }));
-      } catch (e) {
-        // console.log("Item fetch error", e);
-      }
-    });
-  }, [formData.inputItem, dispatch]);
+    try {
+      const res = await dispatch(getallitems({ filters })).unwrap();
+
+      setLocalItemByRow((prev) => ({
+        ...prev,
+        [idx]: res?.data || [],
+      }));
+    } catch (e) {}
+  });
+}, [formData.inputItem, dispatch]);
 
   useEffect(() => {
     dispatch(fetchcompositions({ filters: {} }));
@@ -185,15 +188,15 @@ const CreateBatch = ({ batchId }) => {
   //     }));
   //   }
   // }, [formData.outputItem, compositionList]);
- const totalInputQty = formData.inputItem.reduce(
-  (sum, i) => sum + Number(i.quantity || 0),
-  0,
-);
+  const totalInputQty = formData.inputItem.reduce(
+    (sum, i) => sum + Number(i.quantity || 0),
+    0,
+  );
 
-const totalInputPieces = formData.inputItem.reduce(
-  (sum, i) => sum + Number(i.pieces || 0),
-  0,
-);
+  const totalInputPieces = formData.inputItem.reduce(
+    (sum, i) => sum + Number(i.pieces || 0),
+    0,
+  );
 
   useEffect(() => {
     dispatch(fetchMainCategories({ filters: { limit: 200 } }));
@@ -346,7 +349,11 @@ const totalInputPieces = formData.inputItem.reduce(
                     value: c._id,
                   })) || []
                 }
-                onChange={(v) => handleChange(`inputItem.${idx}.category`, v)}
+                onChange={(v) => {
+                  handleChange(`inputItem.${idx}.category`, v);
+                  handleChange(`inputItem.${idx}.subcategory`, "");
+                  handleChange(`inputItem.${idx}.itemId`, "");
+                }}
                 error={errors.inputItem?.[idx]?.category}
               />
 
@@ -357,9 +364,10 @@ const totalInputPieces = formData.inputItem.reduce(
                   label: s.name,
                   value: s._id,
                 }))}
-                onChange={(v) =>
-                  handleChange(`inputItem.${idx}.subcategory`, v)
-                }
+                onChange={(v) => {
+                  handleChange(`inputItem.${idx}.subcategory`, v);
+                  handleChange(`inputItem.${idx}.itemId`, "");
+                }}
               />
 
               <Input
@@ -415,9 +423,9 @@ const totalInputPieces = formData.inputItem.reduce(
           ))}
 
           {/* {totalInputQty < Number(formData.quantity || 0) && ( */}
-            <Button type="button" onClick={addInputItem}>
-              + Add Item
-            </Button>
+          <Button type="button" onClick={addInputItem}>
+            + Add Item
+          </Button>
           {/* )} */}
 
           <p
