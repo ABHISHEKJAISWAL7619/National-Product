@@ -152,23 +152,7 @@ const Composition = () => {
                   </div>
                 </td>
 
-                <td className="px-6 py-4 text-right text-sm">
-                  <div className="flex items-center space-x-3">
-                    <button
-                      className=" text-blue-600 p-1 rounded-full hover:bg-blue-50 transition"
-                      onClick={() => // console.log(`Edit ${item.productId}`)}
-                    >
-                      <SquarePen />
-                    </button>
-
-                    <button
-                      className=" text-red-600 p-1 rounded-full hover:bg-red-50 transition"
-                      onClick={() => handleDelete(item.productId)}
-                    >
-                      <TrashIcon />
-                    </button>
-                  </div>
-                </td>
+              
               </tr>
             ))}
           </tbody>
