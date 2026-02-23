@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { FilePlus2, Edit3, Trash2 } from "lucide-react";
+import { FilePlus2, Edit3, Trash2, Eye } from "lucide-react";
 import { fetchincomings, deleteincoming } from "@/redux/slice/incoming-slice";
 import { successToast, errorToast } from "@/utils/toastMessage";
 import OverlayModal from "@/components/common/OverlayModal";
@@ -219,8 +219,8 @@ const Row = ({ data, onDeleteClick }) => {
       <td className="px-4 py-3 text-center">
         <div className="flex justify-center gap-3">
           <Link href={`/incoming/${_id}`}>
-            <button className="text-blue-600 hover:text-blue-800 transition">
-              <Edit3 size={18} />
+            <button className="text-blue-600 cursor-pointer hover:text-blue-800 transition">
+              <Eye size={18} />
             </button>
           </Link>
 

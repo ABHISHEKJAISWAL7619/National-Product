@@ -60,7 +60,8 @@ const Productdetail = ({ itemId }) => {
         <h2 className="font-semibold text-lg mb-4 text-black">
           Lifecycle & Tracking
         </h2>
-
+        {/* "balanceQty": 80, */}
+        {/* "balancePieces": 80 */}
         <table className="min-w-full divide-y divide-gray-300 text-black">
           <thead className="bg-gray-100">
             <tr>
@@ -72,6 +73,8 @@ const Productdetail = ({ itemId }) => {
                 "Qty Out",
                 "PiecesIn",
                 "PiecesOut",
+                "BalanceQty",
+                "BalancePieces",
               ].map((h) => (
                 <th
                   key={h}
@@ -95,6 +98,12 @@ const Productdetail = ({ itemId }) => {
                 <td className="px-6 py-3 text-black">{tx?.qtyOut || "-"}</td>
                 <td className="px-6 py-3 text-black">{tx?.piecesIn || "-"}</td>
                 <td className="px-6 py-3 text-black">{tx?.piecesOut || "-"}</td>
+                <td className="px-6 py-3 text-black">
+                  {tx?.balanceQty || "-"}
+                </td>
+                <td className="px-6 py-3 text-black">
+                  {tx?.balancePieces || "-"}
+                </td>
               </tr>
             ))}
           </tbody>

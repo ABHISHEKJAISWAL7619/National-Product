@@ -55,6 +55,14 @@ const BreakdownDisplay = ({ data }) => {
             ₹{totalRawMaterialCost.toLocaleString()}
           </p>
         </div>
+        <div className="p-4 bg-gray-100 rounded-lg">
+          <p className="font-medium text-gray-700">FinalCode with 
+            Factory OverHead
+          </p>
+          <p className="font-bold text-green-700">
+            ₹{finalCost.toLocaleString()}
+          </p>
+        </div>
       </div>
 
       {/* FINAL COST */}

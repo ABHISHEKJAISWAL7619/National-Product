@@ -1,4 +1,5 @@
 import Addstock from "@/components/pages/StockIn/Addstock";
+import Itemdetail from "@/components/pages/StockIn/Itemdetail";
 import MainLayout from "@/components/templates/templates/MainLayout";
 import React from "react";
 
@@ -7,7 +8,7 @@ const page = async ({ params }) => {
   return (
     <div>
       <MainLayout>
-        <Addstock incomingId={incomingId} />
+        <Itemdetail incomingId={incomingId} />
       </MainLayout>
     </div>
   );
