@@ -31,7 +31,7 @@ const RecentStockIn = () => {
                   Invoice No
                 </th>
                 <th className="px-4 py-3 text-left text-black font-semibold ">
-                  Items
+                  Item
                 </th>
                 <th className="px-4 py-3 text-left text-black font-semibold ">
                   Quantity
@@ -45,20 +45,18 @@ const RecentStockIn = () => {
             <tbody>
               {incomingList.map((tx) => (
                 <tr key={tx._id} className="hover:bg-gray-50 text-gray-700">
-                  <td className="px-4 py-3  font-semibold">{tx.invoiceNo}</td>
+                  <td className="px-4 py-3  font-semibold">{tx?.invoiceNo}</td>
 
                   <td className="px-4 py-3 ">
-                    {tx.products
-                      .map((p) => p.item?.productName || p.item?.name)
-                      .join(", ")}
+                    {tx?.productName}
                   </td>
 
                   <td className="px-4 py-3 ">
-                    {tx.products.reduce((sum, p) => sum + (p.quantity || 0), 0)}
+                    {tx?.quantity}
                   </td>
 
                   <td className="px-4 py-3 ">
-                    {new Date(tx.date).toLocaleDateString()}
+                    {new Date(tx?.date).toLocaleDateString()}
                   </td>
                 </tr>
               ))}
