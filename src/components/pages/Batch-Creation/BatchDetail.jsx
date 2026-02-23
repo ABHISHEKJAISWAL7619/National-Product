@@ -94,7 +94,6 @@ const BatchDetail = ({ batchId }) => {
               <th className="border p-2">Item</th>
               <th className="border p-2">Qty</th>
               <th className="border p-2">Pieces</th>
-              <th className="border p-2">Reuseable</th>
             </tr>
           </thead>
           <tbody>
@@ -106,7 +105,6 @@ const BatchDetail = ({ batchId }) => {
                 <td className="border p-2 text-center">{item?.quantity}</td>
                 <td className="border p-2 text-center">{item?.pieces}</td>
 
-                <td className="border p-2 text-center">{item?.reuseableQty}</td>
               </tr>
             ))}
           </tbody>
