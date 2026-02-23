@@ -90,10 +90,14 @@ const Batch = ({ searchQuery, currPage, type }) => {
       {/* Table with horizontal scroll */}
       <div className="overflow-x-auto rounded-md bg-white shadow">
         <table className="min-w-[700px] sm:min-w-full text-sm">
-          <thead className="bg-gray-200 text-black">
+          <thead className="bg-gray-200  text-black">
             <tr>
               <th className="px-4 py-3 text-left">Date</th>
               <th className="px-4 py-3 text-left">Batch No</th>
+
+                            <th className="px-4 py-3 text-left">Category</th>
+              <th className="px-4 py-3 text-left">Sub Category</th>
+
               <th className="px-4 py-3 text-left">Type</th>
               <th className="px-4 py-3 text-left">Product</th>
               <th className="px-4 py-3 text-right">Composition (%)</th>
@@ -104,7 +108,7 @@ const Batch = ({ searchQuery, currPage, type }) => {
           <tbody>
             {dataLoading ? (
               <tr>
-                <td colSpan={7} className="py-6 text-center text-gray-500">
+                <td colSpan={9} className="py-6 text-center text-gray-500">
                   Loading...
                 </td>
               </tr>
@@ -118,7 +122,7 @@ const Batch = ({ searchQuery, currPage, type }) => {
               ))
             ) : (
               <tr>
-                <td colSpan={7} className="py-6 text-center text-gray-500">
+                <td colSpan={9} className="py-6 text-center text-gray-500">
                   No batches found.
                 </td>
               </tr>
@@ -177,8 +181,14 @@ export default Batch;
 const Row = ({ data, onDeleteClick }) => {
   const { _id, batchNo, createdAt, outputItem, type, quantity, pieces } =
     data || {};
-  const productName = outputItem?.productName || "-";
-  const compositions =
+const firstComposition = outputItem?.compositions?.[0]?.item;
+
+const categoryName =
+  firstComposition?.category?.category || "-";
+
+const subCategoryName =
+  firstComposition?.subcategory?.name || "-";  const productName = outputItem?.productName || "-";
+  const composition =
     outputItem?.compositions?.map((c) => `${c.percentage}%`).join(", ") || "-";
 
   let quantityDisplay = "-";
@@ -193,9 +203,12 @@ const Row = ({ data, onDeleteClick }) => {
         {new Date(createdAt).toLocaleDateString("en-IN")}
       </td>
       <td className="px-4 py-3 font-medium text-blue-900">{batchNo || "-"}</td>
+            <td className="px-4 py-3 font-medium text-blue-900">{categoryName || "-"}</td>
+      <td className="px-4 py-3 font-medium text-blue-900">{subCategoryName || "-"}</td>
+
       <td className="px-4 py-3 capitalize">{type || "-"}</td>
       <td className="px-4 py-3">{productName}</td>
-      <td className="px-4 py-3 text-right">{compositions}</td>
+      <td className="px-4 py-3 text-right">{composition}</td>
       <td className="px-4 py-3 text-right">{quantityDisplay}</td>
       <td className="px-4 py-3 text-center">
         <div className="flex justify-center gap-3">
