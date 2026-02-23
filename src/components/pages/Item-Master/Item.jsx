@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteItem, fetchitems } from "@/redux/slice/Item-slice";
+import { deleteItem, fetchitems, getallitems } from "@/redux/slice/Item-slice";
 import { successToast } from "@/utils/toastMessage";
 import OverlayModal from "@/components/common/OverlayModal";
 import { AlertModal } from "@/components/common/AlertModel";
@@ -29,7 +29,7 @@ const Item = ({ searchQuery, currPage }) => {
 
   const fetchallitems = () => {
     dispatch(
-      fetchitems({
+      getallitems({
         filters: { search: searchQuery, page: currPage, limit: 10 },
       }),
     );
@@ -165,7 +165,9 @@ const Item = ({ searchQuery, currPage }) => {
             <tr>
               {[
                 "S.No",
+                "Date",
                 "Product Name",
+                "Product Category",
                 "Product Code",
                 "Quanity",
                 "pieces",
@@ -188,9 +190,14 @@ const Item = ({ searchQuery, currPage }) => {
               <tr key={item._id} className="hover:bg-gray-50">
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {((Number(currPage) || 1) - 1) * 10 + i + 1}
-                </td>
+                </td> <td className="px-4 py-3 ">
+                    {new Date(item?.createdAt).toLocaleDateString()}
+                  </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {item?.productName}
+                </td>
+                 <td className="px-4 sm:px-6 py-3 text-blue-950">
+                  {item?.category?.category}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {item?.productCode || "-"}

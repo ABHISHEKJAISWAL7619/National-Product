@@ -87,7 +87,9 @@ const CreateStock = ({ incomingId }) => {
       products: data.products.map((p) => ({
         item: p.itemId,
         quantity: Number(p.quantity),
-        pieces: p.isPieces ? Number(p.pieces) : null,
+        pieces: p.isPieces ? Number(p.pieces) : 0,
+        availableQty: p.quantity || 0,
+        availablePieces: p.pieces || 0,
       })),
     };
 

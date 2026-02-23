@@ -56,12 +56,6 @@ export const menuItems = [
   },
   {
     icon: "ri-box-3-line",
-    route: "/item-master/composition",
-    name: "composition",
-    permissions: ["Edit", "View", "Delete", "Create"],
-  },
-  {
-    icon: "ri-box-3-line",
     route: "/item-master/create-catgory",
     name: "create category",
     permissions: ["Edit", "View", "Delete", "Create"],
