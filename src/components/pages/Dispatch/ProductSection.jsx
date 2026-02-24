@@ -165,11 +165,11 @@ export default function ProductSection({
                 <Row
                   key={index}
                   sno={((Number(currPage) || 1) - 1) * 10 + index + 1}
-                  type={p.type}
+                  type={p?.type ||"-"}
                   product={p}
-                  quantity={p.quantity}
-                  name={p.productName}
-                  productCode={p.productCode}
+                  quantity={p?.quantity }
+                  name={p?.productName || "-"}
+                  productCode={p?.productCode}
                   onAdd={() => handleAddClick(p)}
                 />
               ))
