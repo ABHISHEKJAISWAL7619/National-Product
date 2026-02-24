@@ -17,9 +17,11 @@ import { fetchitems, getallitems } from "@/redux/slice/Item-slice";
 import { fetchMainCategories } from "@/redux/slice/main-category";
 import { fetchSubCategories } from "@/redux/slice/SubCategory";
 import Select from "@/components/atoms/Select";
+import { useRouter } from "next/navigation";
 
 const CreateBatch = ({ batchId }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { compositionList } = useSelector((state) => state.composition);
   // console.log(compositionList);
   const { categoryList } = useSelector((state) => state.category);
@@ -103,6 +105,7 @@ const CreateBatch = ({ batchId }) => {
 
       if (batchId) {
         await dispatch(updatebatch({ batchId, batchData })).unwrap();
+        router.push("/batch")
         successToast("Batch updated successfully!");
       } else {
         await dispatch(createbatch(batchData)).unwrap();
