@@ -121,7 +121,7 @@ const StockIn = ({ searchQuery, currPage }) => {
               ))
             ) : (
               <tr>
-                <td colSpan={8} className="py-6 text-center text-gray-500">
+                <td colSpan={10} className="py-6 text-center text-gray-500">
                   No stock entries found.
                 </td>
               </tr>
