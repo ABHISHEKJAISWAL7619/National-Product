@@ -150,7 +150,9 @@ export default function ProductSection({
           <thead className="bg-gray-100 text-gray-600 text-xs uppercase">
             <tr>
               <th className="px-4 py-3 text-left">S.No</th>
-              <th className="px-4 py-3 text-left w-[35%]">Product Name</th>
+              <th className="px-4 py-3 text-left w-[35%]">Item Name</th>
+                            <th className="px-4 py-3 text-center">Item Code</th>
+
               <th className="px-4 py-3 text-center">Type</th>
               <th className="px-4 py-3 text-center">Quantity</th>
               <th className="px-4 py-3 text-center">Action</th>
@@ -167,6 +169,7 @@ export default function ProductSection({
                   product={p}
                   quantity={p.quantity}
                   name={p.productName}
+                  productCode={p.productCode}
                   onAdd={() => handleAddClick(p)}
                 />
               ))
@@ -191,7 +194,7 @@ export default function ProductSection({
   );
 }
 
-const Row = ({ sno, type, name, quantity, onAdd }) => {
+const Row = ({ sno, type, name, quantity,productCode, onAdd }) => {
   const badge =
     type === "item"
       ? "bg-emerald-100 text-emerald-700 border border-emerald-300"
@@ -202,6 +205,8 @@ const Row = ({ sno, type, name, quantity, onAdd }) => {
       <td className="px-4 py-3">{sno}</td>
 
       <td className="px-4 py-3 font-medium text-gray-800 truncate">{name}</td>
+            <td className="px-4 py-3 font-medium text-gray-800 truncate">{productCode}</td>
+
 
       <td className="px-4 py-3 text-center">
         <span
