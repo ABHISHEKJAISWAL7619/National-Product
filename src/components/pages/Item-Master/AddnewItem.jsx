@@ -208,7 +208,7 @@ const UnifiedItemCompositionForm = () => {
           error={errors.symbol}
         />
         <Input
-          label="Product Code"
+          label="Item Code"
           value={formData.productCode}
           onChange={(e) => handleChange("productCode", e.target.value)}
           error={errors.productCode}
