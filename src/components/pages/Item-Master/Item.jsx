@@ -8,6 +8,7 @@ import {
   Edit3,
   Trash2,
   Eye,
+  Edit,
 } from "lucide-react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
@@ -207,7 +208,7 @@ const Item = ({ searchQuery, currPage }) => {
                   {item?.quantity || "-"}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {item?.piece || "-"}
+                  {item?.pieces || "-"}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {item?.unitPrice || "-"}
@@ -228,6 +229,12 @@ const Item = ({ searchQuery, currPage }) => {
                       onClick={() => confirmDelete(item)}
                     >
                       <Trash2 size={18} />
+                    </button>
+                     <button
+                      className="text-red-600 p-1 cursor-pointer rounded-full hover:bg-red-50 transition"
+                      onClick={() => confirmDelete(item)}
+                    >
+                      <Edit size={18} />
                     </button>
                   </div>
                 </td>
