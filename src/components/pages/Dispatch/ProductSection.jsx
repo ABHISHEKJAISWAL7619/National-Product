@@ -139,7 +139,7 @@ export default function ProductSection({
             options={typeOptions}
             valueKey="value"
             labelKey="label"
-            className="min-w-[180px]"
+            className="min-w-[160px]"
           />
         </div>
       </div>
