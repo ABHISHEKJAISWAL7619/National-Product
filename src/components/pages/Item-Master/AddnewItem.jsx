@@ -87,21 +87,9 @@ const UnifiedItemCompositionForm = () => {
     }));
   }, [formData.category, dispatch, setFormData]);
 
-  useEffect(() => {
-    if (!isRMCategory) {
-      let filters = { limit: 200 };
-
-      if (formData.subcategory) {
-        // subcategory priority
-        filters.subcategory = formData.subcategory;
-      } else if (formData.category) {
-        // only category if no subcategory
-        filters.category = formData.category;
-      }
-
-      dispatch(getallitems({ filters }));
-    }
-  }, [formData.category, formData.subcategory, dispatch, isRMCategory]);
+  useEffect(()=>{
+    dispatch(getallitems({filters:{limit:200}}))
+  },[dispatch])
 
   const totalPercentage = formData.compositions.reduce(
     (sum, c) => sum + Number(c.percentage || 0),
