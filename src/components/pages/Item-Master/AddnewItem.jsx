@@ -16,10 +16,11 @@ import { fetchSubCategories } from "@/redux/slice/SubCategory";
 import { fetchitems, createItem, getallitems } from "@/redux/slice/Item-slice";
 
 import { successToast, errorToast } from "@/utils/toastMessage";
+import { useRouter } from "next/navigation";
 
 const UnifiedItemCompositionForm = () => {
   const dispatch = useDispatch();
-
+ const router = useRouter();
   const { categoryList } = useSelector((state) => state.category);
   const { SubcategoryList } = useSelector((state) => state.subcategory);
   const { itemList, loading } = useSelector((state) => state.item);
@@ -124,6 +125,7 @@ const UnifiedItemCompositionForm = () => {
         };
 
         await dispatch(createItem({ itemData: payload })).unwrap();
+        router.push("/item-master/view-item")
         successToast("Item created successfully!");
       }
 
