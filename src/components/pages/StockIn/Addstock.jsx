@@ -14,9 +14,11 @@ import {
 } from "@/redux/slice/incoming-slice";
 import { incomingSchema } from "@/validations/incomingSchema";
 import Select from "@/components/atoms/Select";
+import { useRouter } from "next/navigation";
 
 const CreateStock = ({ incomingId }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { itemList } = useSelector((state) => state.item);
   const { loading, singleincoming } = useSelector((state) => state.incoming);
   // console.log(singleincoming);
@@ -109,6 +111,7 @@ const CreateStock = ({ incomingId }) => {
         await dispatch(
           updateincoming({ incomingId, incomingData: formatted }),
         ).unwrap();
+        router.push("/incoming/stock-in")
         successToast("Stock Updated!");
       } else {
         await dispatch(createincoming(formatted)).unwrap();
