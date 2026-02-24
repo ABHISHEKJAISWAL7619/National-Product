@@ -40,7 +40,7 @@ const Inventory = ({ page, searchQuery }) => {
 
       const excelData = data.map((item, index) => ({
         "S.No": index + 1,
-        "Product Name": item.productName,
+        "Item Name": item.productName,
         Category: item.itemCategory,
         Code: item.productCode || "-",
         "Quantity (Kg)": item.quantity,
@@ -68,7 +68,7 @@ const Inventory = ({ page, searchQuery }) => {
     }
   };
   const tableHeaders = [
-    "Product Name",
+    "Item Name",
     "Category",
     "Code",
     "Quantity(Kg)",

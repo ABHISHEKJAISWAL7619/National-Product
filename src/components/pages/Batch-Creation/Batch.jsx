@@ -87,7 +87,7 @@ const handleExport = async () => {
         Category: categoryName,
         "Sub Category": subCategoryName,
         Type: batch?.type || "-",
-        Product: batch?.outputItem?.productName || "-",
+        Item: batch?.outputItem?.productName || "-",
         "Composition (%)": composition,
         Quantity: batch?.quantity || 0,
         Pieces: batch?.pieces || 0,
@@ -175,7 +175,7 @@ const handleExport = async () => {
               <th className="px-4 py-3 text-left">Sub Category</th>
 
               <th className="px-4 py-3 text-left">Type</th>
-              <th className="px-4 py-3 text-left">Product</th>
+              <th className="px-4 py-3 text-left">Item</th>
               <th className="px-4 py-3 text-right">Composition (%)</th>
               <th className="px-4 py-3 text-right">Quantity</th>
               <th className="px-4 py-3 text-right">Pieces</th>

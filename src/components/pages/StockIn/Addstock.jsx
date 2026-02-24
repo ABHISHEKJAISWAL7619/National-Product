@@ -158,7 +158,7 @@ const CreateStock = ({ incomingId }) => {
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <Select
-                label="Select Product"
+                label="Select Item"
                 value={product.itemId}
                 options={
                   itemList?.map((item) => ({

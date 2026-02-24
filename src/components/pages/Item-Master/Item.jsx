@@ -168,9 +168,9 @@ const Item = ({ searchQuery, currPage }) => {
               {[
                 "S.No",
                 "Date",
-                "Product Name",
-                "Product Category",
-                "Product Code",
+                "Item Name",
+                "Item Category",
+                "Item Code",
                 "Quanity",
                 "pieces",
                 "Unitprice",

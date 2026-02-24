@@ -163,13 +163,13 @@ const UnifiedItemCompositionForm = () => {
   return (
     <div className="max-w-3xl mx-auto bg-white shadow-xl rounded-xl p-6 mt-6">
       <h2 className="text-2xl font-bold mb-6 text-black text-center">
-        Create Product
+        Create Item
       </h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Common Fields */}
         <Input
-          label="Product / Composition Name"
+          label="Item / Composition Name"
           placeholder="Enter name"
           value={formData.productName}
           onChange={(e) => handleChange("productName", e.target.value)}
