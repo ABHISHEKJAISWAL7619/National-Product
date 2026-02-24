@@ -192,13 +192,14 @@ const Item = ({ searchQuery, currPage }) => {
               <tr key={item._id} className="hover:bg-gray-50">
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {((Number(currPage) || 1) - 1) * 10 + i + 1}
-                </td> <td className="px-4 py-3 ">
-                    {new Date(item?.createdAt).toLocaleDateString()}
-                  </td>
+                </td>{" "}
+                <td className="px-4 py-3 ">
+                  {new Date(item?.createdAt).toLocaleDateString()}
+                </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {item?.productName}
                 </td>
-                 <td className="px-4 sm:px-6 py-3 text-blue-950">
+                <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {item?.category?.category}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
@@ -216,7 +217,6 @@ const Item = ({ searchQuery, currPage }) => {
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {item?.symbol || "-"}
                 </td>
-
                 <td className="px-4 sm:px-6 py-3 text-right">
                   <div className="flex items-center space-x-2">
                     <Link href={`/item-master/view-item/${item._id}`}>
@@ -230,12 +230,13 @@ const Item = ({ searchQuery, currPage }) => {
                     >
                       <Trash2 size={18} />
                     </button>
-                     <button
-                      className="text-red-600 p-1 cursor-pointer rounded-full hover:bg-red-50 transition"
-                      onClick={() => confirmDelete(item)}
-                    >
-                      <Edit size={18} />
-                    </button>
+                    {item?.category?.category === "RM" && (
+                      <Link href={`/item-master/view-item/add-new/${item._id}`}>
+                        <button className="text-blue-600 p-1 cursor-pointer rounded-full hover:bg-blue-50 transition">
+                          <Edit size={18} />
+                        </button>
+                      </Link>
+                    )}
                   </div>
                 </td>
               </tr>
