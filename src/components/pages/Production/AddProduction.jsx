@@ -15,6 +15,7 @@ import {
   createProductionSchema,
   updateProductionSchema,
 } from "@/validations/productionSchema";
+import { useRouter } from "next/navigation";
 
 const AddProduction = ({ productionId }) => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const AddProduction = ({ productionId }) => {
   const { loading, singleProduction } = useSelector(
     (state) => state.production
   );
-
+const router = useRouter();
   const isUpdate = Boolean(productionId);
 
   const { formData, handleChange, handleSubmit, reset, errors, setFormData } =
@@ -77,6 +78,7 @@ const AddProduction = ({ productionId }) => {
         : { formData: { ...formData, status: "pending" } };
 
       await dispatch(saveProduction(payload)).unwrap();
+      router.push("/production")
 
       successToast(
         isUpdate
