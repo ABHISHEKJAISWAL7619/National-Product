@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 
 const UnifiedItemCompositionForm = () => {
   const dispatch = useDispatch();
- const router = useRouter();
+  const router = useRouter();
   const { categoryList } = useSelector((state) => state.category);
   const { SubcategoryList } = useSelector((state) => state.subcategory);
   const { itemList, loading } = useSelector((state) => state.item);
@@ -40,7 +40,7 @@ const UnifiedItemCompositionForm = () => {
 
         // composition form
         compositions: [{ itemId: "", percentage: "" }],
-        factoryOverhead:0,
+        factoryOverhead: 0,
       },
       schema: Yup.lazy((values) => {
         const categoryName = getCategoryName(values.category);
@@ -63,9 +63,9 @@ const UnifiedItemCompositionForm = () => {
     [formData.category, categoryList],
   );
 
-  const isRMCategory = ["rm", "raw material"].includes(selectedCategoryName);
-
-  /* ---------------- effects ---------------- */
+  const isCompositionCategory = ["fg", "rw"].includes(
+    selectedCategoryName,
+  ); /* ---------------- effects ---------------- */
 
   useEffect(() => {
     dispatch(fetchMainCategories({ filters: { limit: 200 } }));
@@ -88,9 +88,9 @@ const UnifiedItemCompositionForm = () => {
     }));
   }, [formData.category, dispatch, setFormData]);
 
-  useEffect(()=>{
-    dispatch(getallitems({filters:{limit:200}}))
-  },[dispatch])
+  useEffect(() => {
+    dispatch(getallitems({ filters: { limit: 200 } }));
+  }, [dispatch]);
 
   const totalPercentage = formData.compositions.reduce(
     (sum, c) => sum + Number(c.percentage || 0),
@@ -114,7 +114,7 @@ const UnifiedItemCompositionForm = () => {
   const onSubmit = async (data) => {
     try {
       // RM / RAW MATERIAL → ITEM FORM
-      if (isRMCategory) {
+      if (!isCompositionCategory) {
         const payload = {
           productName: data.productName,
           category: data.category,
@@ -125,7 +125,7 @@ const UnifiedItemCompositionForm = () => {
         };
 
         await dispatch(createItem({ itemData: payload })).unwrap();
-        router.push("/item-master/view-item")
+        router.push("/item-master/view-item");
         successToast("Item created successfully!");
       }
 
@@ -145,7 +145,7 @@ const UnifiedItemCompositionForm = () => {
             item: c.itemId,
             percentage: Number(c.percentage),
           })),
-          factoryOverhead:data.factoryOverhead ||0,
+          factoryOverhead: data.factoryOverhead || 0,
         };
 
         await dispatch(createItem({ itemData: payload })).unwrap();
@@ -215,7 +215,7 @@ const UnifiedItemCompositionForm = () => {
         />
 
         {/* ================= RM / RAW MATERIAL FORM ================= */}
-        {isRMCategory && (
+        {!isCompositionCategory && (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <Input
@@ -230,7 +230,7 @@ const UnifiedItemCompositionForm = () => {
         )}
 
         {/* ================= COMPOSITION FORM ================= */}
-        {!isRMCategory && (
+        {isCompositionCategory && (
           <>
             {formData.compositions.map((row, idx) => (
               <div
@@ -277,12 +277,12 @@ const UnifiedItemCompositionForm = () => {
               </div>
             ))}
 
-             <Input
-                label="Factory OverHead (%)"
-                type="number"
-                value={formData.factoryOverhead}
-                onChange={(e) => handleChange("factoryOverhead", e.target.value)}
-              />
+            <Input
+              label="Factory OverHead (%)"
+              type="number"
+              value={formData.factoryOverhead}
+              onChange={(e) => handleChange("factoryOverhead", e.target.value)}
+            />
 
             {totalPercentage < 100 && (
               <Button
@@ -311,7 +311,7 @@ const UnifiedItemCompositionForm = () => {
         {/* Submit */}
         <Button
           type="submit"
-          disabled={!isRMCategory && totalPercentage !== 100}
+          disabled={isCompositionCategory && totalPercentage !== 100}
           loading={loading}
           className="cursor-pointer"
         >
