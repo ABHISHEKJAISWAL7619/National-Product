@@ -8,7 +8,7 @@ const page = async ({ params }) => {
   return (
     <div>
       <MainLayout>
-        <Itemdetail incomingId={incomingId} />
+        <Addstock incomingId={incomingId} />
       </MainLayout>
     </div>
   );

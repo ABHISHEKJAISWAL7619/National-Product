@@ -72,9 +72,9 @@ export const updateincoming = createAsyncThunk(
 
 export const deleteincoming = createAsyncThunk(
   "incoming/deleteincoming",
-  async ({ token, incomingId }, { rejectWithValue }) => {
+  async ({ token, incomingId ,productId}, { rejectWithValue }) => {
     try {
-      await axiosInstance.delete(`/api/admin/incoming/${incomingId}`, {
+      await axiosInstance.delete(`/api/admin/incoming/${incomingId}/${productId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       // ✅ return id manually

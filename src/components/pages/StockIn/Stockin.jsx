@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { FilePlus2, Edit3, Trash2, Eye } from "lucide-react";
+import { FilePlus2, Edit3, Trash2, Eye, Edit } from "lucide-react";
 import { fetchincomings, deleteincoming } from "@/redux/slice/incoming-slice";
 import { successToast, errorToast } from "@/utils/toastMessage";
 import OverlayModal from "@/components/common/OverlayModal";
@@ -34,9 +34,9 @@ const StockIn = ({ searchQuery, currPage }) => {
     );
   }, [dispatch, currPage, searchQuery]);
 
-  const handleDelete = async (incomingId) => {
+  const handleDelete = async (incomingId,productId) => {
     try {
-      await dispatch(deleteincoming({ token, incomingId })).unwrap();
+      await dispatch(deleteincoming({ token, incomingId ,productId})).unwrap();
       successToast("Stock entry deleted successfully");
       setDeleteTarget(null);
     } catch (err) {
@@ -162,7 +162,7 @@ const StockIn = ({ searchQuery, currPage }) => {
               {
                 text: "Delete",
                 onClick: async () => {
-                  await handleDelete(deleteTarget.id);
+                  await handleDelete(deleteTarget.id, deleteTarget.productId);
                 },
                 colorClass: "bg-red-600 text-white hover:bg-red-700",
               },
@@ -226,13 +226,14 @@ const Row = ({ data, onDeleteClick }) => {
         <div className="flex justify-center gap-3">
           <Link href={`/incoming/${_id}`}>
             <button className="text-blue-600 cursor-pointer hover:text-blue-800 transition">
-              <Eye size={18} />
+              <Edit size={18} />
             </button>
           </Link>
 
           <button
             className="text-red-500 hover:text-red-700 transition"
-            onClick={() => onDeleteClick({ id: _id, invoiceNo })}
+            onClick={() => onDeleteClick({ id: _id, invoiceNo,    productId: data.productId,
+ })}
           >
             <Trash2 size={18} />
           </button>
