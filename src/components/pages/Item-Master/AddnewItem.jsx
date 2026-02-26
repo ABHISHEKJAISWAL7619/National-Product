@@ -44,7 +44,7 @@ const UnifiedItemCompositionForm = () => {
       },
       schema: Yup.lazy((values) => {
         const categoryName = getCategoryName(values.category);
-        if (["rm", "raw material"].includes(categoryName)) {
+        if (!["fg", "rw"].includes(categoryName)) {
           return stockSchema;
         }
         return compositionSchema;
@@ -112,8 +112,8 @@ const UnifiedItemCompositionForm = () => {
   /* ---------------- submit ---------------- */
 
   const onSubmit = async (data) => {
+    console.log(data)
     try {
-      // RM / RAW MATERIAL → ITEM FORM
       if (!isCompositionCategory) {
         const payload = {
           productName: data.productName,
@@ -123,6 +123,7 @@ const UnifiedItemCompositionForm = () => {
           symbol: data.symbol,
           productCode: data.productCode,
         };
+        console.log("paylaod ",payload)
 
         await dispatch(createItem({ itemData: payload })).unwrap();
         router.push("/item-master/view-item");
