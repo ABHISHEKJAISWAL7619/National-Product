@@ -230,7 +230,7 @@ const Item = ({ searchQuery, currPage }) => {
                     >
                       <Trash2 size={18} />
                     </button>
-                    {item?.category?.category === "RM" && (
+                    {item?.compositions?.length === 0  && (
                       <Link href={`/item-master/view-item/add-new/${item._id}`}>
                         <button className="text-blue-600 p-1 cursor-pointer rounded-full hover:bg-blue-50 transition">
                           <Edit size={18} />
