@@ -35,7 +35,7 @@ const CreateStock = ({ incomingId }) => {
     });
 
   useEffect(() => {
-    dispatch(fetchitems({ filters: {} }));
+    dispatch(fetchitems({ filters: {limit:200} }));
   }, [dispatch]);
 
   useEffect(() => {
