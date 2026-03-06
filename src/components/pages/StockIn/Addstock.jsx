@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Input from "@/components/common/Input";
 import { Button } from "@/components/common/Button";
@@ -15,11 +15,17 @@ import {
 import { incomingSchema } from "@/validations/incomingSchema";
 import Select from "@/components/atoms/Select";
 import { useRouter } from "next/navigation";
-
+import { fetchMainCategories } from "@/redux/slice/main-category";
+import { fetchSubCategories } from "@/redux/slice/SubCategory";
 const CreateStock = ({ incomingId }) => {
+  const [localSubcategoryByRow, setLocalSubcategoryByRow] = useState({});
+  const [localItemByRow, setLocalItemByRow] = useState({});
+
   const dispatch = useDispatch();
   const router = useRouter();
   const { itemList } = useSelector((state) => state.item);
+  const { categoryList } = useSelector((state) => state.category);
+  const { SubcategoryList } = useSelector((state) => state.subcategory);
   const { loading, singleincoming } = useSelector((state) => state.incoming);
   // console.log(singleincoming);
 
@@ -29,13 +35,22 @@ const CreateStock = ({ incomingId }) => {
         date: "",
         invoiceNo: "",
         price: "",
-        products: [{ itemId: "", quantity: "", isPieces: false, pieces: "" }],
+        products: [
+          {
+            itemId: "",
+            quantity: "",
+            isPieces: false,
+            pieces: "",
+            categoryId: "",
+            subCategoryId: "",
+          },
+        ],
       },
       schema: incomingSchema,
     });
 
   useEffect(() => {
-    dispatch(fetchitems({ filters: {limit:200} }));
+    dispatch(fetchitems({ filters: { limit: 200 } }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -83,27 +98,24 @@ const CreateStock = ({ incomingId }) => {
 
   const onSubmit = async (data) => {
     const formatted = {
-    date: data.date,
-    invoiceNo: data.invoiceNo,
-    price: data.price,
-    products: data.products.map((p) => {
+      date: data.date,
+      invoiceNo: data.invoiceNo,
+      price: data.price,
+      products: data.products.map((p) => {
+        // selected product find karo
+        const selectedItem = itemList.find((item) => item._id === p.itemId);
 
-      // selected product find karo
-      const selectedItem = itemList.find(
-        (item) => item._id === p.itemId
-      );
+        return {
+          item: p.itemId,
+          quantity: Number(p.quantity),
+          pieces: p.isPieces ? Number(p.pieces) : 0,
 
-      return {
-        item: p.itemId,
-        quantity: Number(p.quantity),
-        pieces: p.isPieces ? Number(p.pieces) : 0,
-
-        // selected item se value lo
-        availableQty: selectedItem?.quantity || 0,
-        availablePieces: selectedItem?.pieces || 0,
-      };
-    }),
-  };
+          // selected item se value lo
+          availableQty: selectedItem?.quantity || 0,
+          availablePieces: selectedItem?.pieces || 0,
+        };
+      }),
+    };
     // console.log(formatted)
 
     try {
@@ -111,7 +123,7 @@ const CreateStock = ({ incomingId }) => {
         await dispatch(
           updateincoming({ incomingId, incomingData: formatted }),
         ).unwrap();
-        router.push("/incoming/stock-in")
+        router.push("/incoming/stock-in");
         successToast("Stock Updated!");
       } else {
         await dispatch(createincoming(formatted)).unwrap();
@@ -122,6 +134,60 @@ const CreateStock = ({ incomingId }) => {
       errorToast(err?.message || "Failed to save");
     }
   };
+
+  // fetching categories
+  useEffect(() => {
+    dispatch(fetchMainCategories({ filters: { limit: 200 } }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    formData.products.forEach(async (row, idx) => {
+      if (!row.categoryId) return;
+
+      try {
+        const res = await dispatch(
+          fetchSubCategories({
+            filters: { category: row.categoryId, limit: 200 },
+          }),
+        ).unwrap();
+
+        setLocalSubcategoryByRow((prev) => ({
+          ...prev,
+          [idx]: res?.data || [],
+        }));
+      } catch (e) {
+        // console.log("Subcategory fetch error", e);
+      }
+    });
+  }, [formData.products, dispatch]);
+
+  // items
+
+  useEffect(() => {
+    formData.products.forEach(async (row, idx) => {
+      if (!row.categoryId && !row.subCategoryId) return;
+
+      const filters = { limit: 200 };
+
+      if (row.subCategoryId) {
+        filters.subcategory = row.subCategoryId;
+      } else if (row.category) {
+        filters.category = row.categoryId;
+      }
+
+      try {
+        const res = await dispatch(fetchitems({ filters })).unwrap();
+
+        setLocalItemByRow((prev) => ({
+          ...prev,
+          [idx]: res?.data || [],
+        }));
+      } catch (e) {}
+    });
+  }, [formData.products, dispatch]);
+  // end
+
+  console.log(formData, "formData");
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6 md:p-8 max-w-4xl mx-auto mt-6">
@@ -157,15 +223,50 @@ const CreateStock = ({ incomingId }) => {
             className="border border-gray-200 rounded-lg  md:p-5 bg-gray-50 flex flex-col gap-4"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {/* category select - for item filteration only  */}
+              <Select
+                label="Category"
+                value={product.categoryId}
+                options={
+                  categoryList?.map((c) => ({
+                    label: c.category,
+                    value: c._id,
+                  })) || []
+                }
+                onChange={(v) => {
+                  handleChange(`products.${i}.categoryId`, v);
+                  handleChange(`products.${i}.subCategoryId`, "");
+                  handleChange(`products.${i}.itemId`, "");
+                }}
+              />
+
+              <Select
+                label="Subcategory"
+                value={product.subCategoryId}
+                options={(localSubcategoryByRow[i] || []).map((s) => ({
+                  label: s.name,
+                  value: s._id,
+                }))}
+                onChange={(v) => {
+                  handleChange(`products.${i}.subCategoryId`, v);
+                  handleChange(`products.${i}.itemId`, "");
+                }}
+              />
+              {/* end  */}
+
               <Select
                 label="Select Item"
                 value={product.itemId}
-                options={
-                  itemList?.map((item) => ({
-                    label: item.productName,
-                    value: item._id,
-                  })) || []
-                }
+                // options={
+                //   itemList?.map((item) => ({
+                //     label: item.productName,
+                //     value: item._id,
+                //   })) || []
+                // }
+                options={(localItemByRow[i] || []).map((i) => ({
+                  label: i.productName,
+                  value: i._id,
+                }))}
                 onChange={(value) =>
                   handleChange(`products.${i}.itemId`, value)
                 }
