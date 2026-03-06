@@ -11,10 +11,10 @@ export const createItem = createAsyncThunk(
       return data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to create Sub category"
+        error.response?.data?.message || "Failed to create Sub category",
       );
     }
-  }
+  },
 );
 
 // === FETCH ALL Sub CATEGORIES ===
@@ -28,10 +28,10 @@ export const fetchitems = createAsyncThunk(
       return data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch Sub categories"
+        error.response?.data?.message || "Failed to fetch Sub categories",
       );
     }
-  }
+  },
 );
 
 export const getallitems = createAsyncThunk(
@@ -44,10 +44,10 @@ export const getallitems = createAsyncThunk(
       return data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to fetch Sub categories"
+        error.response?.data?.message || "Failed to fetch Sub categories",
       );
     }
-  }
+  },
 );
 // ===  FETCH CATEGORY BY ID ===
 export const fetchItembyid = createAsyncThunk(
@@ -58,10 +58,10 @@ export const fetchItembyid = createAsyncThunk(
       return data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data || "Failed to fetch Sub categories"
+        error.response?.data || "Failed to fetch Sub categories",
       );
     }
-  }
+  },
 );
 
 // === UPDATE Sub CATEGORY ===
@@ -74,15 +74,15 @@ export const updateItem = createAsyncThunk(
         ItemData,
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       return data?.data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data || "Failed to update Sub category"
+        error.response?.data || "Failed to update Sub category",
       );
     }
-  }
+  },
 );
 
 // === DELETE Sub CATEGORY ===
@@ -94,15 +94,15 @@ export const deleteItem = createAsyncThunk(
         `/api/admin/items/${ItemId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
       return data?.data;
     } catch (error) {
       return rejectWithValue(
-        error.response?.data?.message || "Failed to delete Sub category"
+        error.response?.data?.message || "Failed to delete Sub category",
       );
     }
-  }
+  },
 );
 
 // === INITIAL STATE ===
@@ -207,7 +207,7 @@ const ItemSlice = createSlice({
       .addCase(deleteItem.fulfilled, (state, action) => {
         state.loading = false;
         state.ItemList = state.ItemList.filter(
-          (item) => item._id !== action.payload._id
+          (item) => item._id !== action.payload._id,
         );
         state.documentCount = state.documentCount - 1;
       })

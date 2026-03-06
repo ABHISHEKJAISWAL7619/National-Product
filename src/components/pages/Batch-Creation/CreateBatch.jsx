@@ -105,7 +105,7 @@ const CreateBatch = ({ batchId }) => {
 
       if (batchId) {
         await dispatch(updatebatch({ batchId, batchData })).unwrap();
-        router.push("/batch")
+        router.push("/batch");
         successToast("Batch updated successfully!");
       } else {
         await dispatch(createbatch(batchData)).unwrap();
@@ -150,29 +150,28 @@ const CreateBatch = ({ batchId }) => {
       fetchBatch();
     }
   }, [dispatch, batchId, setFormData]);
- useEffect(() => {
-  formData.inputItem.forEach(async (row, idx) => {
-    if (!row.category && !row.subcategory) return;
+  useEffect(() => {
+    formData.inputItem.forEach(async (row, idx) => {
+      if (!row.category && !row.subcategory) return;
 
-    const filters = { limit: 200 };
+      const filters = { limit: 200 };
 
-    if (row.subcategory) {
-      filters.subcategory = row.subcategory;
-    } 
-    else if (row.category) {
-      filters.category = row.category;
-    }
+      if (row.subcategory) {
+        filters.subcategory = row.subcategory;
+      } else if (row.category) {
+        filters.category = row.category;
+      }
 
-    try {
-      const res = await dispatch(getallitems({ filters })).unwrap();
+      try {
+        const res = await dispatch(getallitems({ filters })).unwrap();
 
-      setLocalItemByRow((prev) => ({
-        ...prev,
-        [idx]: res?.data || [],
-      }));
-    } catch (e) {}
-  });
-}, [formData.inputItem, dispatch]);
+        setLocalItemByRow((prev) => ({
+          ...prev,
+          [idx]: res?.data || [],
+        }));
+      } catch (e) {}
+    });
+  }, [formData.inputItem, dispatch]);
 
   useEffect(() => {
     dispatch(fetchcompositions({ filters: {} }));
@@ -204,6 +203,7 @@ const CreateBatch = ({ batchId }) => {
   useEffect(() => {
     dispatch(fetchMainCategories({ filters: { limit: 200 } }));
   }, [dispatch]);
+
   useEffect(() => {
     formData.inputItem.forEach(async (row, idx) => {
       if (!row.category) return;
@@ -224,6 +224,7 @@ const CreateBatch = ({ batchId }) => {
       }
     });
   }, [formData.inputItem, dispatch]);
+
   useEffect(() => {
     setFormData((prev) => ({
       ...prev,
