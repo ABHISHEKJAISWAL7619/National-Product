@@ -103,7 +103,7 @@ const Production = () => {
 
           <div className="flex items-center gap-1">
             <span className="text-red-600 font-semibold">
-              {item.quantity}
+              {item.quantity.toFixed(2)} Kg
             </span>
             <Image
               src="/img/Icon.png"
