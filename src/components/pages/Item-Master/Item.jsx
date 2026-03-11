@@ -193,7 +193,7 @@ const Item = ({ searchQuery, currPage }) => {
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {((Number(currPage) || 1) - 1) * 10 + i + 1}
                 </td>{" "}
-                <td className="px-4 py-3 ">
+                <td className="px-4 text-blue-950 py-3 ">
                   {new Date(item?.createdAt).toLocaleDateString()}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
