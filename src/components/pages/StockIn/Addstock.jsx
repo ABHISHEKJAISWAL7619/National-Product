@@ -6,7 +6,7 @@ import Input from "@/components/common/Input";
 import { Button } from "@/components/common/Button";
 import { useForm } from "@/hooks/useForm";
 import { successToast, errorToast } from "@/utils/toastMessage";
-import { fetchitems } from "@/redux/slice/Item-slice";
+import { fetchitems, getallitems } from "@/redux/slice/Item-slice";
 import {
   createincoming,
   updateincoming,
@@ -50,7 +50,7 @@ const CreateStock = ({ incomingId }) => {
     });
 
   useEffect(() => {
-    dispatch(fetchitems({ filters: { limit: 200 } }));
+    dispatch(getallitems({ filters: { limit: 200 } }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -176,7 +176,7 @@ const CreateStock = ({ incomingId }) => {
       }
 
       try {
-        const res = await dispatch(fetchitems({ filters })).unwrap();
+        const res = await dispatch(getallitems({ filters })).unwrap();
 
         setLocalItemByRow((prev) => ({
           ...prev,
