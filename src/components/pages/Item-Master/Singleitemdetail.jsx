@@ -69,7 +69,7 @@ const Singleitemdetail = ({ ItemId }) => {
       {/* 🔹 COMPOSITION TABLE (Only if exists) */}
       {data.compositions?.length > 0 && (
         <div>
-          <h3 className="text-lg text-gray-500 font-semibold mb-3">Compositions</h3>
+          <h3 className="text-lg text-black font-semibold mb-3">Compositions</h3>
 
           <div className="overflow-x-auto">
             <table className="min-w-full border text-sm">
