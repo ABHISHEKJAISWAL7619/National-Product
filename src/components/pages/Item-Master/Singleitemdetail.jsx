@@ -69,31 +69,31 @@ const Singleitemdetail = ({ ItemId }) => {
       {/* 🔹 COMPOSITION TABLE (Only if exists) */}
       {data.compositions?.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold mb-3">Compositions</h3>
+          <h3 className="text-lg text-gray-500 font-semibold mb-3">Compositions</h3>
 
           <div className="overflow-x-auto">
             <table className="min-w-full border text-sm">
               <thead className="bg-gray-100">
                 <tr>
-                  <th className="px-4 py-2 text-left">Raw Material</th>
-                  <th className="px-4 py-2 text-left">Category</th>
-                  <th className="px-4 py-2 text-left">Subcategory</th>
-                  <th className="px-4 py-2 text-right">Percentage</th>
+                  <th className="px-4 py-2 text-gray-500 text-left">Raw Material</th>
+                  <th className="px-4 py-2 text-gray-500 text-left">Category</th>
+                  <th className="px-4 py-2 text-gray-500   text-left">Subcategory</th>
+                  <th className="px-4 py-2 text-gray-500 text-right">Percentage</th>
                 </tr>
               </thead>
               <tbody>
                 {data.compositions.map((comp) => (
-                  <tr key={comp._id} className="border-t hover:bg-gray-50">
-                    <td className="px-4 py-2">
+                  <tr key={comp._id} className="border-t text-gray-500 hover:bg-gray-50">
+                    <td className="px-4 py-2 text-gray-500">
                       {comp.item?.productName}
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 text-gray-500">
                       {comp.item?.category?.category || "-"}
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-4 py-2 text-gray-500">
                       {comp.item?.subcategory?.name || "-"}
                     </td>
-                    <td className="px-4 py-2 text-right font-semibold">
+                    <td className="px-4 py-2 text-gray-500 text-right font-semibold">
                       {comp.percentage}%
                     </td>
                   </tr>
