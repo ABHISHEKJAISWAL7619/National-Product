@@ -21,9 +21,11 @@ const BatchDetail = ({ batchId }) => {
 
   return (
     <div className="p-6 max-w-4xl mx-auto bg-white shadow rounded-lg space-y-6">
-      <h1 className="text-2xl font-bold text-center">Batch Details</h1>
+      <h1 className="text-2xl font-bold  text-black text-center">
+        Batch Details
+      </h1>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid text-gray-600 grid-cols-2 gap-4">
         <p>
           <b>Batch No:</b> {batch.batchNo}
         </p>
@@ -41,7 +43,7 @@ const BatchDetail = ({ batchId }) => {
         </p>
       </div>
 
-      <div className="border-t pt-4">
+      <div className="border-t text-gray-600 pt-4">
         <h2 className="text-xl font-semibold mb-2">Output Item</h2>
         <p>
           <b>Name:</b> {batch.outputItem?.productName}
@@ -62,10 +64,10 @@ const BatchDetail = ({ batchId }) => {
         </ul>
       </div>
       {/* Cost Summary */}
-      <div className="border-t pt-4">
-        <h2 className="text-xl font-semibold mb-2">Cost Summary</h2>
+      <div className="border-t text-gray-600 pt-4">
+        <h2 className="text-xl text-black font-semibold mb-2">Cost Summary</h2>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid  grid-cols-2 gap-4">
           <p>
             <b>Total Raw Material Cost:</b> ₹
             {batch.totalRawMaterialCost?.toLocaleString("en-IN")}
@@ -85,8 +87,8 @@ const BatchDetail = ({ batchId }) => {
         </div>
       </div>
 
-      <div className="border-t pt-4">
-        <h2 className="text-xl font-semibold mb-2">Input Items</h2>
+      <div className="border-t text-gray-600 pt-4">
+        <h2 className="text-xl text-black font-semibold mb-2">Input Items</h2>
 
         <table className="w-full border">
           <thead className="bg-gray-100">
@@ -104,7 +106,6 @@ const BatchDetail = ({ batchId }) => {
                 </td>
                 <td className="border p-2 text-center">{item?.quantity}</td>
                 <td className="border p-2 text-center">{item?.pieces}</td>
-
               </tr>
             ))}
           </tbody>
