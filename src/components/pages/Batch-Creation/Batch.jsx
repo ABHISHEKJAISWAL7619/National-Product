@@ -171,15 +171,15 @@ const handleExport = async () => {
               <th className="px-4 py-3 text-left">Date</th>
               <th className="px-4 py-3 text-left">Batch No</th>
 
-              <th className="px-4 py-3 text-left">Category</th>
-              <th className="px-4 py-3 text-left">Sub Category</th>
+              {/* <th className="px-4 py-3 text-left">Category</th> */}
+              {/* <th className="px-4 py-3 text-left">Sub Category</th> */}
 
-              <th className="px-4 py-3 text-left">Type</th>
+              {/* <th className="px-4 py-3 text-left">Type</th> */}
               <th className="px-4 py-3 text-left">Item</th>
-              <th className="px-4 py-3 text-right">Composition (%)</th>
+              {/* <th className="px-4 py-3 text-right">Composition (%)</th> */}
               <th className="px-4 py-3 text-right">Quantity</th>
-              <th className="px-4 py-3 text-right">Pieces</th>
-              <th className="px-4 py-3 text-right">Price</th>
+              {/* <th className="px-4 py-3 text-right">Pieces</th> */}
+              <th className="px-4 py-3 text-right">Value</th>
 
               <th className="px-4 py-3 text-center">Action</th>
             </tr>
@@ -281,18 +281,18 @@ const Row = ({ data, onDeleteClick }) => {
         {new Date(createdAt).toLocaleDateString("en-IN")}
       </td>
       <td className="px-4 py-3 font-medium text-blue-900">{batchNo || "-"}</td>
-      <td className="px-4 py-3 font-medium text-blue-900">
+      {/* <td className="px-4 py-3 font-medium text-blue-900">
         {categoryName || "-"}
       </td>
       <td className="px-4 py-3 font-medium text-blue-900">
         {subCategoryName || "-"}
-      </td>
+      </td> */}
 
-      <td className="px-4 py-3 capitalize">{type || "-"}</td>
+      {/* <td className="px-4 py-3 capitalize">{type || "-"}</td> */}
       <td className="px-4 py-3">{productName}</td>
-      <td className="px-4 py-3 text-right">{composition}</td>
+      {/* <td className="px-4 py-3 text-right">{composition}</td> */}
       <td className="px-4 py-3 text-right">{quantity}</td>
-      <td className="px-4 py-3 text-right">{pieces}</td>
+      {/* <td className="px-4 py-3 text-right">{pieces}</td> */}
 <td className="px-4 py-3 text-right">
   {(outputItem?.price?.finalCost ?? 0).toFixed(2)}
 </td>
