@@ -36,7 +36,7 @@ const BatchDetail = ({ batchId }) => {
           <b>Type:</b> {batch.type}
         </p>
         <p>
-          <b>Quantity:</b> {batch.quantity}
+          <b>Quantity:</b> {batch.quantity.toFixed(2)}
         </p>
         <p>
           <b>Pieces:</b> {batch.pieces}
@@ -104,7 +104,9 @@ const BatchDetail = ({ batchId }) => {
                 <td className="border p-2 text-center">
                   {item.itemId?.productName || "N/A"}
                 </td>
-                <td className="border p-2 text-center">{item?.quantity}</td>
+                <td className="border p-2 text-center">
+                  {item?.quantity.toFixed(2)}
+                </td>
                 <td className="border p-2 text-center">{item?.pieces}</td>
               </tr>
             ))}
