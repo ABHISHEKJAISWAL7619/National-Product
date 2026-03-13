@@ -9,6 +9,7 @@ import {
   Trash2,
   Eye,
   Edit,
+  Recycle,
 } from "lucide-react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
@@ -230,7 +231,12 @@ const Item = ({ searchQuery, currPage }) => {
                     >
                       <Trash2 size={18} />
                     </button>
-                    {item?.compositions?.length === 0  && (
+                    <Link href={`/item-master/view-item/wastes/${item._id}`}>
+                      <button className="text-yellow-600 cursor-pointer p-1 rounded-full hover:bg-yellow-50">
+                        <Recycle size={18} />
+                      </button>
+                    </Link>
+                    {item?.compositions?.length === 0 && (
                       <Link href={`/item-master/view-item/add-new/${item._id}`}>
                         <button className="text-blue-600 p-1 cursor-pointer rounded-full hover:bg-blue-50 transition">
                           <Edit size={18} />

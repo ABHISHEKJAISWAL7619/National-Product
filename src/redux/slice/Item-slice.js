@@ -105,10 +105,30 @@ export const deleteItem = createAsyncThunk(
   },
 );
 
+export const wasteitems = createAsyncThunk(
+  "Items/wasteitems",
+  async ({ filters = {}, ItemId }, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/api/admin/items/containing/${ItemId}`,
+        {
+          params: filters,
+        },
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to fetch Sub categories",
+      );
+    }
+  },
+);
+
 // === INITIAL STATE ===
 const initialState = {
   itemList: [],
   singleItem: null,
+  wasteItemDetails: null,
   documentCount: 0,
   loading: false,
   dataLoading: true,
@@ -151,6 +171,21 @@ const ItemSlice = createSlice({
         state.documentCount = count;
       })
       .addCase(fetchitems.rejected, (state, action) => {
+        state.dataLoading = false;
+        state.error = action.payload;
+      })
+
+      .addCase(wasteitems.pending, (state) => {
+        state.dataLoading = true;
+        state.error = null;
+      })
+      .addCase(wasteitems.fulfilled, (state, action) => {
+        const { data, count } = action.payload;
+        state.dataLoading = false;
+        state.wasteItemDetails = data;
+        state.documentCount = count;
+      })
+      .addCase(wasteitems.rejected, (state, action) => {
         state.dataLoading = false;
         state.error = action.payload;
       })
