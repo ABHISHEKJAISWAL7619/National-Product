@@ -207,7 +207,7 @@ const Item = ({ searchQuery, currPage }) => {
                   {item?.productCode || "-"}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {item?.quantity || "-"}
+                  {(item?.quantity).toFixed(2) || "-"}
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-blue-950">
                   {item?.pieces || "-"}
