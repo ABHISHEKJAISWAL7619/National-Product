@@ -18,7 +18,9 @@ const BatchDetail = ({ batchId }) => {
     return <div className="p-4 text-red-600">No batch found</div>;
 
   const batch = singlebatch?.data || singlebatch;
-
+  const totalQty = batch.inputItem?.reduce((sum, item) => {
+    return sum + (item.quantity || 0);
+  }, 0);
   return (
     <div className="p-6 max-w-4xl mx-auto bg-white shadow rounded-lg space-y-6">
       <h1 className="text-2xl font-bold  text-black text-center">
@@ -36,7 +38,7 @@ const BatchDetail = ({ batchId }) => {
           <b>Type:</b> {batch.type}
         </p>
         <p>
-          <b>Quantity:</b> {batch.quantity.toFixed(2)}
+          <b>Available Quantity:</b> {batch.quantity.toFixed(2)}
         </p>
         <p>
           <b>Pieces:</b> {batch.pieces}
@@ -110,6 +112,15 @@ const BatchDetail = ({ batchId }) => {
                 <td className="border p-2 text-center">{item?.pieces}</td>
               </tr>
             ))}
+              <tr className="bg-gray-100 font-semibold">
+      <td className="border p-2 text-right">Total</td>
+
+      <td className="border p-2 text-center">
+        {totalQty.toFixed(2)}
+      </td>
+
+      <td className="border p-2"></td>
+    </tr>
           </tbody>
         </table>
       </div>

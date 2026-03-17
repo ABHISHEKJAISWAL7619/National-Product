@@ -173,7 +173,7 @@ const Batch = ({ searchQuery, currPage, type }) => {
               {/* <th className="px-4 py-3 text-left">Type</th> */}
               <th className="px-4 py-3 text-left">Item</th>
               {/* <th className="px-4 py-3 text-right">Composition (%)</th> */}
-              <th className="px-4 py-3 text-right">Quantity</th>
+              <th className="px-4 py-3 text-right"> Available Quantity</th>
               {/* <th className="px-4 py-3 text-right">Pieces</th> */}
               <th className="px-4 py-3 text-right">Value</th>
 
