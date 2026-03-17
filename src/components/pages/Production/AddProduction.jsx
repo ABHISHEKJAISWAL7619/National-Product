@@ -181,7 +181,7 @@ const router = useRouter();
         {isUpdate && (
           <>
             <Input
-              label="Semi Finished (KG)"
+              label="Semi Finished (KG)/Finished"
               type="number"
               value={formData.semiFinishedKg}
               onChange={(e) => handleChange("semiFinishedKg", e.target.value)}
