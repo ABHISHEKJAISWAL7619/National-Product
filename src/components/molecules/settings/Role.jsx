@@ -66,7 +66,12 @@ export const menuItems = [
     name: "create subcategory",
     permissions: ["Edit", "View", "Delete", "Create"],
   },
-
+  {
+    icon: "ri-archive-line",
+    route: "/waste-management",
+    name: "Waste Management",
+    permissions: ["Edit", "View", "Delete", "Create"],
+  },
   {
     icon: "ri-download-2-line",
     route: "/incoming/stock-in",
@@ -135,7 +140,7 @@ const permissionMap = {
 };
 
 const reversePermissionMap = Object.fromEntries(
-  Object.entries(permissionMap).map(([k, v]) => [v, k])
+  Object.entries(permissionMap).map(([k, v]) => [v, k]),
 );
 
 export default function RoleForm({ roleId }) {
@@ -209,7 +214,7 @@ export default function RoleForm({ roleId }) {
 
     try {
       await dispatch(
-        createOrUpdateRole({ roleData: formData, roleId: id })
+        createOrUpdateRole({ roleData: formData, roleId: id }),
       ).unwrap();
       successToast(`Role ${roleId ? "updated" : "created"} successfully`);
       router.push("/role-management/roles");

@@ -1,11 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import {
-  ChevronDown,
   FilePlus,
-  Filter,
   LayoutDashboard,
-  Edit3,
   Trash2,
   Eye,
   Edit,
@@ -22,7 +19,7 @@ import Pagination from "@/components/common/Pagination";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
-const Item = ({ searchQuery, currPage }) => {
+const WasteManagement = ({ searchQuery, currPage }) => {
   const [deleteItemData, setDeleteItemData] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [search, setSearch] = useState("");
@@ -220,29 +217,12 @@ const Item = ({ searchQuery, currPage }) => {
                 </td>
                 <td className="px-4 sm:px-6 py-3 text-right">
                   <div className="flex items-center space-x-2">
-                    <Link href={`/item-master/view-item/${item._id}`}>
-                      <button className="text-blue-600 p-1 cursor-pointer rounded-full hover:bg-blue-50 transition">
-                        <Eye size={18} />
-                      </button>
-                    </Link>
-                    <button
-                      className="text-red-600 p-1 cursor-pointer rounded-full hover:bg-red-50 transition"
-                      onClick={() => confirmDelete(item)}
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                    {/* <Link href={`/item-master/view-item/wastes/${item._id}`}>
+                    <Link href={`/waste-management/${item._id}`}>
                       <button className="text-yellow-600 cursor-pointer p-1 rounded-full hover:bg-yellow-50">
                         <Recycle size={18} />
                       </button>
-                    </Link> */}
-                    {item?.compositions?.length === 0 && (
-                      <Link href={`/item-master/view-item/add-new/${item._id}`}>
-                        <button className="text-blue-600 p-1 cursor-pointer rounded-full hover:bg-blue-50 transition">
-                          <Edit size={18} />
-                        </button>
-                      </Link>
-                    )}
+                    </Link>
+                   
                   </div>
                 </td>
               </tr>
@@ -293,4 +273,4 @@ const Item = ({ searchQuery, currPage }) => {
   );
 };
 
-export default Item;
+export default WasteManagement;
