@@ -1,14 +1,15 @@
-import WasteManagement from '@/components/pages/waste-management'
-import MainLayout from '@/components/templates/templates/MainLayout'
-import React from 'react'
+import WasteManagement from "@/components/pages/waste-management";
+import MainLayout from "@/components/templates/templates/MainLayout";
+import React, { Suspense } from "react";
+
 const page = () => {
   return (
-    <div>
-      <MainLayout>
-        <WasteManagement/>
-      </MainLayout>
-    </div>
-  )
-}
+    <MainLayout>
+      <Suspense fallback={<div>Loading...</div>}>
+        <WasteManagement />
+      </Suspense>
+    </MainLayout>
+  );
+};
 
-export default page
+export default page;
