@@ -168,7 +168,7 @@ const handleExport = async () => {
                     </td>
 
                     <td className="px-6 py-4 text-[#003566]">
-                      {item?.quantity || item?.semiFinishedKg}
+                      {(item?.quantity).toFixed(2) || item?.semiFinishedKg}
                     </td>
  <td className="px-6 py-4 text-[#003566]">
                       {item?.price || item?.semiFinishedKg}

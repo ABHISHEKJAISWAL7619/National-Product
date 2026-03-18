@@ -142,7 +142,7 @@ const Inventory = ({ page, searchQuery }) => {
                       {item.productCode || "-"}
                     </td>
                     <td className="px-6 py-4 text-blue-800 font-semibold">
-                      {item.quantity}
+                      {(item.quantity).toFixed(2)}
                     </td>
                     <td className="px-6 py-4 text-blue-800 font-semibold">
                       {item.pieces}

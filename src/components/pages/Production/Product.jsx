@@ -213,7 +213,7 @@ const Product = ({ searchQuery, currPage, dateTo, dateFrom, type, status }) => {
                     </td>
 
                     <td className="px-4 py-3 text-sm text-center text-blue-950">
-                      {p?.quantity ?? "—"}
+                      {(p?.quantity).toFixed(2) ?? "—"}
                     </td>
 
                     <td className="px-4 py-3 text-sm text-center text-blue-950">
