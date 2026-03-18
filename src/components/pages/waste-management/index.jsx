@@ -113,7 +113,7 @@ const WasteManagement = ({ searchQuery, currPage }) => {
       <div className="p-4 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 flex-wrap">
         <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 w-full md:w-auto">
           <h2 className="font-archivo font-bold text-[25px] leading-[28px]  text-black sm:text-3xl whitespace-nowrap">
-            Item Master
+            Waste Management
           </h2>
           {/* <input
             type="text"
@@ -148,7 +148,7 @@ const WasteManagement = ({ searchQuery, currPage }) => {
       </div>
 
       {/* Filter Section */}
-      <div className="p-4 bg-gray-50 border-b border-gray-200 flex justify-start md:justify-between">
+      {/* <div className="p-4 bg-gray-50 border-b border-gray-200 flex justify-start md:justify-between">
         <SearchBox
           name="search"
           value={search}
@@ -156,7 +156,7 @@ const WasteManagement = ({ searchQuery, currPage }) => {
           iconLeft="search-line"
           placeholder="Search by productname,code..."
         />
-      </div>
+      </div> */}
 
       {/* Table Section */}
       <div className="overflow-x-auto   ">
