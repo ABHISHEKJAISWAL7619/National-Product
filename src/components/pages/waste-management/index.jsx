@@ -1,274 +1,192 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import {
-  FilePlus,
-  LayoutDashboard,
-  Trash2,
-  Eye,
-  Edit,
-  Recycle,
-} from "lucide-react";
-import Link from "next/link";
+
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteItem, fetchitems, getallitems } from "@/redux/slice/Item-slice";
-import { successToast } from "@/utils/toastMessage";
-import OverlayModal from "@/components/common/OverlayModal";
-import { AlertModal } from "@/components/common/AlertModel";
-import SearchBox from "@/components/common/SearchBox";
-import Pagination from "@/components/common/Pagination";
-import * as XLSX from "xlsx";
-import { saveAs } from "file-saver";
+import { getallitems, wasteitems } from "@/redux/slice/Item-slice";
+import Select from "@/components/atoms/Select";
+import { useToggleQueryParam } from "@/utils/toggleQueryParam";
+import Input from "@/components/common/Input";
 
-const WasteManagement = ({ searchQuery, currPage }) => {
-  const [deleteItemData, setDeleteItemData] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [search, setSearch] = useState("");
-
+const WasteManagement = ({ searchQuery, currPage, include, exclude }) => {
   const dispatch = useDispatch();
-  const { itemList, documentCount } = useSelector((state) => state.item);
+  const toggleQuery = useToggleQueryParam();
 
-  const fetchallitems = () => {
-    dispatch(
-      getallitems({
-        filters: { search: searchQuery, page: currPage, limit: 10 },
-      }),
-    );
-  };
+  const { itemList, wasteItemDetails } = useSelector((state) => state.item);
+  console.log("waste item details", wasteItemDetails);
 
-  const confirmDelete = (item) => {
-    setDeleteItemData(item);
-    setShowDeleteModal(true);
-  };
-
-  const handleDelete = async () => {
-    if (!deleteItemData) return;
-    try {
-      await dispatch(deleteItem({ ItemId: deleteItemData._id })).unwrap();
-      successToast(`Item deleted successfully`);
-      dispatch(
-        fetchitems({
-          filters: { search: searchQuery, page: currPage, limit: 10 },
-        }),
-      );
-    } catch (error) {
-      console.error("Delete failed:", error);
-    } finally {
-      setShowDeleteModal(false);
-      setDeleteItemData(null);
-    }
-  };
-  const handleExport = async () => {
-    try {
-      const res = await dispatch(
-        fetchitems({
-          filters: {
-            search: searchQuery,
-            page: 1,
-            limit: documentCount,
-          },
-        }),
-      ).unwrap();
-
-      const data = res?.data || [];
-
-      if (!data.length) return;
-
-      const excelData = data.map((item, index) => ({
-        "S.No": index + 1,
-        "Product Name": item.productName,
-        "Product Code": item.productCode,
-        Quantity: item.quantity,
-        Pieces: item.piece,
-        "Unit Price": item.unitPrice,
-        Symbol: item.symbol,
-      }));
-
-      const worksheet = XLSX.utils.json_to_sheet(excelData);
-      const workbook = XLSX.utils.book_new();
-
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Items");
-
-      const excelBuffer = XLSX.write(workbook, {
-        bookType: "xlsx",
-        type: "array",
-      });
-
-      const blob = new Blob([excelBuffer], {
-        type: "application/octet-stream",
-      });
-
-      saveAs(blob, "Items.xlsx");
-    } catch (error) {
-      console.error("Export failed", error);
-    }
-  };
+  /* -----------------------------
+     Fetch items for dropdown
+  ------------------------------*/
 
   useEffect(() => {
-    fetchallitems();
+    dispatch(
+      getallitems({
+        filters: {
+          search: searchQuery,
+          page: currPage,
+          limit: 200,
+        },
+      }),
+    );
   }, [dispatch, searchQuery, currPage]);
+
+  /* -----------------------------
+     Convert itemList → select options
+  ------------------------------*/
+
+  const selectOptions = useMemo(() => {
+    return (
+      itemList?.map((item) => ({
+        label: item.productName,
+        value: item._id,
+      })) || []
+    );
+  }, [itemList]);
+
+  /* -----------------------------
+     Call Waste API
+  ------------------------------*/
+
+  useEffect(() => {
+    if (include || exclude) {
+      dispatch(
+        wasteitems({
+          filters: { include, exclude },
+        }),
+      );
+    }
+  }, [dispatch, include, exclude]);
+
+  const data = wasteItemDetails || [];
 
   return (
     <div className="w-full border border-gray-100 bg-white font-inter">
-      {/* Header Section */}
-      <div className="p-4 md:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 flex-wrap">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 w-full md:w-auto">
-          <h2 className="font-archivo font-bold text-[25px] leading-[28px]  text-black sm:text-3xl whitespace-nowrap">
-            Waste Management
-          </h2>
-          {/* <input
-            type="text"
-            placeholder="Search Product..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="lg:w-[400px] max-w-[400px] px-4 py-2 border border-gray-500 rounded-lg text-sm placeholder-gray-800 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
-          /> */}
+      {/* Header */}
+
+      <div className="p-4 md:p-6 flex flex-col gap-4">
+        <h2 className="font-bold text-[25px] text-black">Waste Management</h2>
+        {/* Dropdown Filters */}
+        <div className="flex gap-4 flex-wrap">
+          <Input
+            type="select"
+            label="Include"
+            options={selectOptions}
+            valueKey="value"
+            labelKey="label"
+            value={include || ""}
+            placeholderOption="Select Include Item"
+            onChange={(e) => toggleQuery("include", e.target.value)}
+            className="max-w-[300px]"
+          />
+
+          <Input
+            type="select"
+            label="Exclude"
+            options={selectOptions}
+            valueKey="value"
+            labelKey="label"
+            value={exclude || ""}
+            placeholderOption="Select Exclude Item"
+            onChange={(e) => toggleQuery("exclude", e.target.value)}
+            className="max-w-[300px]"
+          />
         </div>
-
-        {/* <div className="flex flex-wrap gap-3 w-full md:w-auto">
-          <Link href="/item-master/create-catgory">
-            <button className="w-full cursor-pointer sm:w-auto bg-blue-950 text-white text-sm font-medium flex items-center justify-center gap-1 py-2.5 px-4 rounded-md hover:bg-blue-900 transition">
-              <LayoutDashboard size={18} />
-              <span>Create Category</span>
-            </button>
-          </Link>
-          <Link href="/item-master/view-item/add-new">
-            <button className="w-full cursor-pointer sm:w-auto bg-blue-700 text-white text-sm font-medium flex items-center justify-center gap-1 py-2.5 px-4 rounded-md hover:bg-blue-800 transition">
-              <FilePlus size={18} />
-              <span>Create Item/Composition</span>
-            </button>
-          </Link>
-          <button
-            onClick={handleExport}
-            className="w-full cursor-pointer sm:w-auto bg-green-600 text-white text-sm font-medium flex items-center justify-center gap-1 py-2.5 px-4 rounded-md transition"
-          >
-            <FilePlus size={18} />
-            <span>Export</span>
-          </button>
-        </div> */}
       </div>
 
-      {/* Filter Section */}
-      {/* <div className="p-4 bg-gray-50 border-b border-gray-200 flex justify-start md:justify-between">
-        <SearchBox
-          name="search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          iconLeft="search-line"
-          placeholder="Search by productname,code..."
-        />
-      </div> */}
+      {/* Result Section */}
 
-      {/* Table Section */}
-      <div className="overflow-x-auto   ">
-        <table className="min-w-full divide-y divide-gray-200 text-sm">
-          <thead className="bg-gray-50">
-            <tr>
-              {[
-                "S.No",
-                "Date",
-                "Item Name",
-                "Item Category",
-                "Item Code",
-                "Quanity",
-                "pieces",
-                "Unitprice",
-                "Symbol",
-                "Actions",
-              ].map((header, index) => (
-                <th
-                  key={index}
-                  className="px-4 sm:px-6 py-5 text-left bg-gray-100 font-medium text-gray-700"
-                >
-                  {header}
-                </th>
-              ))}
-            </tr>
-          </thead>
+      <div className="p-6">
+        {/* Nothing selected */}
 
-          <tbody className="bg-white divide-y divide-gray-200">
-            {itemList.map((item, i) => (
-              <tr key={item._id} className="hover:bg-gray-50">
-                <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {((Number(currPage) || 1) - 1) * 10 + i + 1}
-                </td>{" "}
-                <td className="px-4 text-blue-950 py-3 ">
-                  {new Date(item?.createdAt).toLocaleDateString()}
-                </td>
-                <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {item?.productName}
-                </td>
-                <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {item?.category?.category}
-                </td>
-                <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {item?.productCode || "-"}
-                </td>
-                <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {(item?.quantity).toFixed(2) || "-"}
-                </td>
-                <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {item?.pieces || "-"}
-                </td>
-                <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {item?.unitPrice || "-"}
-                </td>
-                <td className="px-4 sm:px-6 py-3 text-blue-950">
-                  {item?.symbol || "-"}
-                </td>
-                <td className="px-4 sm:px-6 py-3 text-right">
-                  <div className="flex items-center space-x-2">
-                    <Link href={`/waste-management/${item._id}`}>
-                      <button className="text-yellow-600 cursor-pointer p-1 rounded-full hover:bg-yellow-50">
-                        <Recycle size={18} />
-                      </button>
-                    </Link>
-                   
+        {!include && !exclude ? (
+          <p className="text-gray-500 text-sm">
+            Please select Include / Exclude item to see waste result
+          </p>
+        ) : data.length === 0 ? (
+          /* Selected but no data */
+
+          <p className="text-red-500 text-sm font-medium">
+            No waste found in selected item
+          </p>
+        ) : (
+          /* Data available */
+
+          <div className="space-y-6">
+            {data.map((product) => (
+              <div
+                key={product._id}
+                className="rounded-lg p-5 bg-white shadow-sm"
+              >
+                {/* Product Info */}
+
+                <div className="mb-4">
+                  <h3 className="text-lg font-semibold text-blue-900">
+                    {product.productName}
+                  </h3>
+
+                  <p className="text-sm text-gray-500">
+                    Code: {product.productCode}
+                  </p>
+                </div>
+
+                {/* Waste Summary */}
+
+                <div className="grid grid-cols-3 gap-4 mb-4">
+                  <div className="bg-red-50 p-3 rounded">
+                    <p className="text-xs text-gray-500">Waste</p>
+                    <p className="text-red-600 font-semibold text-lg">
+                      {product.waste}
+                    </p>
                   </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="flex justify-end">
-        <Pagination pageSize={10} total={documentCount} />
-      </div>
 
-      {/* Delete Confirmation Modal */}
-      <OverlayModal
-        isOpen={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
-      >
-        <AlertModal
-          icon="⚠️"
-          title="Delete Confirmation"
-          message={
-            deleteItemData ? (
-              <span className="text-sm text-gray-600">
-                Are you sure you want to delete{" "}
-                <span className="font-semibold text-blue-500 text-base">
-                  {deleteItemData.productName}
-                </span>
-                ? This action cannot be undone.
-              </span>
-            ) : (
-              "Are you sure you want to delete this item?"
-            )
-          }
-          buttons={[
-            {
-              text: "Cancel",
-              onClick: () => setShowDeleteModal(false),
-              colorClass: "bg-gray-200 text-gray-800 hover:bg-gray-300",
-            },
-            {
-              text: "Delete",
-              onClick: handleDelete,
-              colorClass: "bg-red-600 text-white hover:bg-red-700",
-            },
-          ]}
-        />
-      </OverlayModal>
+                  <div className="bg-green-50 p-3 rounded">
+                    <p className="text-xs text-gray-500">Reusable</p>
+                    <p className="text-green-600 font-semibold text-lg">
+                      {product.reusable}
+                    </p>
+                  </div>
+
+                  <div className="bg-blue-50 p-3 rounded">
+                    <p className="text-xs text-gray-500">Final</p>
+                    <p className="text-blue-600 font-semibold text-lg">
+                      {product.final}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Composition */}
+
+                <div className="pt-4">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">
+                    Composition
+                  </h4>
+
+                  <div className="space-y-2">
+                    {product.compositions?.map((comp) => (
+                      <div
+                        key={comp._id}
+                        className="flex justify-between text-sm pb-1"
+                      >
+                        <span className="text-gray-700">
+                          {comp.item?.productName}
+                        </span>
+
+                        <span className="text-gray-500">
+                          {comp.item?.symbol}
+                        </span>
+
+                        <span className="text-blue-700 font-medium">
+                          {comp.percentage}%
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -107,10 +107,10 @@ export const deleteItem = createAsyncThunk(
 
 export const wasteitems = createAsyncThunk(
   "Items/wasteitems",
-  async ({ filters = {}, ItemId }, { rejectWithValue }) => {
+  async ({ filters = {} }, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.get(
-        `/api/admin/items/containing/${ItemId}`,
+        `/api/admin/items/containing`,
         {
           params: filters,
         },
