@@ -124,7 +124,7 @@ const WasteManagement = ({ searchQuery, currPage }) => {
           /> */}
         </div>
 
-        <div className="flex flex-wrap gap-3 w-full md:w-auto">
+        {/* <div className="flex flex-wrap gap-3 w-full md:w-auto">
           <Link href="/item-master/create-catgory">
             <button className="w-full cursor-pointer sm:w-auto bg-blue-950 text-white text-sm font-medium flex items-center justify-center gap-1 py-2.5 px-4 rounded-md hover:bg-blue-900 transition">
               <LayoutDashboard size={18} />
@@ -144,7 +144,7 @@ const WasteManagement = ({ searchQuery, currPage }) => {
             <FilePlus size={18} />
             <span>Export</span>
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* Filter Section */}
