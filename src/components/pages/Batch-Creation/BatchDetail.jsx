@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 const BatchDetail = ({ batchId }) => {
   const dispatch = useDispatch();
   const { singlebatch, loading } = useSelector((state) => state.batch);
+  console.log("singlebatch detail", singlebatch);
 
   useEffect(() => {
     if (batchId) {
@@ -56,7 +57,15 @@ const BatchDetail = ({ batchId }) => {
         <p>
           <b>Subcategory:</b> {batch.outputItem?.subcategory?.name}
         </p>
-
+        <p>
+          <b>Waste:</b> {(batch.outputItem?.quantityUsed?.waste || 0).toFixed(2)}
+        </p>
+        <p>
+          <b>Reusable:</b> {(batch.outputItem?.quantityUsed?.reuseable || 0).toFixed(2)}
+        </p>{" "}
+        <p>
+          <b>Final:</b> {(batch.outputItem?.quantityUsed?.final || 0).toFixed(2)}
+        </p>
         <ul className="list-disc ml-6 mt-2">
           {batch.outputItem?.compositions?.map((c, i) => (
             <li key={i}>
@@ -112,15 +121,13 @@ const BatchDetail = ({ batchId }) => {
                 <td className="border p-2 text-center">{item?.pieces}</td>
               </tr>
             ))}
-              <tr className="bg-gray-100 font-semibold">
-      <td className="border p-2 text-right">Total</td>
+            <tr className="bg-gray-100 font-semibold">
+              <td className="border p-2 text-right">Total</td>
 
-      <td className="border p-2 text-center">
-        {totalQty.toFixed(2)}
-      </td>
+              <td className="border p-2 text-center">{totalQty.toFixed(2)}</td>
 
-      <td className="border p-2"></td>
-    </tr>
+              <td className="border p-2"></td>
+            </tr>
           </tbody>
         </table>
       </div>
