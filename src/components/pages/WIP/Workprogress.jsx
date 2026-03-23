@@ -35,7 +35,7 @@ const Workprogress = ({ page, searchQuery, type }) => {
     "S.No",
     "Batch No",
     "Quantity",
-    "Price",
+    "Value",
     "Date",
     "Production Level",
     "Composition",
