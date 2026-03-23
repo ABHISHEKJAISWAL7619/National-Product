@@ -6,6 +6,8 @@ import Input from "@/components/common/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchbatchs } from "@/redux/slice/batch-slice";
 import { useForm } from "@/hooks/useForm";
+import Decimal from "decimal.js";
+
 import { successToast, errorToast } from "@/utils/toastMessage";
 import {
   fetchProductions,
@@ -21,9 +23,9 @@ const AddProduction = ({ productionId }) => {
   const dispatch = useDispatch();
   const { batchList } = useSelector((state) => state.batch);
   const { loading, singleProduction } = useSelector(
-    (state) => state.production
+    (state) => state.production,
   );
-const router = useRouter();
+  const router = useRouter();
   const isUpdate = Boolean(productionId);
 
   const { formData, handleChange, handleSubmit, reset, errors, setFormData } =
@@ -31,14 +33,14 @@ const router = useRouter();
       defaultValues: {
         batch: "",
         quantity: "",
-        pieces:"",
+        pieces: "",
         semiFinishedKg: "",
         semiPieces: "",
         reusableWaste: "",
         waste: "",
         shortAccess: "",
         quantity: "",
-        flux:"",
+        flux: "",
         status: "pending",
       },
       schema: isUpdate ? updateProductionSchema : createProductionSchema,
@@ -59,13 +61,13 @@ const router = useRouter();
       setFormData({
         batch: singleProduction.batch?._id || "",
         quantity: singleProduction.quantity ?? "",
-        pieces:singleProduction.pieces ??"",
+        pieces: singleProduction.pieces ?? "",
         semiFinishedKg: singleProduction.semiFinishedKg ?? "",
         semiPieces: singleProduction.semiPieces ?? "",
         reusableWaste: singleProduction.reusableWaste ?? "",
         waste: singleProduction.waste ?? "",
         shortAccess: singleProduction.shortAccess ?? "",
-        flux:singleProduction.flux??"",
+        flux: singleProduction.flux ?? "",
         status: "completed",
       });
     }
@@ -73,17 +75,29 @@ const router = useRouter();
 
   const onSubmit = async () => {
     try {
+      const data = {
+        batch: formData.batch,
+        quantity: formData.quantity,
+        pieces: formData.pieces,
+        semiFinishedKg: formData.semiFinishedKg,
+        semiPieces: formData.semiPieces,
+        reusableWaste: formData.reusableWaste,
+        waste: formData.waste,
+        shortAccess: formData.shortAccess,
+        flux: formData.flux,
+        status: "completed",
+      };
       const payload = isUpdate
-        ? { id: productionId, formData: { ...formData, status: "completed" } }
+        ? { id: productionId, formData: data }
         : { formData: { ...formData, status: "pending" } };
 
       await dispatch(saveProduction(payload)).unwrap();
-      router.push("/production")
+      router.push("/production");
 
       successToast(
         isUpdate
           ? "Production updated successfully!"
-          : "Production created successfully!"
+          : "Production created successfully!",
       );
 
       reset();
@@ -92,13 +106,15 @@ const router = useRouter();
     }
   };
 
-  const totalEntered =
-    Number(formData.semiFinishedKg || 0) +
-    Number(formData.reusableWaste || 0) +
-    Number(formData.waste || 0) +
-    Number(formData.shortAccess || 0)+
-    Number(formData.semiPieces ||0);
+  const totalEntered = new Decimal(formData.semiFinishedKg || 0)
+    .plus(formData.reusableWaste || 0)
+    .plus(formData.waste || 0)
+    .plus(formData.shortAccess || 0)
+    .plus(formData.semiPieces || 0)
+    .toNumber();
 
+  console.log("Total Entered:", totalEntered);
+  console.log("Batch Quantity:", singleProduction?.quantity);
   const batchQuantity = Number(singleProduction?.quantity || 0);
   const remaining = batchQuantity - totalEntered;
 
@@ -116,15 +132,15 @@ const router = useRouter();
               totalEntered === batchQuantity
                 ? "text-green-600"
                 : totalEntered > batchQuantity
-                ? "text-red-600"
-                : "text-blue-600"
+                  ? "text-red-600"
+                  : "text-blue-600"
             }`}
           >
             {totalEntered === batchQuantity
               ? "✔ Total quantity matched!"
               : totalEntered > batchQuantity
-              ? `⚠ Exceeds batch by ${Math.abs(remaining)}`
-              : `Remaining to match batch: ${remaining}`}
+                ? `⚠ Exceeds batch by ${Math.abs(remaining)}`
+                : `Remaining to match batch: ${remaining}`}
           </p>
         </div>
       )}
@@ -224,7 +240,7 @@ const router = useRouter();
               placeholder="Enter Short/Access"
               error={errors.shortAccess}
             />
-             <Input
+            <Input
               label="Flux"
               type="number"
               value={formData.flux}
