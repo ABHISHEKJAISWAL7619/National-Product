@@ -64,6 +64,7 @@ export default function BillingSection({ billingItems, setBillingItems }) {
   // Validation errors
   const [customerError, setCustomerError] = useState("");
   const [invoiceError, setInvoiceError] = useState("");
+  const [remark, setremark] = useState("");
 
   const cartEmpty = billingItems.length === 0;
 
@@ -79,7 +80,7 @@ export default function BillingSection({ billingItems, setBillingItems }) {
   const { subTotal, cgst, sgst, total } = useMemo(() => {
     const subTotalCalc = billingItems.reduce(
       (sum, item) => sum + item.price,
-      0
+      0,
     );
     const cgstCalc = subTotalCalc * 0.09;
     const sgstCalc = subTotalCalc * 0.09;
@@ -116,11 +117,12 @@ export default function BillingSection({ billingItems, setBillingItems }) {
       items: billingItems,
       customer: selectedCustomerId,
       invoiceNo: invoiceNumber,
+      remark: remark,
     };
 
     try {
       const response = await dispatch(
-        createOrUpdatedispatch({ dispatchData: payload })
+        createOrUpdatedispatch({ dispatchData: payload }),
       ).unwrap();
 
       // Prepare invoice data
@@ -184,6 +186,14 @@ export default function BillingSection({ billingItems, setBillingItems }) {
           value={invoiceNumber}
           onChange={(e) => setInvoiceNumber(e.target.value)}
           error={invoiceError}
+        />
+      </div>
+      <div className="space-y-4 mb-6">
+        <Input
+          label="Remarks"
+          placeholder="Enter remarks"
+          value={remark}
+          onChange={(e) => setremark(e.target.value)}
         />
       </div>
 
