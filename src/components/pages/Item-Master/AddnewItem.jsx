@@ -44,7 +44,7 @@ const UnifiedItemCompositionForm = () => {
       },
       schema: Yup.lazy((values) => {
         const categoryName = getCategoryName(values.category);
-        if (!["fg", "rw"].includes(categoryName)) {
+        if (!["fg", "rw", "semi finished"].includes(categoryName)) {
           return stockSchema;
         }
         return compositionSchema;
@@ -60,10 +60,14 @@ const UnifiedItemCompositionForm = () => {
 
   const selectedCategoryName = useMemo(
     () => getCategoryName(formData.category),
-    [formData.category, categoryList],
+    console.log(
+      "formData.category, categoryList ",
+      formData.category,
+      categoryList,
+    ) || [formData.category, categoryList],
   );
 
-  const isCompositionCategory = ["fg", "rw"].includes(
+  const isCompositionCategory = ["fg", "rw", "semi finished"].includes(
     selectedCategoryName,
   ); /* ---------------- effects ---------------- */
 
@@ -112,7 +116,7 @@ const UnifiedItemCompositionForm = () => {
   /* ---------------- submit ---------------- */
 
   const onSubmit = async (data) => {
-    console.log(data)
+    console.log(data);
     try {
       if (!isCompositionCategory) {
         const payload = {
@@ -123,7 +127,7 @@ const UnifiedItemCompositionForm = () => {
           symbol: data.symbol,
           productCode: data.productCode,
         };
-        console.log("paylaod ",payload)
+        console.log("paylaod ", payload);
 
         await dispatch(createItem({ itemData: payload })).unwrap();
         router.push("/item-master/view-item");
@@ -209,7 +213,7 @@ const UnifiedItemCompositionForm = () => {
           error={errors.symbol}
         />
         <Input
-          label="Item Code"
+          label="Item Codeddd"
           value={formData.productCode}
           onChange={(e) => handleChange("productCode", e.target.value)}
           error={errors.productCode}
