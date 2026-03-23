@@ -21,6 +21,8 @@ export const updateProduction2Schema = yup.object().shape({
     .min(1)
     .required(),
   productName: yup.string().required("productName selection is required"),
+  outputItem: yup.string().required("outputItem  is required"),
+
   gauge: yup.number().transform(numberTransform).nullable(),
   flux: yup.number().transform(numberTransform).nullable(),
   fluxQty: yup.number().transform(numberTransform).nullable(),

@@ -1,13 +1,17 @@
 "use client";
 
+import Select from "@/components/atoms/Select";
 import { Button } from "@/components/common/Button";
 import Input from "@/components/common/Input";
 import { useForm } from "@/hooks/useForm";
+import { getallitems } from "@/redux/slice/Item-slice";
+import { fetchMainCategories } from "@/redux/slice/main-category";
 import { fetchProductions } from "@/redux/slice/production-slice";
 import {
   fetchproduction2,
   saveproduction2,
 } from "@/redux/slice/production2-slice";
+import { fetchSubCategories } from "@/redux/slice/SubCategory";
 import { errorToast, successToast } from "@/utils/toastMessage";
 import {
   createProduction2Schema,
@@ -20,7 +24,11 @@ const AddProduction1 = ({ production2Id }) => {
   const dispatch = useDispatch();
   const [data, setData] = useState("");
   const isUpdate = Boolean(production2Id);
-
+  const { itemList } = useSelector((state) => state.item);
+  const { categoryList } = useSelector((state) => state.category);
+  const { SubcategoryList } = useSelector((state) => state.subcategory);
+  console.log("subcategoryList", SubcategoryList);
+  console.log("categoryList", categoryList);
   const { productionList } = useSelector((state) => state.production);
   const { singleproduction2, loading } = useSelector(
     (state) => state.production2,
@@ -32,6 +40,9 @@ const AddProduction1 = ({ production2Id }) => {
         productionId: "",
         quantity: "",
         productName: "",
+        category: "",
+        subcategory: "",
+        outputItem: "",
         gauge: "",
         flux: "",
         fluxQty: "",
@@ -46,6 +57,8 @@ const AddProduction1 = ({ production2Id }) => {
       },
       schema: isUpdate ? updateProduction2Schema : createProduction2Schema,
     });
+  console.log("category", formData.category);
+  console.log("subcategory", formData.subcategory);
 
   const quantity = Number(formData.quantity) || 0;
   const flux = Number(formData.flux) || 0;
@@ -92,6 +105,7 @@ const AddProduction1 = ({ production2Id }) => {
         productionId: singleproduction2?.productionId?._id || "",
         quantity: singleproduction2?.quantity || "",
         productName: singleproduction2?.productName,
+        outputItem: singleproduction2?.outputItem || "",
         gauge: singleproduction2?.gauge || "",
         fluxQty: singleproduction2?.fluxQty ?? null,
         gula: singleproduction2?.gula ?? null,
@@ -108,6 +122,32 @@ const AddProduction1 = ({ production2Id }) => {
     }
   }, [singleproduction2, isUpdate, setFormData]);
 
+  useEffect(() => {
+    let filters = { limit: 200 };
+
+    if (formData.category) {
+      filters.category = formData.category;
+    }
+
+    // Subcategory is optional
+    if (formData.subcategory) {
+      filters.subcategory = formData.subcategory;
+    }
+
+    dispatch(getallitems({ filters }));
+  }, [dispatch, formData.category, formData.subcategory]);
+  useEffect(() => {
+    if (formData.category) {
+      dispatch(
+        fetchSubCategories({
+          filters: { category: formData.category, limit: 200 },
+        }),
+      );
+    }
+  }, [dispatch, formData.category]);
+  useEffect(() => {
+    dispatch(fetchMainCategories({ filters: { limit: 200 } }));
+  }, [dispatch]);
   return (
     <div className="p-6 bg-white border border-gray-200">
       <h1 className="font-archivo font-bold  text-black text-[25px] leading-[28px]  mb-5">
@@ -159,6 +199,47 @@ const AddProduction1 = ({ production2Id }) => {
           <>
             <div className=" justify-between gap-4  grid grid-cols-2">
               <Input
+                label="Category"
+                type="select"
+                value={formData.category}
+                placeholderOption="Select Category"
+                options={
+                  categoryList?.map((i) => ({
+                    label: i.category,
+                    value: i._id,
+                  })) || []
+                }
+                onChange={(e) => handleChange("category", e.target.value)}
+              />
+              <Input
+                label="Subcategory"
+                type="select"
+                value={formData.subcategory}
+                placeholderOption="Select subcategory"
+                options={
+                  SubcategoryList?.map((i) => ({
+                    label: i.name || i.productName,
+                    value: i._id,
+                  })) || []
+                }
+                onChange={(e) => handleChange("subcategory", e.target.value)}
+              />
+
+              <Input
+                label="Item"
+                type="select"
+                value={formData.outputItem}
+                placeholderOption="Select Item"
+                options={
+                  itemList?.map((i) => ({
+                    label: i.name || i.productName,
+                    value: i._id,
+                  })) || []
+                }
+                onChange={(e) => handleChange("outputItem", e.target.value)}
+                error={errors.outputItem}
+              />
+              <Input
                 label="Gauge"
                 type="number"
                 value={formData.gauge}
@@ -186,7 +267,7 @@ const AddProduction1 = ({ production2Id }) => {
                 placeholder="0.00"
                 error={errors.semiPieces}
               />
-               <Input
+              <Input
                 label="Gulla"
                 type="number"
                 value={gulla}
@@ -204,7 +285,7 @@ const AddProduction1 = ({ production2Id }) => {
                 error={errors.flux}
               />
               {/* {JSON.stringify(gulla)} */}
-             
+
               <Input
                 label="Flux Quantity"
                 type="number"
