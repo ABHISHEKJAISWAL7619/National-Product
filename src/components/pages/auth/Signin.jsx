@@ -16,8 +16,8 @@ const Signin = () => {
 
   const { formData, handleChange, handleSubmit, errors, reset } = useForm({
     defaultValues: {
-      email: "admin@gmail.com",
-      password: "123456",
+      email: "",
+      password: "",
     },
     schema: loginSchema,
   });
